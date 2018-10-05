@@ -24,8 +24,8 @@ module.exports.verify = function (EMAIL,PASS) {
             console.log("users::fetchOneByKey::success - " + JSON.stringify(data, null, 2));
         }
     })
-}
+};
 module.exports.sayhi=function () {
     console.log("blyat");
-}
+};
 
