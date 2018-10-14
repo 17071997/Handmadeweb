@@ -4,7 +4,7 @@ module.exports.verify = function (EMAIL,PASS) {
     let awsConfig = {
         "region": "us-east-1",
         "endpoint": "http://dynamodb.us-east-1.amazonaws.com",
-        "accessKeyId": "AKIAJEQNFFLG6EFF6DEQ", "secretAccessKey": "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"
+        "accessKeyId": "blyat", "secretAccessKey": "blyat"
     };
 
     AWS.config.update(awsConfig);
