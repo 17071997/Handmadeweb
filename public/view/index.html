@@ -16,6 +16,91 @@
     <link rel="Stylesheet" href="https://ianlunn.github.io/Hover/css/hover.css" type="text/css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link href="../CSS/slide.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        *{
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        a{
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+        }
+        .wrapper{
+            width:100%;
+            margin:30px auto 0;
+            background-color:#FFFFFF;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        header{
+            text-align:right;
+            padding:10px;
+            margin-bottom:10px;
+            background-color:#5DBA9D;
+        }
+
+        header a{
+            font-size:20px;
+            color:#FFFFFF;
+            width:40px;
+            height:40px;
+            line-height:40px;
+            margin-left:10px;
+            text-align:center;
+            display:inline-block;
+        }
+
+        header a:hover, .list-mode header a.hide-list:hover{
+            background-color:#11956c;
+        }
+
+        header a.hide-list{
+            background-color:#11956c;
+        }
+
+        .list-mode header a.hide-list{
+            background-color:#5DBA9D;
+        }
+
+        .list-mode header a.show-list{
+            background-color:#11956c;
+        }
+
+        .container:after{
+            content:"";
+            clear:both;
+            display:table;
+        }
+
+        .container{
+            padding:10px 0 10px 10px;
+        }
+
+        .wrapper .box{
+            float:left;
+            width:100px;
+            height:100px;
+            margin:0 10px 10px 0;
+            background-color:#CCCCCC;
+            -webkit-transition:all 1.0s ease;
+            -moz-transition:all 1.0s ease;
+            transition:all 1.0s ease;
+            transition:all 1.0s ease;
+        }
+
+        .wrapper.list-mode .container{
+            padding-right:10px;
+        }
+
+        .wrapper.list-mode .box{
+            width:100%;
+        }
+    </style>
 </head>
 <body>
 <div class="InnerBackGround">
@@ -29,14 +114,32 @@
             <li class="nav-item"><a href="/login" target="_blank" class="btn btn-danger btn-round">Login</a></li>
         </ul>
     </nav>
-    <div class="welcome">
-        <p>Hãy tận hưởng những điều nhỏ bé !!</p>
+</div>
+<div class="wrapper">
+    <header>
+        <a href="javascript:void(0)" class="show-list"><i class="fa fa-th-list"></i></a>
+        <a href="javascript:void(0)" class="hide-list"><i class="fa fa-th"></i></a>
+    </header>
+    <div class="container">
+        <div class="box">
+            <img src="" width="98px" height="98px"/>
+        </div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
     </div>
 </div>
-<div style="background: #ffffff;height: 500px;width: 100%;float: left;margin-top: 500px;">
-
-</div>
 <script>
+    $('.show-list').click(function(){
+        $('.wrapper').addClass('list-mode');
+    });
+
+    $('.hide-list').click(function(){
+        $('.wrapper').removeClass('list-mode');
+    });
     $(function(){
         var header = $("nav"),
             yOffset = 0,

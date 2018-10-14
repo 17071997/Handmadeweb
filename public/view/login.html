@@ -20,11 +20,11 @@
                     <a id="sign-up" href="#"><span>Sign Up</span></a>
                 </div>
                 <div id="sign-in-form">
-                    <form>
-                        <label for="username">Username</label>
-                        <input id="username" type="text" name="username">
-                        <label for="password">Password</label>
-                        <input id="password" type="password" name="password">
+                    <form action="authenticate" method="post" name="form1" enctype="multipart/form-data">
+                        <label for="txtemail">Email</label>
+                        <input id="txtemail" type="text" name="txtemail">
+                        <label for="txtpassword">Password</label>
+                        <input id="txtpassword" type="text" name="txtpassword">
                         <i id="show-pw" class="fa fa-eye"></i>
                         <input id="remember" type="checkbox">
                         <label for="remember" id="rlabel">Keep me Signed in</label>
@@ -36,13 +36,13 @@
                     </footer>
                 </div>
                 <div id="sign-up-form">
-                    <form>
-                        <label for="username">Username</label>
-                        <input type="text" name="username">
-                        <label for="password">Password</label>
-                        <input id="password" type="password" name="password">
-                        <label for="password0">Re-Enter Password</label>
-                        <input id="password0" type="password" name="password0">
+                    <form action="/register" method="post" name="form2" enctype="multipart/form-data">
+                        <label for="txtemail1">Username</label>
+                        <input id="txtemail1" type="text" name="txtemail1">
+                        <label for="txtpassword1">Password</label>
+                        <input id="txtpassword1" type="password" name="txtpassword1">
+                        <label for="txtpassword0">Re-Enter Password</label>
+                        <input id="txtpassword0" type="password" name="txtpassword0">
                         <input type="submit" name="submit" value="Create Account">
                     </form>
                 </div>

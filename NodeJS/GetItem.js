@@ -4,7 +4,7 @@ module.exports.verify = function (EMAIL,PASS) {
     let awsConfig = {
         "region": "us-east-1",
         "endpoint": "http://dynamodb.us-east-1.amazonaws.com",
-        "accessKeyId": "AKIAIPIB4CSG2EMQN7LA", "secretAccessKey": "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"
+        "accessKeyId": "AKIAJEQNFFLG6EFF6DEQ", "secretAccessKey": "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"
     };
 
     AWS.config.update(awsConfig);
@@ -22,6 +22,7 @@ module.exports.verify = function (EMAIL,PASS) {
         }
         else {
             console.log("users::fetchOneByKey::success - " + JSON.stringify(data, null, 2));
+            console.log("Congrat blyat");
         }
     })
 };
