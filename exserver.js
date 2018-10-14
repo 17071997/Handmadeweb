@@ -159,7 +159,7 @@ app.get('/', function (req, res) {
     let awsConfig = {
         region: "us-east-1",
         endpoint: "http://dynamodb.us-east-1.amazonaws.com",
-        "accessKeyId":"AKIAIG4MAZ7O7ELWXBYA","secretAccessKey":"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"
+        "accessKeyId":"blyat","secretAccessKey":"blyat"
     };
     AWS.config.update(awsConfig);
 
