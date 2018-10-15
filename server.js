@@ -50,7 +50,7 @@ http.createServer( function (request, response) {
                 }
             });
         } else {
-            fs.readFile('public/view/EditorPage.ejs',function (err,data) {
+            fs.readFile('public/view/EditorPage.html',function (err,data) {
                 if (err){
                     console.log(err);
                     fs.readFile('public/view/404NotFound.html',function (err,data) {
