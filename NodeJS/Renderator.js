@@ -1,13 +1,2802 @@
-var fs = require('fs');
 
 module.exports = {
     PostedRender : function (req,res) {
-        fs.readFile('Posted.ejs',function (err,data) {
-            if (err)
-                throw err;
-            res.writeHead(200,{'Content-Type':'text/html'});
-            res.write(data);
-            res.end();
-        });
+        let code = "<!DOCTYPE html>\n" +
+            "<html lang=\"en\">\n" +
+            "<head>\n" +
+            "    <meta charset=\"UTF-8\">\n" +
+            "    <title>Review</title>\n" +
+            "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
+            "    <style type=\"text/css\">\n" +
+            "        @import url(http://weloveiconfonts.com/api/?family=entypo);\n" +
+            "        @import url(https://fonts.googleapis.com/css?family=Muli);\n" +
+            "        body {\n" +
+            "            display: -webkit-box;\n" +
+            "            display: -moz-box;\n" +
+            "            display: -ms-flexbox;\n" +
+            "            display: -webkit-flex;\n" +
+            "            display: flex;\n" +
+            "            margin: 0;\n" +
+            "            padding: 0;\n" +
+            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
+            "            background-size: cover;\n" +
+            "            font-family: Muli, sans-serif;\n" +
+            "            color: #444;\n" +
+            "        }\n" +
+            "        ul {\n" +
+            "            list-style: none;\n" +
+            "            margin-top: 0;\n" +
+            "            padding: 0;\n" +
+            "        }\n" +
+            "        a {\n" +
+            "            cursor: pointer;\n" +
+            "            display: block;\n" +
+            "            color: #b3b3b3;\n" +
+            "            text-decoration: none;\n" +
+            "        }\n" +
+            "        .bckg {\n" +
+            "            background-color: #383B42;\n" +
+            "            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;\n" +
+            "            width: 230px;\n" +
+            "            height: 100%;\n" +
+            "            position: fixed;\n" +
+            "            left: 0;\n" +
+            "            top: 0;\n" +
+            "        }\n" +
+            "        h1 {\n" +
+            "            text-align: center;\n" +
+            "            font-weight: normal;\n" +
+            "            color: #F6F6EF;\n" +
+            "            line-height: 60px;\n" +
+            "            margin: 0;\n" +
+            "            font-size: 20px;\n" +
+            "            letter-spacing: 2px;\n" +
+            "            background-color: #34363A;\n" +
+            "            border-bottom: 1px solid rgba(101,116,134,0.57);\n" +
+            "        }\n" +
+            "        h2 {\n" +
+            "            font-size: 20px;\n" +
+            "            text-transform: uppercase;\n" +
+            "            margin: 0;\n" +
+            "            letter-spacing: 3px;\n" +
+            "            color: #919191;\n" +
+            "            font-weight: normal;\n" +
+            "            padding-left: 40px;\n" +
+            "            line-height: 60px;\n" +
+            "            text-shadow: 1px 1px 2px #fff;\n" +
+            "            position: relative;\n" +
+            "            flex: 1;\n" +
+            "            -webkit-flex: 1;\n" +
+            "            -ms-flex: 1;\n" +
+            "        }\n" +
+            "        h2:before {\n" +
+            "            content: '';\n" +
+            "            width: 36px;\n" +
+            "            height: 36px;\n" +
+            "            position: absolute;\n" +
+            "            left: -19px;\n" +
+            "            top: 12px;\n" +
+            "            background-color: #34363A;\n" +
+            "            -webkit-transform: rotate(45deg);\n" +
+            "            -moz-transform: rotate(45deg);\n" +
+            "            transform: rotate(45deg);\n" +
+            "        }\n" +
+            "        h3 {\n" +
+            "            font-size: 17px;\n" +
+            "            margin: 0;\n" +
+            "            line-height: 40px;\n" +
+            "            color: #555;\n" +
+            "            cursor: pointer;\n" +
+            "            position: relative;\n" +
+            "        }\n" +
+            "        header {\n" +
+            "            width: 200px;\n" +
+            "            height: 100%;\n" +
+            "            float: left;\n" +
+            "            position: relative;\n" +
+            "            z-index: 99;\n" +
+            "        }\n" +
+            "        header nav ul li {\n" +
+            "            border-bottom: 1px solid #42454D;\n" +
+            "            padding-left: 48px;\n" +
+            "            transition: all 0.6s;\n" +
+            "            border-top: 1px solid #2E3036;\n" +
+            "        }\n" +
+            "        header nav ul li:hover {\n" +
+            "            background-color: #454952;\n" +
+            "            transition: all 0.6s;\n" +
+            "            border-bottom: 1px solid #797979;\n" +
+            "        }\n" +
+            "        header nav ul li:hover a {\n" +
+            "            color: #fff;\n" +
+            "            transition: all 0.6s;\n" +
+            "        }\n" +
+            "        header nav ul li a {\n" +
+            "            line-height: 55px;\n" +
+            "            font-size: 18px;\n" +
+            "            position: relative;\n" +
+            "            letter-spacing: 1px;\n" +
+            "            transition: all 0.6s;\n" +
+            "        }\n" +
+            "        header nav ul li a:before {\n" +
+            "            font-family: 'entypo', sans-serif;\n" +
+            "            font-size: 20px;\n" +
+            "            position: absolute;\n" +
+            "            left: -32px;\n" +
+            "        }\n" +
+            "        header nav ul li:first-child a:before {\n" +
+            "            content: \"\\268f\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(2) a:before {\n" +
+            "            content: \"\\e771\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(3) a:before {\n" +
+            "            content: \"\\1f4c5\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(4) a:before {\n" +
+            "            content: \"\\1f465\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(5) a:before {\n" +
+            "            content: \"\\2699\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(6) a:before {\n" +
+            "            content: \"\\1f50d\";\n" +
+            "        }\n" +
+            "        main {\n" +
+            "            flex: 1;\n" +
+            "            -webkit-flex: 1;\n" +
+            "            -ms-flex: 1;\n" +
+            "        }\n" +
+            "        .title {\n" +
+            "            background-color: #fff;\n" +
+            "            border-bottom: 1px solid #C0C1C0;\n" +
+            "            height: 60px;\n" +
+            "            display: -webkit-box;\n" +
+            "            display: -moz-box;\n" +
+            "            display: -ms-flexbox;\n" +
+            "            display: -webkit-flex;\n" +
+            "            display: flex;\n" +
+            "        }\n" +
+            "        .title a {\n" +
+            "            color: #AAA;\n" +
+            "            width: auto;\n" +
+            "            margin: 0 20px;\n" +
+            "            float: right;\n" +
+            "            line-height: 62px;\n" +
+            "            position: relative;\n" +
+            "            text-decoration: none;\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .title a:before {\n" +
+            "            content: \"\\1f464\";\n" +
+            "            font-size: 38px;\n" +
+            "            position: absolute;\n" +
+            "            left: -50px;\n" +
+            "            font-family: 'entypo';\n" +
+            "        }\n" +
+            "        a:hover {\n" +
+            "            color: #33526B;\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .larg {\n" +
+            "            width: auto;\n" +
+            "            margin: 30px auto;\n" +
+            "            padding: 0 30px;\n" +
+            "        }\n" +
+            "        .larg div {\n" +
+            "            background-color: #F7F7F7;\n" +
+            "            border: 1px solid #E2E2E2;\n" +
+            "            padding: 0 20px;\n" +
+            "            margin: 15px 0;\n" +
+            "        }\n" +
+            "        .larg div:hover {\n" +
+            "            background-color: #fafafa;\n" +
+            "        }\n" +
+            "        .larg div h3 span {\n" +
+            "            font-family: 'entypo';\n" +
+            "            font-size: 19px;\n" +
+            "            position: absolute;\n" +
+            "            right: 0;\n" +
+            "            transition: all .6s;\n" +
+            "        }\n" +
+            "        .larg div h3 span.close {\n" +
+            "            -webkit-transform: rotate(180deg);\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .larg div p {\n" +
+            "            display: none;\n" +
+            "            margin-left: 10px;\n" +
+            "            padding: 0 15px;\n" +
+            "            border-left: 1px solid #ccc;\n" +
+            "        }\n" +
+            "        .rendered{\n" +
+            "            margin-left: 25px;\n" +
+            "            height: auto;\n" +
+            "            margin-top: 100px;\n" +
+            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
+            "            background-size: cover;\n" +
+            "        }\n" +
+            "    </style>\n" +
+            "    <style type=\"text/css\">\n" +
+            "        .wrapper {\n" +
+            "            width: 600px;\n" +
+            "        }\n" +
+            "        .product-grid {\n" +
+            "            width: 60em;\n" +
+            "            margin: 2% auto;\n" +
+            "        }\n" +
+            "        .product-grid.product-grid--flexbox .product-grid__wrapper {\n" +
+            "            display: flex;\n" +
+            "            flex-wrap: wrap;\n" +
+            "        }\n" +
+            "        .product-grid.product-grid--flexbox .product-grid__title {\n" +
+            "            height: auto;\n" +
+            "        }\n" +
+            "        .product-grid.product-grid--flexbox .product-grid__title:after {\n" +
+            "            display: none;\n" +
+            "        }\n" +
+            "        .product-grid__wrapper {\n" +
+            "            margin-left: -1rem;\n" +
+            "            margin-right: -1rem;\n" +
+            "        }\n" +
+            "        .product-grid__product-wrapper {\n" +
+            "            padding: 1rem;\n" +
+            "            float: left;\n" +
+            "            width: 33.33333%;\n" +
+            "        }\n" +
+            "        .product-grid__product {\n" +
+            "            padding: 1rem;\n" +
+            "            position: relative;\n" +
+            "            cursor: pointer;\n" +
+            "            background: #fff;\n" +
+            "            border-radius: 4px;\n" +
+            "        }\n" +
+            "        .product-grid__product:hover {\n" +
+            "            box-shadow: 0px 0px 0px 1px #eee;\n" +
+            "            z-index: 50;\n" +
+            "        }\n" +
+            "        .product-grid__product:hover .product-grid__extend {\n" +
+            "            display: block;\n" +
+            "        }\n" +
+            "        .product-grid__img-wrapper {\n" +
+            "            width: 100%;\n" +
+            "            text-align: center;\n" +
+            "            padding-top: 1rem;\n" +
+            "            padding-bottom: 1rem;\n" +
+            "            height: 150px;\n" +
+            "        }\n" +
+            "        .product-grid__img {\n" +
+            "            max-width: 100%;\n" +
+            "            height: auto;\n" +
+            "            max-height: 100%;\n" +
+            "        }\n" +
+            "        .product-grid__title {\n" +
+            "            margin-top: 0.875rem;\n" +
+            "            display: block;\n" +
+            "            font-size: 1.125em;\n" +
+            "            color: #222;\n" +
+            "            height: 3em;\n" +
+            "            overflow: hidden;\n" +
+            "            position: relative;\n" +
+            "        }\n" +
+            "        .product-grid__title:after {\n" +
+            "            content: \"\";\n" +
+            "            display: block;\n" +
+            "            position: absolute;\n" +
+            "            bottom: 0;\n" +
+            "            right: 0;\n" +
+            "            width: 2.4em;\n" +
+            "            height: 1.5em;\n" +
+            "            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);\n" +
+            "        }\n" +
+            "        .product-grid__price {\n" +
+            "            color: #e91e63;\n" +
+            "            font-weight: bold;\n" +
+            "            letter-spacing: 0.4px;\n" +
+            "        }\n" +
+            "        .product-grid__extend-wrapper {\n" +
+            "            position: relative;\n" +
+            "        }\n" +
+            "        .product-grid__extend {\n" +
+            "            display: none;\n" +
+            "            position: absolute;\n" +
+            "            padding: 0 1rem 1rem 1rem;\n" +
+            "            margin: 0.4375rem -1rem 0;\n" +
+            "            box-shadow: 0px 0px 0px 1px #eee;\n" +
+            "            background: #fff;\n" +
+            "            border-radius: 0 0 4px 4px;\n" +
+            "        }\n" +
+            "        .product-grid__extend:before {\n" +
+            "            content: \"\";\n" +
+            "            height: 0.875rem;\n" +
+            "            width: 100%;\n" +
+            "            position: absolute;\n" +
+            "            top: -0.4375rem;\n" +
+            "            left: 0;\n" +
+            "            background: #fff;\n" +
+            "        }\n" +
+            "        .product-grid__description {\n" +
+            "            font-size: 0.875em;\n" +
+            "            margin-top: 0.4375rem;\n" +
+            "            margin-bottom: 0;\n" +
+            "        }\n" +
+            "        .product-grid__btn {\n" +
+            "            display: inline-block;\n" +
+            "            font-size: 0.875em;\n" +
+            "            color: #777;\n" +
+            "            background: #eee;\n" +
+            "            padding: 0.5em 0.625em;\n" +
+            "            margin-top: 0.875rem;\n" +
+            "            margin-right: 0.625rem;\n" +
+            "            cursor: pointer;\n" +
+            "            border-radius: 4px;\n" +
+            "        }\n" +
+            "        .product-grid__btn i.fa {\n" +
+            "            margin-right: 0.3125rem;\n" +
+            "        }\n" +
+            "        .product-grid__add-to-cart {\n" +
+            "            color: #fff;\n" +
+            "            background: #e91e63;\n" +
+            "        }\n" +
+            "        .product-grid__add-to-cart:hover {\n" +
+            "            background: #ee4c83;\n" +
+            "        }\n" +
+            "        .product-grid__view {\n" +
+            "            color: #777;\n" +
+            "            background: #eee;\n" +
+            "        }\n" +
+            "        .product-grid__view:hover {\n" +
+            "            background: #fff;\n" +
+            "        }\n" +
+            "\n" +
+            "    </style>\n" +
+            "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+            "    <script>\n" +
+            "        $(document).ready( function() {\n" +
+            "            $('body').on(\"click\", \".larg div h3\", function(){\n" +
+            "                if ($(this).children('span').hasClass('close')) {\n" +
+            "                    $(this).children('span').removeClass('close');\n" +
+            "                }\n" +
+            "                else {\n" +
+            "                    $(this).children('span').addClass('close');\n" +
+            "                }\n" +
+            "                $(this).parent().children('p').slideToggle(250);\n" +
+            "            });\n" +
+            "\n" +
+            "            $('body').on(\"click\", \"nav ul li a\", function(){\n" +
+            "                let title = $(this).data('title');\n" +
+            "                $('.title').children('h2').html(title);\n" +
+            "\n" +
+            "            });\n" +
+            "        });\n" +
+            "    </script>\n" +
+            "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
+            "</head>\n" +
+            "<body>\n" +
+            "<span class=\"bckg\"></span>\n" +
+            "<header>\n" +
+            "    <h1>Dashboard</h1>\n" +
+            "    <nav>\n" +
+            "        <ul>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function postedrender() {\n" +
+            "                        window.location.href = \"/postedrender\"\n" +
+            "                        //https://codepen.io/ricardpanades/pen/pjaaLa\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function Commentrender() {\n" +
+            "                        window.location.href = \"/Commentrender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Đang theo dõi\" onclick=\"WatchingRender()\">Đang theo dõi</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function WatchingRender() {\n" +
+            "                        window.location.href = \"/WatchingRender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Những người theo dõi\" onclick=\"WatchedRender()\">Những người theo dõi</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function WatchedRender() {\n" +
+            "                        window.location.href = \"/WatchedRender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Viết bài\" onclick=\"editorrender()\">Viết bài</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function editorrender() {\n" +
+            "                        window.location.href = \"/editorrender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Tìm kiếm\" onclick=\"FindingRender()\">Tìm kiếm</a>\n" +
+            "                <script type=\"text/javascript\"></script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <span style=\"color: red; margin-left: -5px;\">Dangerous place !</span>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Xóa bài đăng\" onclick=\"RemovePost()\">Xóa bài đăng</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "        </ul>\n" +
+            "    </nav>\n" +
+            "</header>\n" +
+            "<main>\n" +
+            "    <div class=\"title\">\n" +
+            "        <h2>Viết bài</h2>\n" +
+            "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
+            "    </div>\n" +
+            "    <div class=\"rendered\">\n" +
+            "        <!-- views/partials/editor.ejs -->\n" +
+            "        <div class=\"wrapper\">\n" +
+            "            <div class=\"desc\">\n" +
+            "                <h1>Tất cả những bài đã đăng </h1>\n" +
+            "                <br/>\n" +
+            "                <div class=\"todo\">\n" +
+            "                    <ul>\n" +
+            "                        <li style=\"color: #FFFFFF;font-size: 22px;\"> Let review it .. </li>\n" +
+            "                    </ul>\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "\n" +
+            "            <div class=\"content\">\n" +
+            "                <!-- content here -->\n" +
+            "                <div class=\"product-grid product-grid--flexbox\">\n" +
+            "                    <div class=\"product-grid__wrapper\">\n" +
+            "                        <!-- Product list start here -->\n" +
+            "\n" +
+            "                        <!-- Single product -->\n" +
+            "                        <div class=\"product-grid__product-wrapper\">\n" +
+            "                            <div class=\"product-grid__product\">\n" +
+            "                                <div class=\"product-grid__img-wrapper\">\n" +
+            "                                    <img src=\"\" alt=\"Img\" class=\"product-grid__img\" />\n" +
+            "                                </div>\n" +
+            "                                <span class=\"product-grid__title\">...</span>\n" +
+            "                                <span class=\"product-grid__price\">...</span>\n" +
+            "                                <div class=\"product-grid__extend-wrapper\">\n" +
+            "                                    <div class=\"product-grid__extend\">\n" +
+            "                                        <p class=\"product-grid__description\"></p>\n" +
+            "                                        <span class=\"product-grid__btn product-grid__add-to-cart\"><i class=\"fa fa-cart-arrow-down\"></i> Watch it </span>\n" +
+            "                                        <span class=\"product-grid__btn product-grid__view\"><i class=\"fa fa-eye\"></i>...</span>\n" +
+            "                                    </div>\n" +
+            "                                </div>\n" +
+            "                            </div>\n" +
+            "                        </div>\n" +
+            "                        <!-- end Single product -->\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "        </div>\n" +
+            "    </div>\n" +
+            "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+            "    <script src='http://cdn.tinymce.com/4/tinymce.min.js'></script>\n" +
+            "    <script>\n" +
+            "        tinymce.init({\n" +
+            "            selector: 'textarea',\n" +
+            "            height: 500,\n" +
+            "            plugins: [\n" +
+            "                'advlist autolink lists link image charmap print preview anchor',\n" +
+            "                'searchreplace visualblocks code fullscreen',\n" +
+            "                'insertdatetime media table contextmenu paste code'\n" +
+            "            ],\n" +
+            "            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',\n" +
+            "            content_css: [\n" +
+            "                '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',\n" +
+            "                '//www.tinymce.com/css/codepen.min.css'\n" +
+            "            ]\n" +
+            "        });\n" +
+            "    </script>\n" +
+            "</main>\n" +
+            "</body>\n" +
+            "</html>";
+        res.send(code);
     },
+    CommentRender : function (req,res) {
+        let code = "<!DOCTYPE html>\n" +
+            "<html lang=\"en\">\n" +
+            "<head>\n" +
+            "    <meta charset=\"UTF-8\">\n" +
+            "    <title>Comments</title>\n" +
+            "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
+            "    <style type=\"text/css\">\n" +
+            "        @import url(http://weloveiconfonts.com/api/?family=entypo);\n" +
+            "        @import url(https://fonts.googleapis.com/css?family=Muli);\n" +
+            "        body {\n" +
+            "            display: -webkit-box;\n" +
+            "            display: -moz-box;\n" +
+            "            display: -ms-flexbox;\n" +
+            "            display: -webkit-flex;\n" +
+            "            display: flex;\n" +
+            "            margin: 0;\n" +
+            "            padding: 0;\n" +
+            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
+            "            background-size: cover;\n" +
+            "            font-family: Muli, sans-serif;\n" +
+            "            color: #444;\n" +
+            "        }\n" +
+            "        ul {\n" +
+            "            list-style: none;\n" +
+            "            margin-top: 0;\n" +
+            "            padding: 0;\n" +
+            "        }\n" +
+            "        a {\n" +
+            "            cursor: pointer;\n" +
+            "            display: block;\n" +
+            "            color: #b3b3b3;\n" +
+            "            text-decoration: none;\n" +
+            "        }\n" +
+            "        .bckg {\n" +
+            "            background-color: #383B42;\n" +
+            "            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;\n" +
+            "            width: 230px;\n" +
+            "            height: 100%;\n" +
+            "            position: fixed;\n" +
+            "            left: 0;\n" +
+            "            top: 0;\n" +
+            "        }\n" +
+            "        h1 {\n" +
+            "            text-align: center;\n" +
+            "            font-weight: normal;\n" +
+            "            color: #F6F6EF;\n" +
+            "            line-height: 60px;\n" +
+            "            margin: 0;\n" +
+            "            font-size: 20px;\n" +
+            "            letter-spacing: 2px;\n" +
+            "            background-color: #34363A;\n" +
+            "            border-bottom: 1px solid rgba(101,116,134,0.57);\n" +
+            "        }\n" +
+            "        h2 {\n" +
+            "            font-size: 20px;\n" +
+            "            text-transform: uppercase;\n" +
+            "            margin: 0;\n" +
+            "            letter-spacing: 3px;\n" +
+            "            color: #919191;\n" +
+            "            font-weight: normal;\n" +
+            "            padding-left: 40px;\n" +
+            "            line-height: 60px;\n" +
+            "            text-shadow: 1px 1px 2px #fff;\n" +
+            "            position: relative;\n" +
+            "            flex: 1;\n" +
+            "            -webkit-flex: 1;\n" +
+            "            -ms-flex: 1;\n" +
+            "        }\n" +
+            "        h2:before {\n" +
+            "            content: '';\n" +
+            "            width: 36px;\n" +
+            "            height: 36px;\n" +
+            "            position: absolute;\n" +
+            "            left: -19px;\n" +
+            "            top: 12px;\n" +
+            "            background-color: #34363A;\n" +
+            "            -webkit-transform: rotate(45deg);\n" +
+            "            -moz-transform: rotate(45deg);\n" +
+            "            transform: rotate(45deg);\n" +
+            "        }\n" +
+            "        h3 {\n" +
+            "            font-size: 17px;\n" +
+            "            margin: 0;\n" +
+            "            line-height: 40px;\n" +
+            "            color: #555;\n" +
+            "            cursor: pointer;\n" +
+            "            position: relative;\n" +
+            "        }\n" +
+            "        header {\n" +
+            "            width: 200px;\n" +
+            "            height: 100%;\n" +
+            "            float: left;\n" +
+            "            position: relative;\n" +
+            "            z-index: 99;\n" +
+            "        }\n" +
+            "        header nav ul li {\n" +
+            "            border-bottom: 1px solid #42454D;\n" +
+            "            padding-left: 48px;\n" +
+            "            transition: all 0.6s;\n" +
+            "            border-top: 1px solid #2E3036;\n" +
+            "        }\n" +
+            "        header nav ul li:hover {\n" +
+            "            background-color: #454952;\n" +
+            "            transition: all 0.6s;\n" +
+            "            border-bottom: 1px solid #797979;\n" +
+            "        }\n" +
+            "        header nav ul li:hover a {\n" +
+            "            color: #fff;\n" +
+            "            transition: all 0.6s;\n" +
+            "        }\n" +
+            "        header nav ul li a {\n" +
+            "            line-height: 55px;\n" +
+            "            font-size: 18px;\n" +
+            "            position: relative;\n" +
+            "            letter-spacing: 1px;\n" +
+            "            transition: all 0.6s;\n" +
+            "        }\n" +
+            "        header nav ul li a:before {\n" +
+            "            font-family: 'entypo', sans-serif;\n" +
+            "            font-size: 20px;\n" +
+            "            position: absolute;\n" +
+            "            left: -32px;\n" +
+            "        }\n" +
+            "        header nav ul li:first-child a:before {\n" +
+            "            content: \"\\268f\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(2) a:before {\n" +
+            "            content: \"\\e771\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(3) a:before {\n" +
+            "            content: \"\\1f4c5\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(4) a:before {\n" +
+            "            content: \"\\1f465\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(5) a:before {\n" +
+            "            content: \"\\2699\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(6) a:before {\n" +
+            "            content: \"\\1f50d\";\n" +
+            "        }\n" +
+            "        main {\n" +
+            "            flex: 1;\n" +
+            "            -webkit-flex: 1;\n" +
+            "            -ms-flex: 1;\n" +
+            "        }\n" +
+            "        .title {\n" +
+            "            background-color: #fff;\n" +
+            "            border-bottom: 1px solid #C0C1C0;\n" +
+            "            height: 60px;\n" +
+            "            display: -webkit-box;\n" +
+            "            display: -moz-box;\n" +
+            "            display: -ms-flexbox;\n" +
+            "            display: -webkit-flex;\n" +
+            "            display: flex;\n" +
+            "        }\n" +
+            "        .title a {\n" +
+            "            color: #AAA;\n" +
+            "            width: auto;\n" +
+            "            margin: 0 20px;\n" +
+            "            float: right;\n" +
+            "            line-height: 62px;\n" +
+            "            position: relative;\n" +
+            "            text-decoration: none;\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .title a:before {\n" +
+            "            content: \"\\1f464\";\n" +
+            "            font-size: 38px;\n" +
+            "            position: absolute;\n" +
+            "            left: -50px;\n" +
+            "            font-family: 'entypo';\n" +
+            "        }\n" +
+            "        a:hover {\n" +
+            "            color: #33526B;\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .larg {\n" +
+            "            width: auto;\n" +
+            "            margin: 30px auto;\n" +
+            "            padding: 0 30px;\n" +
+            "        }\n" +
+            "        .larg div {\n" +
+            "            background-color: #F7F7F7;\n" +
+            "            border: 1px solid #E2E2E2;\n" +
+            "            padding: 0 20px;\n" +
+            "            margin: 15px 0;\n" +
+            "        }\n" +
+            "        .larg div:hover {\n" +
+            "            background-color: #fafafa;\n" +
+            "        }\n" +
+            "        .larg div h3 span {\n" +
+            "            font-family: 'entypo';\n" +
+            "            font-size: 19px;\n" +
+            "            position: absolute;\n" +
+            "            right: 0;\n" +
+            "            transition: all .6s;\n" +
+            "        }\n" +
+            "        .larg div h3 span.close {\n" +
+            "            -webkit-transform: rotate(180deg);\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .larg div p {\n" +
+            "            display: none;\n" +
+            "            margin-left: 10px;\n" +
+            "            padding: 0 15px;\n" +
+            "            border-left: 1px solid #ccc;\n" +
+            "        }\n" +
+            "        .rendered{\n" +
+            "            margin-left: 25px;\n" +
+            "            height: auto;\n" +
+            "            margin-top: 100px;\n" +
+            "            background-image: url(\"../../img/scotland.jpg\");\n" +
+            "            background-size: cover;\n" +
+            "        }\n" +
+            "    </style>\n" +
+            "    <style type=\"text/css\">\n" +
+            "        .wrapper {\n" +
+            "            width: 600px;\n" +
+            "        }\n" +
+            "        .product-grid {\n" +
+            "            width: 60em;\n" +
+            "            margin: 2% auto;\n" +
+            "        }\n" +
+            "        .product-grid.product-grid--flexbox .product-grid__wrapper {\n" +
+            "            display: flex;\n" +
+            "            flex-wrap: wrap;\n" +
+            "        }\n" +
+            "        .product-grid.product-grid--flexbox .product-grid__title {\n" +
+            "            height: auto;\n" +
+            "        }\n" +
+            "        .product-grid.product-grid--flexbox .product-grid__title:after {\n" +
+            "            display: none;\n" +
+            "        }\n" +
+            "        .product-grid__wrapper {\n" +
+            "            margin-left: -1rem;\n" +
+            "            margin-right: -1rem;\n" +
+            "        }\n" +
+            "        .product-grid__product-wrapper {\n" +
+            "            padding: 1rem;\n" +
+            "            float: left;\n" +
+            "            width: 33.33333%;\n" +
+            "        }\n" +
+            "        .product-grid__product {\n" +
+            "            padding: 1rem;\n" +
+            "            position: relative;\n" +
+            "            cursor: pointer;\n" +
+            "            background: #fff;\n" +
+            "            border-radius: 4px;\n" +
+            "        }\n" +
+            "        .product-grid__product:hover {\n" +
+            "            box-shadow: 0px 0px 0px 1px #eee;\n" +
+            "            z-index: 50;\n" +
+            "        }\n" +
+            "        .product-grid__product:hover .product-grid__extend {\n" +
+            "            display: block;\n" +
+            "        }\n" +
+            "        .product-grid__img-wrapper {\n" +
+            "            width: 100%;\n" +
+            "            text-align: center;\n" +
+            "            padding-top: 1rem;\n" +
+            "            padding-bottom: 1rem;\n" +
+            "            height: 150px;\n" +
+            "        }\n" +
+            "        .product-grid__img {\n" +
+            "            max-width: 100%;\n" +
+            "            height: auto;\n" +
+            "            max-height: 100%;\n" +
+            "        }\n" +
+            "        .product-grid__title {\n" +
+            "            margin-top: 0.875rem;\n" +
+            "            display: block;\n" +
+            "            font-size: 1.125em;\n" +
+            "            color: #222;\n" +
+            "            height: 3em;\n" +
+            "            overflow: hidden;\n" +
+            "            position: relative;\n" +
+            "        }\n" +
+            "        .product-grid__title:after {\n" +
+            "            content: \"\";\n" +
+            "            display: block;\n" +
+            "            position: absolute;\n" +
+            "            bottom: 0;\n" +
+            "            right: 0;\n" +
+            "            width: 2.4em;\n" +
+            "            height: 1.5em;\n" +
+            "            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);\n" +
+            "        }\n" +
+            "        .product-grid__price {\n" +
+            "            color: #e91e63;\n" +
+            "            font-weight: bold;\n" +
+            "            letter-spacing: 0.4px;\n" +
+            "        }\n" +
+            "        .product-grid__extend-wrapper {\n" +
+            "            position: relative;\n" +
+            "        }\n" +
+            "        .product-grid__extend {\n" +
+            "            display: none;\n" +
+            "            position: absolute;\n" +
+            "            padding: 0 1rem 1rem 1rem;\n" +
+            "            margin: 0.4375rem -1rem 0;\n" +
+            "            box-shadow: 0px 0px 0px 1px #eee;\n" +
+            "            background: #fff;\n" +
+            "            border-radius: 0 0 4px 4px;\n" +
+            "        }\n" +
+            "        .product-grid__extend:before {\n" +
+            "            content: \"\";\n" +
+            "            height: 0.875rem;\n" +
+            "            width: 100%;\n" +
+            "            position: absolute;\n" +
+            "            top: -0.4375rem;\n" +
+            "            left: 0;\n" +
+            "            background: #fff;\n" +
+            "        }\n" +
+            "        .product-grid__description {\n" +
+            "            font-size: 0.875em;\n" +
+            "            margin-top: 0.4375rem;\n" +
+            "            margin-bottom: 0;\n" +
+            "        }\n" +
+            "        .product-grid__btn {\n" +
+            "            display: inline-block;\n" +
+            "            font-size: 0.875em;\n" +
+            "            color: #777;\n" +
+            "            background: #eee;\n" +
+            "            padding: 0.5em 0.625em;\n" +
+            "            margin-top: 0.875rem;\n" +
+            "            margin-right: 0.625rem;\n" +
+            "            cursor: pointer;\n" +
+            "            border-radius: 4px;\n" +
+            "        }\n" +
+            "        .product-grid__btn i.fa {\n" +
+            "            margin-right: 0.3125rem;\n" +
+            "        }\n" +
+            "        .product-grid__add-to-cart {\n" +
+            "            color: #fff;\n" +
+            "            background: #e91e63;\n" +
+            "        }\n" +
+            "        .product-grid__add-to-cart:hover {\n" +
+            "            background: #ee4c83;\n" +
+            "        }\n" +
+            "        .product-grid__view {\n" +
+            "            color: #777;\n" +
+            "            background: #eee;\n" +
+            "        }\n" +
+            "        .product-grid__view:hover {\n" +
+            "            background: #fff;\n" +
+            "        }\n" +
+            "        .topic{\n" +
+            "            width: 200px;\n" +
+            "            height: 300px;\n" +
+            "            background: #FFFFFF;\n" +
+            "            -webkit-border-radius: 30px;\n" +
+            "            -moz-border-radius: 30px;\n" +
+            "            border-radius: 30px;\n" +
+            "            float: left;\n" +
+            "            margin: 20px;\n" +
+            "        }\n" +
+            "    </style>\n" +
+            "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+            "    <script>\n" +
+            "        $(document).ready( function() {\n" +
+            "            $('body').on(\"click\", \".larg div h3\", function(){\n" +
+            "                if ($(this).children('span').hasClass('close')) {\n" +
+            "                    $(this).children('span').removeClass('close');\n" +
+            "                }\n" +
+            "                else {\n" +
+            "                    $(this).children('span').addClass('close');\n" +
+            "                }\n" +
+            "                $(this).parent().children('p').slideToggle(250);\n" +
+            "            });\n" +
+            "\n" +
+            "            $('body').on(\"click\", \"nav ul li a\", function(){\n" +
+            "                let title = $(this).data('title');\n" +
+            "                $('.title').children('h2').html(title);\n" +
+            "\n" +
+            "            });\n" +
+            "        });\n" +
+            "\n" +
+            "        /**\n" +
+            "         * @return {number}\n" +
+            "         */\n" +
+            "        function RandDomNumber(max) {\n" +
+            "            let boundary = Number.parseInt(max);\n" +
+            "            return Math.floor(Math.random()*boundary);\n" +
+            "        }\n" +
+            "    </script>\n" +
+            "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
+            "</head>\n" +
+            "<body>\n" +
+            "<span class=\"bckg\"></span>\n" +
+            "<header>\n" +
+            "    <h1>Dashboard</h1>\n" +
+            "    <nav>\n" +
+            "        <ul>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function postedrender() {\n" +
+            "                        window.location.href = \"/postedrender\"\n" +
+            "                        //https://codepen.io/ricardpanades/pen/pjaaLa\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function Commentrender() {\n" +
+            "                        window.location.href = \"/Commentrender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Đang theo dõi\" onclick=\"WatchingRender()\">Đang theo dõi</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function WatchingRender() {\n" +
+            "                        window.location.href = \"/WatchingRender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Những người theo dõi\" onclick=\"WatchedRender()\">Những người theo dõi</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function WatchedRender() {\n" +
+            "                        window.location.href = \"/WatchedRender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Viết bài\" onclick=\"editorrender()\">Viết bài</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function editorrender() {\n" +
+            "                        window.location.href = \"/editorrender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Tìm kiếm\" onclick=\"FindingRender()\">Tìm kiếm</a>\n" +
+            "                <script type=\"text/javascript\"></script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <span style=\"color: red; margin-left: -5px;\">Dangerous place !</span>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Xóa bài đăng\" onclick=\"RemovePost()\">Xóa bài đăng</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "        </ul>\n" +
+            "    </nav>\n" +
+            "</header>\n" +
+            "<main>\n" +
+            "    <div class=\"title\">\n" +
+            "        <h2>Viết bài</h2>\n" +
+            "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
+            "    </div>\n" +
+            "    <div class=\"rendered\">\n" +
+            "        <h2 style=\"background: #333333;color: #FFFFFF;opacity: 0.6;\">Các bình luận </h2>\n" +
+            "        <div class=\"topic\"></div>\n" +
+            "    </div>\n" +
+            "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+            "    <script src='http://cdn.tinymce.com/4/tinymce.min.js'></script>\n" +
+            "    <script>\n" +
+            "        tinymce.init({\n" +
+            "            selector: 'textarea',\n" +
+            "            height: 500,\n" +
+            "            plugins: [\n" +
+            "                'advlist autolink lists link image charmap print preview anchor',\n" +
+            "                'searchreplace visualblocks code fullscreen',\n" +
+            "                'insertdatetime media table contextmenu paste code'\n" +
+            "            ],\n" +
+            "            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',\n" +
+            "            content_css: [\n" +
+            "                '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',\n" +
+            "                '//www.tinymce.com/css/codepen.min.css'\n" +
+            "            ]\n" +
+            "        });\n" +
+            "    </script>\n" +
+            "</main>\n" +
+            "</body>\n";
+        res.send(code);
+    },
+    EditorPageRender : function (req,res) {
+        let code = "<!DOCTYPE html>\n" +
+            "<html lang=\"en\">\n" +
+            "<head>\n" +
+            "    <meta charset=\"UTF-8\">\n" +
+            "    <title>Happy writting</title>\n" +
+            "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
+            "    <style type=\"text/css\">\n" +
+            "        @import url(http://weloveiconfonts.com/api/?family=entypo);\n" +
+            "        @import url(https://fonts.googleapis.com/css?family=Muli);\n" +
+            "        body {\n" +
+            "            display: -webkit-box;\n" +
+            "            display: -moz-box;\n" +
+            "            display: -ms-flexbox;\n" +
+            "            display: -webkit-flex;\n" +
+            "            display: flex;\n" +
+            "            margin: 0;\n" +
+            "            padding: 0;\n" +
+            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
+            "            background-size: cover;\n" +
+            "            font-family: Muli, sans-serif;\n" +
+            "            color: #444;\n" +
+            "        }\n" +
+            "        ul {\n" +
+            "            list-style: none;\n" +
+            "            margin-top: 0;\n" +
+            "            padding: 0;\n" +
+            "        }\n" +
+            "        a {\n" +
+            "            cursor: pointer;\n" +
+            "            display: block;\n" +
+            "            color: #b3b3b3;\n" +
+            "            text-decoration: none;\n" +
+            "        }\n" +
+            "        .bckg {\n" +
+            "            background-color: #383B42;\n" +
+            "            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;\n" +
+            "            width: 230px;\n" +
+            "            height: 100%;\n" +
+            "            position: fixed;\n" +
+            "            left: 0;\n" +
+            "            top: 0;\n" +
+            "        }\n" +
+            "        h1 {\n" +
+            "            text-align: center;\n" +
+            "            font-weight: normal;\n" +
+            "            color: #F6F6EF;\n" +
+            "            line-height: 60px;\n" +
+            "            margin: 0;\n" +
+            "            font-size: 20px;\n" +
+            "            letter-spacing: 2px;\n" +
+            "            background-color: #34363A;\n" +
+            "            border-bottom: 1px solid rgba(101,116,134,0.57);\n" +
+            "        }\n" +
+            "        h2 {\n" +
+            "            font-size: 20px;\n" +
+            "            text-transform: uppercase;\n" +
+            "            margin: 0;\n" +
+            "            letter-spacing: 3px;\n" +
+            "            color: #919191;\n" +
+            "            font-weight: normal;\n" +
+            "            padding-left: 40px;\n" +
+            "            line-height: 60px;\n" +
+            "            text-shadow: 1px 1px 2px #fff;\n" +
+            "            position: relative;\n" +
+            "            flex: 1;\n" +
+            "            -webkit-flex: 1;\n" +
+            "            -ms-flex: 1;\n" +
+            "        }\n" +
+            "        h2:before {\n" +
+            "            content: '';\n" +
+            "            width: 36px;\n" +
+            "            height: 36px;\n" +
+            "            position: absolute;\n" +
+            "            left: -19px;\n" +
+            "            top: 12px;\n" +
+            "            background-color: #34363A;\n" +
+            "            -webkit-transform: rotate(45deg);\n" +
+            "            -moz-transform: rotate(45deg);\n" +
+            "            transform: rotate(45deg);\n" +
+            "        }\n" +
+            "        h3 {\n" +
+            "            font-size: 17px;\n" +
+            "            margin: 0;\n" +
+            "            line-height: 40px;\n" +
+            "            color: #555;\n" +
+            "            cursor: pointer;\n" +
+            "            position: relative;\n" +
+            "        }\n" +
+            "        header {\n" +
+            "            width: 200px;\n" +
+            "            height: 100%;\n" +
+            "            float: left;\n" +
+            "            position: relative;\n" +
+            "            z-index: 99;\n" +
+            "        }\n" +
+            "        header nav ul li {\n" +
+            "            border-bottom: 1px solid #42454D;\n" +
+            "            padding-left: 48px;\n" +
+            "            transition: all 0.6s;\n" +
+            "            border-top: 1px solid #2E3036;\n" +
+            "        }\n" +
+            "        header nav ul li:hover {\n" +
+            "            background-color: #454952;\n" +
+            "            transition: all 0.6s;\n" +
+            "            border-bottom: 1px solid #797979;\n" +
+            "        }\n" +
+            "        header nav ul li:hover a {\n" +
+            "            color: #fff;\n" +
+            "            transition: all 0.6s;\n" +
+            "        }\n" +
+            "        header nav ul li a {\n" +
+            "            line-height: 55px;\n" +
+            "            font-size: 18px;\n" +
+            "            position: relative;\n" +
+            "            letter-spacing: 1px;\n" +
+            "            transition: all 0.6s;\n" +
+            "        }\n" +
+            "        header nav ul li a:before {\n" +
+            "            font-family: 'entypo', sans-serif;\n" +
+            "            font-size: 20px;\n" +
+            "            position: absolute;\n" +
+            "            left: -32px;\n" +
+            "        }\n" +
+            "        header nav ul li:first-child a:before {\n" +
+            "            content: \"\\268f\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(2) a:before {\n" +
+            "            content: \"\\e771\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(3) a:before {\n" +
+            "            content: \"\\1f4c5\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(4) a:before {\n" +
+            "            content: \"\\1f465\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(5) a:before {\n" +
+            "            content: \"\\2699\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(6) a:before {\n" +
+            "            content: \"\\1f50d\";\n" +
+            "        }\n" +
+            "        main {\n" +
+            "            flex: 1;\n" +
+            "            -webkit-flex: 1;\n" +
+            "            -ms-flex: 1;\n" +
+            "        }\n" +
+            "        .title {\n" +
+            "            background-color: #fff;\n" +
+            "            border-bottom: 1px solid #C0C1C0;\n" +
+            "            height: 60px;\n" +
+            "            display: -webkit-box;\n" +
+            "            display: -moz-box;\n" +
+            "            display: -ms-flexbox;\n" +
+            "            display: -webkit-flex;\n" +
+            "            display: flex;\n" +
+            "        }\n" +
+            "        .title a {\n" +
+            "            color: #AAA;\n" +
+            "            width: auto;\n" +
+            "            margin: 0 20px;\n" +
+            "            float: right;\n" +
+            "            line-height: 62px;\n" +
+            "            position: relative;\n" +
+            "            text-decoration: none;\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .title a:before {\n" +
+            "            content: \"\\1f464\";\n" +
+            "            font-size: 38px;\n" +
+            "            position: absolute;\n" +
+            "            left: -50px;\n" +
+            "            font-family: 'entypo';\n" +
+            "        }\n" +
+            "        a:hover {\n" +
+            "            color: #33526B;\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .larg {\n" +
+            "            width: auto;\n" +
+            "            margin: 30px auto;\n" +
+            "            padding: 0 30px;\n" +
+            "        }\n" +
+            "        .larg div {\n" +
+            "            background-color: #F7F7F7;\n" +
+            "            border: 1px solid #E2E2E2;\n" +
+            "            padding: 0 20px;\n" +
+            "            margin: 15px 0;\n" +
+            "        }\n" +
+            "        .larg div:hover {\n" +
+            "            background-color: #fafafa;\n" +
+            "        }\n" +
+            "        .larg div h3 span {\n" +
+            "            font-family: 'entypo';\n" +
+            "            font-size: 19px;\n" +
+            "            position: absolute;\n" +
+            "            right: 0;\n" +
+            "            transition: all .6s;\n" +
+            "        }\n" +
+            "        .larg div h3 span.close {\n" +
+            "            -webkit-transform: rotate(180deg);\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .larg div p {\n" +
+            "            display: none;\n" +
+            "            margin-left: 10px;\n" +
+            "            padding: 0 15px;\n" +
+            "            border-left: 1px solid #ccc;\n" +
+            "        }\n" +
+            "        .rendered{\n" +
+            "            margin-left: 25px;\n" +
+            "            height: auto;\n" +
+            "            margin-top: 100px;\n" +
+            "            background-image: url(\"../../img/scotland.jpg\");\n" +
+            "            background-size: cover;\n" +
+            "        }\n" +
+            "    </style>\n" +
+            "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+            "    <script>\n" +
+            "        $(document).ready( function() {\n" +
+            "            $('body').on(\"click\", \".larg div h3\", function(){\n" +
+            "                if ($(this).children('span').hasClass('close')) {\n" +
+            "                    $(this).children('span').removeClass('close');\n" +
+            "                }\n" +
+            "                else {\n" +
+            "                    $(this).children('span').addClass('close');\n" +
+            "                }\n" +
+            "                $(this).parent().children('p').slideToggle(250);\n" +
+            "            });\n" +
+            "\n" +
+            "            $('body').on(\"click\", \"nav ul li a\", function(){\n" +
+            "                let title = $(this).data('title');\n" +
+            "                $('.title').children('h2').html(title);\n" +
+            "\n" +
+            "            });\n" +
+            "        });\n" +
+            "    </script>\n" +
+            "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
+            "</head>\n" +
+            "<body>\n" +
+            "<span class=\"bckg\"></span>\n" +
+            "<header>\n" +
+            "    <h1>Dashboard</h1>\n" +
+            "    <nav>\n" +
+            "        <ul>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function postedrender() {\n" +
+            "                        window.location.href = \"/postedrender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function Commentrender() {\n" +
+            "                        window.location.href = \"/Commentrender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Đang theo dõi\" onclick=\"WatchingRender()\">Đang theo dõi</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function WatchingRender() {\n" +
+            "                        window.location.href = \"/WatchingRender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Những người theo dõi\" onclick=\"WatchedRender()\">Những người theo dõi</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function WatchedRender() {\n" +
+            "                        window.location.href = \"/WatchedRender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Viết bài\" onclick=\"editorrender()\">Viết bài</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function editorrender() {\n" +
+            "                        window.location.href = \"/editorrender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Tìm kiếm\" onclick=\"FindingRender()\">Tìm kiếm</a>\n" +
+            "                <script type=\"text/javascript\"></script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <span style=\"color: red; margin-left: -5px;\">Dangerous place !</span>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Xóa bài đăng\" onclick=\"RemovePost()\">Xóa bài đăng</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "        </ul>\n" +
+            "    </nav>\n" +
+            "</header>\n" +
+            "<main>\n" +
+            "    <div class=\"title\">\n" +
+            "        <h2>Viết bài</h2>\n" +
+            "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
+            "    </div>\n" +
+            "    <div class=\"rendered\">\n" +
+            "        <!-- views/partials/editor.ejs -->\n" +
+            "\n" +
+            "        <label>\n" +
+            "        <textarea>\n" +
+            "            <h1 style=\"text-align: center;\">Welcome to this editor demo!</h1>\n" +
+            "            <p>Please try out the features provided in this basic example.<br>\n" +
+            "                Note that any file and image management functionality in this example is part of our commercial offering – the demo is to show the integration.\n" +
+            "            </p>\n" +
+            "            <h2>Got questions or need help?</h2>\n" +
+            "            <ul>\n" +
+            "                <li>Our <a href=\"https://www.tinymce.com/docs/\">documentation</a> is a great resource for learning how to configure TinyMCE.</li>\n" +
+            "                <li>Have a specific question? Visit the <a href=\"https://community.tinymce.com/forum/\">Community Forum</a>.</li>\n" +
+            "                <li>We also offer enterprise grade support as part of <a href=\"www.tinymce.com/pricing\">TinyMCE Enterprise</a>.</li>\n" +
+            "            </ul>\n" +
+            "            <h2>A simple table to play with</h2>\n" +
+            "            <table style=\"text-align: center;\">\n" +
+            "                <thead>\n" +
+            "                    <tr>\n" +
+            "                        <th>Product</th>\n" +
+            "                        <th>Cost</th>\n" +
+            "                        <th>Really?</th>\n" +
+            "                    </tr>\n" +
+            "                </thead>\n" +
+            "                <tbody>\n" +
+            "                    <tr>\n" +
+            "                        <td>TinyMCE</td>\n" +
+            "                        <td>Free</td>\n" +
+            "                        <td>YES!</td>\n" +
+            "                    </tr>\n" +
+            "                    <tr>\n" +
+            "                        <td>Plupload</td>\n" +
+            "                        <td>Free</td>\n" +
+            "                        <td>YES!</td>\n" +
+            "                    </tr>\n" +
+            "                </tbody>\n" +
+            "            </table>\n" +
+            "        </textarea>\n" +
+            "        </label>\n" +
+            "    </div>\n" +
+            "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+            "    <script src='http://cdn.tinymce.com/4/tinymce.min.js'></script>\n" +
+            "    <script>\n" +
+            "        tinymce.init({\n" +
+            "            selector: 'textarea',\n" +
+            "            height: 500,\n" +
+            "            plugins: [\n" +
+            "                'advlist autolink lists link image charmap print preview anchor',\n" +
+            "                'searchreplace visualblocks code fullscreen',\n" +
+            "                'insertdatetime media table contextmenu paste code'\n" +
+            "            ],\n" +
+            "            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',\n" +
+            "            content_css: [\n" +
+            "                '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',\n" +
+            "                '//www.tinymce.com/css/codepen.min.css'\n" +
+            "            ]\n" +
+            "        });\n" +
+            "    </script>\n" +
+            "</main>\n" +
+            "</body>\n" +
+            "</html>";
+        res.send(code);
+    },
+    WatchingRender : function (req,res) {
+        let code = "<!DOCTYPE html>\n" +
+            "<html lang=\"en\">\n" +
+            "<head>\n" +
+            "    <meta charset=\"UTF-8\">\n" +
+            "    <title>Watching</title>\n" +
+            "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
+            "    <style type=\"text/css\">\n" +
+            "        @import url(http://weloveiconfonts.com/api/?family=entypo);\n" +
+            "        @import url(https://fonts.googleapis.com/css?family=Muli);\n" +
+            "        body {\n" +
+            "            display: -webkit-box;\n" +
+            "            display: -moz-box;\n" +
+            "            display: -ms-flexbox;\n" +
+            "            display: -webkit-flex;\n" +
+            "            display: flex;\n" +
+            "            margin: 0;\n" +
+            "            padding: 0;\n" +
+            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
+            "            background-size: cover;\n" +
+            "            font-family: Muli, sans-serif;\n" +
+            "            color: #444;\n" +
+            "        }\n" +
+            "        ul {\n" +
+            "            list-style: none;\n" +
+            "            margin-top: 0;\n" +
+            "            padding: 0;\n" +
+            "        }\n" +
+            "        a {\n" +
+            "            cursor: pointer;\n" +
+            "            display: block;\n" +
+            "            color: #b3b3b3;\n" +
+            "            text-decoration: none;\n" +
+            "        }\n" +
+            "        .bckg {\n" +
+            "            background-color: #383B42;\n" +
+            "            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;\n" +
+            "            width: 230px;\n" +
+            "            height: 100%;\n" +
+            "            position: fixed;\n" +
+            "            left: 0;\n" +
+            "            top: 0;\n" +
+            "        }\n" +
+            "        h1 {\n" +
+            "            text-align: center;\n" +
+            "            font-weight: normal;\n" +
+            "            color: #F6F6EF;\n" +
+            "            line-height: 60px;\n" +
+            "            margin: 0;\n" +
+            "            font-size: 20px;\n" +
+            "            letter-spacing: 2px;\n" +
+            "            background-color: #34363A;\n" +
+            "            border-bottom: 1px solid rgba(101,116,134,0.57);\n" +
+            "        }\n" +
+            "        h2 {\n" +
+            "            font-size: 20px;\n" +
+            "            text-transform: uppercase;\n" +
+            "            margin: 0;\n" +
+            "            letter-spacing: 3px;\n" +
+            "            color: #919191;\n" +
+            "            font-weight: normal;\n" +
+            "            padding-left: 40px;\n" +
+            "            line-height: 60px;\n" +
+            "            text-shadow: 1px 1px 2px #fff;\n" +
+            "            position: relative;\n" +
+            "            flex: 1;\n" +
+            "            -webkit-flex: 1;\n" +
+            "            -ms-flex: 1;\n" +
+            "        }\n" +
+            "        h2:before {\n" +
+            "            content: '';\n" +
+            "            width: 36px;\n" +
+            "            height: 36px;\n" +
+            "            position: absolute;\n" +
+            "            left: -19px;\n" +
+            "            top: 12px;\n" +
+            "            background-color: #34363A;\n" +
+            "            -webkit-transform: rotate(45deg);\n" +
+            "            -moz-transform: rotate(45deg);\n" +
+            "            transform: rotate(45deg);\n" +
+            "        }\n" +
+            "        h3 {\n" +
+            "            font-size: 17px;\n" +
+            "            margin: 0;\n" +
+            "            line-height: 40px;\n" +
+            "            color: #555;\n" +
+            "            cursor: pointer;\n" +
+            "            position: relative;\n" +
+            "        }\n" +
+            "        header {\n" +
+            "            width: 200px;\n" +
+            "            height: 100%;\n" +
+            "            float: left;\n" +
+            "            position: relative;\n" +
+            "            z-index: 99;\n" +
+            "        }\n" +
+            "        header nav ul li {\n" +
+            "            border-bottom: 1px solid #42454D;\n" +
+            "            padding-left: 48px;\n" +
+            "            transition: all 0.6s;\n" +
+            "            border-top: 1px solid #2E3036;\n" +
+            "        }\n" +
+            "        header nav ul li:hover {\n" +
+            "            background-color: #454952;\n" +
+            "            transition: all 0.6s;\n" +
+            "            border-bottom: 1px solid #797979;\n" +
+            "        }\n" +
+            "        header nav ul li:hover a {\n" +
+            "            color: #fff;\n" +
+            "            transition: all 0.6s;\n" +
+            "        }\n" +
+            "        header nav ul li a {\n" +
+            "            line-height: 55px;\n" +
+            "            font-size: 18px;\n" +
+            "            position: relative;\n" +
+            "            letter-spacing: 1px;\n" +
+            "            transition: all 0.6s;\n" +
+            "        }\n" +
+            "        header nav ul li a:before {\n" +
+            "            font-family: 'entypo', sans-serif;\n" +
+            "            font-size: 20px;\n" +
+            "            position: absolute;\n" +
+            "            left: -32px;\n" +
+            "        }\n" +
+            "        header nav ul li:first-child a:before {\n" +
+            "            content: \"\\268f\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(2) a:before {\n" +
+            "            content: \"\\e771\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(3) a:before {\n" +
+            "            content: \"\\1f4c5\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(4) a:before {\n" +
+            "            content: \"\\1f465\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(5) a:before {\n" +
+            "            content: \"\\2699\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(6) a:before {\n" +
+            "            content: \"\\1f50d\";\n" +
+            "        }\n" +
+            "        main {\n" +
+            "            flex: 1;\n" +
+            "            -webkit-flex: 1;\n" +
+            "            -ms-flex: 1;\n" +
+            "        }\n" +
+            "        .title {\n" +
+            "            background-color: #fff;\n" +
+            "            border-bottom: 1px solid #C0C1C0;\n" +
+            "            height: 60px;\n" +
+            "            display: -webkit-box;\n" +
+            "            display: -moz-box;\n" +
+            "            display: -ms-flexbox;\n" +
+            "            display: -webkit-flex;\n" +
+            "            display: flex;\n" +
+            "        }\n" +
+            "        .title a {\n" +
+            "            color: #AAA;\n" +
+            "            width: auto;\n" +
+            "            margin: 0 20px;\n" +
+            "            float: right;\n" +
+            "            line-height: 62px;\n" +
+            "            position: relative;\n" +
+            "            text-decoration: none;\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .title a:before {\n" +
+            "            content: \"\\1f464\";\n" +
+            "            font-size: 38px;\n" +
+            "            position: absolute;\n" +
+            "            left: -50px;\n" +
+            "            font-family: 'entypo';\n" +
+            "        }\n" +
+            "        a:hover {\n" +
+            "            color: #33526B;\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .larg {\n" +
+            "            width: auto;\n" +
+            "            margin: 30px auto;\n" +
+            "            padding: 0 30px;\n" +
+            "        }\n" +
+            "        .larg div {\n" +
+            "            background-color: #F7F7F7;\n" +
+            "            border: 1px solid #E2E2E2;\n" +
+            "            padding: 0 20px;\n" +
+            "            margin: 15px 0;\n" +
+            "        }\n" +
+            "        .larg div:hover {\n" +
+            "            background-color: #fafafa;\n" +
+            "        }\n" +
+            "        .larg div h3 span {\n" +
+            "            font-family: 'entypo';\n" +
+            "            font-size: 19px;\n" +
+            "            position: absolute;\n" +
+            "            right: 0;\n" +
+            "            transition: all .6s;\n" +
+            "        }\n" +
+            "        .larg div h3 span.close {\n" +
+            "            -webkit-transform: rotate(180deg);\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .larg div p {\n" +
+            "            display: none;\n" +
+            "            margin-left: 10px;\n" +
+            "            padding: 0 15px;\n" +
+            "            border-left: 1px solid #ccc;\n" +
+            "        }\n" +
+            "        .rendered{\n" +
+            "            margin-left: 25px;\n" +
+            "            height: auto;\n" +
+            "            margin-top: 100px;\n" +
+            "            background-image: url(\"../../img/scotland.jpg\");\n" +
+            "            background-size: cover;\n" +
+            "        }\n" +
+            "    </style>\n" +
+            "    <style type=\"text/css\">\n" +
+            "        .wrapper {\n" +
+            "            width: 600px;\n" +
+            "        }\n" +
+            "        .product-grid {\n" +
+            "            width: 60em;\n" +
+            "            margin: 2% auto;\n" +
+            "        }\n" +
+            "        .product-grid.product-grid--flexbox .product-grid__wrapper {\n" +
+            "            display: flex;\n" +
+            "            flex-wrap: wrap;\n" +
+            "        }\n" +
+            "        .product-grid.product-grid--flexbox .product-grid__title {\n" +
+            "            height: auto;\n" +
+            "        }\n" +
+            "        .product-grid.product-grid--flexbox .product-grid__title:after {\n" +
+            "            display: none;\n" +
+            "        }\n" +
+            "        .product-grid__wrapper {\n" +
+            "            margin-left: -1rem;\n" +
+            "            margin-right: -1rem;\n" +
+            "        }\n" +
+            "        .product-grid__product-wrapper {\n" +
+            "            padding: 1rem;\n" +
+            "            float: left;\n" +
+            "            width: 33.33333%;\n" +
+            "        }\n" +
+            "        .product-grid__product {\n" +
+            "            padding: 1rem;\n" +
+            "            position: relative;\n" +
+            "            cursor: pointer;\n" +
+            "            background: #fff;\n" +
+            "            border-radius: 4px;\n" +
+            "        }\n" +
+            "        .product-grid__product:hover {\n" +
+            "            box-shadow: 0px 0px 0px 1px #eee;\n" +
+            "            z-index: 50;\n" +
+            "        }\n" +
+            "        .product-grid__product:hover .product-grid__extend {\n" +
+            "            display: block;\n" +
+            "        }\n" +
+            "        .product-grid__img-wrapper {\n" +
+            "            width: 100%;\n" +
+            "            text-align: center;\n" +
+            "            padding-top: 1rem;\n" +
+            "            padding-bottom: 1rem;\n" +
+            "            height: 150px;\n" +
+            "        }\n" +
+            "        .product-grid__img {\n" +
+            "            max-width: 100%;\n" +
+            "            height: auto;\n" +
+            "            max-height: 100%;\n" +
+            "        }\n" +
+            "        .product-grid__title {\n" +
+            "            margin-top: 0.875rem;\n" +
+            "            display: block;\n" +
+            "            font-size: 1.125em;\n" +
+            "            color: #222;\n" +
+            "            height: 3em;\n" +
+            "            overflow: hidden;\n" +
+            "            position: relative;\n" +
+            "        }\n" +
+            "        .product-grid__title:after {\n" +
+            "            content: \"\";\n" +
+            "            display: block;\n" +
+            "            position: absolute;\n" +
+            "            bottom: 0;\n" +
+            "            right: 0;\n" +
+            "            width: 2.4em;\n" +
+            "            height: 1.5em;\n" +
+            "            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);\n" +
+            "        }\n" +
+            "        .product-grid__price {\n" +
+            "            color: #e91e63;\n" +
+            "            font-weight: bold;\n" +
+            "            letter-spacing: 0.4px;\n" +
+            "        }\n" +
+            "        .product-grid__extend-wrapper {\n" +
+            "            position: relative;\n" +
+            "        }\n" +
+            "        .product-grid__extend {\n" +
+            "            display: none;\n" +
+            "            position: absolute;\n" +
+            "            padding: 0 1rem 1rem 1rem;\n" +
+            "            margin: 0.4375rem -1rem 0;\n" +
+            "            box-shadow: 0px 0px 0px 1px #eee;\n" +
+            "            background: #fff;\n" +
+            "            border-radius: 0 0 4px 4px;\n" +
+            "        }\n" +
+            "        .product-grid__extend:before {\n" +
+            "            content: \"\";\n" +
+            "            height: 0.875rem;\n" +
+            "            width: 100%;\n" +
+            "            position: absolute;\n" +
+            "            top: -0.4375rem;\n" +
+            "            left: 0;\n" +
+            "            background: #fff;\n" +
+            "        }\n" +
+            "        .product-grid__description {\n" +
+            "            font-size: 0.875em;\n" +
+            "            margin-top: 0.4375rem;\n" +
+            "            margin-bottom: 0;\n" +
+            "        }\n" +
+            "        .product-grid__btn {\n" +
+            "            display: inline-block;\n" +
+            "            font-size: 0.875em;\n" +
+            "            color: #777;\n" +
+            "            background: #eee;\n" +
+            "            padding: 0.5em 0.625em;\n" +
+            "            margin-top: 0.875rem;\n" +
+            "            margin-right: 0.625rem;\n" +
+            "            cursor: pointer;\n" +
+            "            border-radius: 4px;\n" +
+            "        }\n" +
+            "        .product-grid__btn i.fa {\n" +
+            "            margin-right: 0.3125rem;\n" +
+            "        }\n" +
+            "        .product-grid__add-to-cart {\n" +
+            "            color: #fff;\n" +
+            "            background: #e91e63;\n" +
+            "        }\n" +
+            "        .product-grid__add-to-cart:hover {\n" +
+            "            background: #ee4c83;\n" +
+            "        }\n" +
+            "        .product-grid__view {\n" +
+            "            color: #777;\n" +
+            "            background: #eee;\n" +
+            "        }\n" +
+            "        .product-grid__view:hover {\n" +
+            "            background: #fff;\n" +
+            "        }\n" +
+            "        .users{\n" +
+            "            width: 1500px;\n" +
+            "            height: 300px;\n" +
+            "            background: #FFFFFF;\n" +
+            "            -webkit-border-radius: 30px;\n" +
+            "            -moz-border-radius: 30px;\n" +
+            "            border-radius: 30px;\n" +
+            "            float: left;\n" +
+            "            margin: 20px;\n" +
+            "        }\n" +
+            "    </style>\n" +
+            "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+            "    <script>\n" +
+            "        $(document).ready( function() {\n" +
+            "            $('body').on(\"click\", \".larg div h3\", function(){\n" +
+            "                if ($(this).children('span').hasClass('close')) {\n" +
+            "                    $(this).children('span').removeClass('close');\n" +
+            "                }\n" +
+            "                else {\n" +
+            "                    $(this).children('span').addClass('close');\n" +
+            "                }\n" +
+            "                $(this).parent().children('p').slideToggle(250);\n" +
+            "            });\n" +
+            "\n" +
+            "            $('body').on(\"click\", \"nav ul li a\", function(){\n" +
+            "                let title = $(this).data('title');\n" +
+            "                $('.title').children('h2').html(title);\n" +
+            "\n" +
+            "            });\n" +
+            "        });\n" +
+            "\n" +
+            "        /**\n" +
+            "         * @return {number}\n" +
+            "         */\n" +
+            "        function RandDomNumber(max) {\n" +
+            "            let boundary = Number.parseInt(max);\n" +
+            "            return Math.floor(Math.random()*boundary);\n" +
+            "        }\n" +
+            "    </script>\n" +
+            "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
+            "</head>\n" +
+            "<body>\n" +
+            "<span class=\"bckg\"></span>\n" +
+            "<header>\n" +
+            "    <h1>Dashboard</h1>\n" +
+            "    <nav>\n" +
+            "        <ul>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function postedrender() {\n" +
+            "                        window.location.href = \"/postedrender\"\n" +
+            "                        //https://codepen.io/ricardpanades/pen/pjaaLa\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function Commentrender() {\n" +
+            "                        window.location.href = \"/Commentrender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Đang theo dõi\" onclick=\"WatchingRender()\">Đang theo dõi</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function WatchingRender() {\n" +
+            "                        window.location.href = \"/WatchingRender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Những người theo dõi\" onclick=\"WatchedRender()\">Những người theo dõi</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function WatchedRender() {\n" +
+            "                        window.location.href = \"/WatchedRender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Viết bài\" onclick=\"editorrender()\">Viết bài</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function editorrender() {\n" +
+            "                        window.location.href = \"/editorrender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Tìm kiếm\" onclick=\"FindingRender()\">Tìm kiếm</a>\n" +
+            "                <script type=\"text/javascript\"></script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <span style=\"color: red; margin-left: -5px;\">Dangerous place !</span>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Xóa bài đăng\" onclick=\"RemovePost()\">Xóa bài đăng</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "        </ul>\n" +
+            "    </nav>\n" +
+            "</header>\n" +
+            "<main>\n" +
+            "    <div class=\"title\">\n" +
+            "        <h2>Viết bài</h2>\n" +
+            "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
+            "    </div>\n" +
+            "    <div class=\"rendered\">\n" +
+            "        <h2 style=\"background: #333333;color: #FFFFFF;opacity: 0.6;\">Bạn đang theo dõi </h2>\n" +
+            "        <div class=\"users\"></div>\n" +
+            "    </div>\n" +
+            "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+            "    <script src='http://cdn.tinymce.com/4/tinymce.min.js'></script>\n" +
+            "    <script>\n" +
+            "        tinymce.init({\n" +
+            "            selector: 'textarea',\n" +
+            "            height: 500,\n" +
+            "            plugins: [\n" +
+            "                'advlist autolink lists link image charmap print preview anchor',\n" +
+            "                'searchreplace visualblocks code fullscreen',\n" +
+            "                'insertdatetime media table contextmenu paste code'\n" +
+            "            ],\n" +
+            "            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',\n" +
+            "            content_css: [\n" +
+            "                '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',\n" +
+            "                '//www.tinymce.com/css/codepen.min.css'\n" +
+            "            ]\n" +
+            "        });\n" +
+            "    </script>\n" +
+            "</main>\n" +
+            "</body>\n";
+        res.send(code);
+    },
+    WriterPageRender : function (req,res) {
+        let code = "\n" +
+            "<!DOCTYPE html>\n" +
+            "<html lang=\"en\"><head>\n" +
+            "    <meta charset=\"UTF-8\">\n" +
+            "    <title>Welcome back</title>\n" +
+            "    <link rel=\"stylesheet\" href=\"http://www.tinymce.com/css/codepen.min.css\"><link href=\"https://fonts.googleapis.com/css?family=Lato:300,400,700\" rel=\"stylesheet\" type=\"text/css\">\n" +
+            "\n" +
+            "    <link href=\"https://fonts.googleapis.com/css?family=Montserrat\" rel=\"stylesheet\" type=\"text/css\">\n" +
+            "    <link rel=\"stylesheet\" href=\"https://s3.amazonaws.com/codecademy-content/projects/bootstrap.min.css\">\n" +
+            "\n" +
+            "    <style type=\"text/css\">\n" +
+            "        @import url(http://weloveiconfonts.com/api/?family=entypo);\n" +
+            "        @import url(https://fonts.googleapis.com/css?family=Muli);\n" +
+            "        body {\n" +
+            "            display: -webkit-box;\n" +
+            "            display: -moz-box;\n" +
+            "            display: -ms-flexbox;\n" +
+            "            display: -webkit-flex;\n" +
+            "            display: flex;\n" +
+            "            margin: 0;\n" +
+            "            padding: 0;\n" +
+            "            font-family: Muli, sans-serif;\n" +
+            "            color: #444;\n" +
+            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
+            "            background-size: cover;\n" +
+            "        }\n" +
+            "        ul {\n" +
+            "            list-style: none;\n" +
+            "            margin-top: 0;\n" +
+            "            padding: 0;\n" +
+            "        }\n" +
+            "        a {\n" +
+            "            cursor: pointer;\n" +
+            "            display: block;\n" +
+            "            color: #b3b3b3;\n" +
+            "            text-decoration: none;\n" +
+            "        }\n" +
+            "        .bckg {\n" +
+            "            background-color: #383B42;\n" +
+            "            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;\n" +
+            "            width: 230px;\n" +
+            "            height: 100%;\n" +
+            "            position: fixed;\n" +
+            "            left: 0;\n" +
+            "            top: 0;\n" +
+            "        }\n" +
+            "        h1 {\n" +
+            "            text-align: center;\n" +
+            "            font-weight: normal;\n" +
+            "            color: #F6F6EF;\n" +
+            "            line-height: 60px;\n" +
+            "            margin: 0;\n" +
+            "            font-size: 20px;\n" +
+            "            letter-spacing: 2px;\n" +
+            "            background-color: #34363A;\n" +
+            "            border-bottom: 1px solid rgba(101,116,134,0.57);\n" +
+            "        }\n" +
+            "        h2 {\n" +
+            "            font-size: 20px;\n" +
+            "            text-transform: uppercase;\n" +
+            "            margin: 0;\n" +
+            "            letter-spacing: 3px;\n" +
+            "            color: #919191;\n" +
+            "            font-weight: normal;\n" +
+            "            padding-left: 40px;\n" +
+            "            line-height: 60px;\n" +
+            "            text-shadow: 1px 1px 2px #fff;\n" +
+            "            position: relative;\n" +
+            "            flex: 1;\n" +
+            "            -webkit-flex: 1;\n" +
+            "            -ms-flex: 1;\n" +
+            "        }\n" +
+            "        h2:before {\n" +
+            "            content: '';\n" +
+            "            width: 36px;\n" +
+            "            height: 36px;\n" +
+            "            position: absolute;\n" +
+            "            left: -19px;\n" +
+            "            top: 12px;\n" +
+            "            background-color: #34363A;\n" +
+            "            -webkit-transform: rotate(45deg);\n" +
+            "            -moz-transform: rotate(45deg);\n" +
+            "            transform: rotate(45deg);\n" +
+            "        }\n" +
+            "        h3 {\n" +
+            "            font-size: 17px;\n" +
+            "            margin: 0;\n" +
+            "            line-height: 40px;\n" +
+            "            color: #555;\n" +
+            "            cursor: pointer;\n" +
+            "            position: relative;\n" +
+            "        }\n" +
+            "        header {\n" +
+            "            width: 200px;\n" +
+            "            height: 100%;\n" +
+            "            float: left;\n" +
+            "            position: relative;\n" +
+            "            z-index: 99;\n" +
+            "        }\n" +
+            "        header nav ul li {\n" +
+            "            border-bottom: 1px solid #42454D;\n" +
+            "            padding-left: 48px;\n" +
+            "            transition: all 0.6s;\n" +
+            "            border-top: 1px solid #2E3036;\n" +
+            "        }\n" +
+            "        header nav ul li:hover {\n" +
+            "            background-color: #454952;\n" +
+            "            transition: all 0.6s;\n" +
+            "            border-bottom: 1px solid #797979;\n" +
+            "        }\n" +
+            "        header nav ul li:hover a {\n" +
+            "            color: #fff;\n" +
+            "            transition: all 0.6s;\n" +
+            "        }\n" +
+            "        header nav ul li a {\n" +
+            "            line-height: 55px;\n" +
+            "            font-size: 18px;\n" +
+            "            position: relative;\n" +
+            "            letter-spacing: 1px;\n" +
+            "            transition: all 0.6s;\n" +
+            "        }\n" +
+            "        header nav ul li a:before {\n" +
+            "            font-family: 'entypo', sans-serif;\n" +
+            "            font-size: 20px;\n" +
+            "            position: absolute;\n" +
+            "            left: -32px;\n" +
+            "        }\n" +
+            "        header nav ul li:first-child a:before {\n" +
+            "            content: \"\\268f\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(2) a:before {\n" +
+            "            content: \"\\e771\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(3) a:before {\n" +
+            "            content: \"\\1f4c5\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(4) a:before {\n" +
+            "            content: \"\\1f465\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(5) a:before {\n" +
+            "            content: \"\\2699\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(6) a:before {\n" +
+            "            content: \"\\1f50d\";\n" +
+            "        }\n" +
+            "        main {\n" +
+            "            flex: 1;\n" +
+            "            -webkit-flex: 1;\n" +
+            "            -ms-flex: 1;\n" +
+            "        }\n" +
+            "        .title {\n" +
+            "            background-color: #fff;\n" +
+            "            border-bottom: 1px solid #C0C1C0;\n" +
+            "            height: 60px;\n" +
+            "            display: -webkit-box;\n" +
+            "            display: -moz-box;\n" +
+            "            display: -ms-flexbox;\n" +
+            "            display: -webkit-flex;\n" +
+            "            display: flex;\n" +
+            "        }\n" +
+            "        .title a {\n" +
+            "            color: #AAA;\n" +
+            "            width: auto;\n" +
+            "            margin: 0 20px;\n" +
+            "            float: right;\n" +
+            "            line-height: 62px;\n" +
+            "            position: relative;\n" +
+            "            text-decoration: none;\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .title a:before {\n" +
+            "            content: \"\\1f464\";\n" +
+            "            font-size: 38px;\n" +
+            "            position: absolute;\n" +
+            "            left: -50px;\n" +
+            "            font-family: 'entypo';\n" +
+            "        }\n" +
+            "        a:hover {\n" +
+            "            color: #33526B;\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .larg {\n" +
+            "            width: auto;\n" +
+            "            margin: 30px auto;\n" +
+            "            padding: 0 30px;\n" +
+            "        }\n" +
+            "        .larg div {\n" +
+            "            background-color: #F7F7F7;\n" +
+            "            border: 1px solid #E2E2E2;\n" +
+            "            padding: 0 20px;\n" +
+            "            margin: 15px 0;\n" +
+            "        }\n" +
+            "        .larg div:hover {\n" +
+            "            background-color: #fafafa;\n" +
+            "        }\n" +
+            "        .larg div h3 span {\n" +
+            "            font-family: 'entypo';\n" +
+            "            font-size: 19px;\n" +
+            "            position: absolute;\n" +
+            "            right: 0;\n" +
+            "            transition: all .6s;\n" +
+            "        }\n" +
+            "        .larg div h3 span.close {\n" +
+            "            -webkit-transform: rotate(180deg);\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .larg div p {\n" +
+            "            display: none;\n" +
+            "            margin-left: 10px;\n" +
+            "            padding: 0 15px;\n" +
+            "            border-left: 1px solid #ccc;\n" +
+            "        }\n" +
+            "        .rendered{\n" +
+            "            margin-left: 15px;\n" +
+            "            height: auto;\n" +
+            "            margin-top: 100px;\n" +
+            "        }\n" +
+            "    </style>\n" +
+            "    <style>\n" +
+            "        #welcome {\n" +
+            "            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);\n" +
+            "            overflow: hidden;\n" +
+            "            margin-left: 20px;\n" +
+            "            margin-top: -50px;\n" +
+            "            height: 400px;\n" +
+            "        }\n" +
+            "\n" +
+            "        #stars {\n" +
+            "            width: 1px;\n" +
+            "            height: 1px;\n" +
+            "            background: transparent;\n" +
+            "            box-shadow: 1419px 897px #FFF , 1011px 1491px #FFF , 527px 785px #FFF , 290px 1832px #FFF , 843px 1055px #FFF , 1767px 924px #FFF , 1142px 187px #FFF , 832px 793px #FFF , 1631px 210px #FFF , 1576px 985px #FFF , 730px 206px #FFF , 1862px 1102px #FFF , 938px 1883px #FFF , 573px 1222px #FFF , 1402px 618px #FFF , 1459px 693px #FFF , 1966px 480px #FFF , 621px 669px #FFF , 1933px 1457px #FFF , 1894px 78px #FFF , 83px 14px #FFF , 627px 636px #FFF , 1920px 77px #FFF , 430px 1356px #FFF , 595px 1734px #FFF , 484px 470px #FFF , 620px 1017px #FFF , 1009px 1241px #FFF , 1710px 448px #FFF , 1770px 1039px #FFF , 808px 1976px #FFF , 920px 1099px #FFF , 897px 1399px #FFF , 1181px 1508px #FFF , 129px 1622px #FFF , 1159px 794px #FFF , 1286px 127px #FFF , 801px 985px #FFF , 167px 785px #FFF , 1495px 1586px #FFF , 191px 606px #FFF , 56px 1080px #FFF , 51px 908px #FFF , 993px 766px #FFF , 826px 1286px #FFF , 1953px 1958px #FFF , 970px 1930px #FFF , 351px 1815px #FFF , 1065px 75px #FFF , 799px 1501px #FFF , 352px 37px #FFF , 1823px 135px #FFF , 1880px 21px #FFF , 1960px 187px #FFF , 837px 1439px #FFF , 1444px 815px #FFF , 1361px 651px #FFF , 479px 1340px #FFF , 138px 575px #FFF , 270px 1357px #FFF , 1131px 658px #FFF , 13px 104px #FFF , 1302px 198px #FFF , 829px 29px #FFF , 1964px 608px #FFF , 950px 445px #FFF , 987px 1520px #FFF , 1993px 1174px #FFF , 453px 360px #FFF , 93px 1588px #FFF , 917px 124px #FFF , 673px 971px #FFF , 648px 1958px #FFF , 982px 468px #FFF , 1990px 1377px #FFF , 1638px 1545px #FFF , 1011px 997px #FFF , 1319px 193px #FFF , 893px 214px #FFF , 1090px 567px #FFF , 431px 1046px #FFF , 1599px 229px #FFF , 65px 157px #FFF , 450px 1722px #FFF , 939px 1917px #FFF , 1785px 1726px #FFF , 418px 1384px #FFF , 1199px 1408px #FFF , 1089px 353px #FFF , 1407px 464px #FFF , 639px 1829px #FFF , 1902px 1669px #FFF , 461px 1331px #FFF , 1263px 319px #FFF , 1580px 921px #FFF , 1542px 1272px #FFF , 1942px 1792px #FFF , 366px 1964px #FFF , 1841px 1022px #FFF , 588px 231px #FFF , 1757px 611px #FFF , 54px 1969px #FFF , 1014px 833px #FFF , 432px 1347px #FFF , 181px 90px #FFF , 922px 1238px #FFF , 684px 584px #FFF , 1948px 1495px #FFF , 458px 479px #FFF , 1726px 790px #FFF , 1650px 496px #FFF , 1715px 1929px #FFF , 1721px 1345px #FFF , 729px 688px #FFF , 682px 986px #FFF , 850px 199px #FFF , 879px 1754px #FFF , 636px 8px #FFF , 611px 170px #FFF , 1px 593px #FFF , 325px 296px #FFF , 35px 597px #FFF , 1035px 853px #FFF , 1565px 263px #FFF , 586px 428px #FFF , 366px 1176px #FFF , 52px 1876px #FFF , 256px 1911px #FFF , 707px 86px #FFF , 177px 1278px #FFF , 371px 1196px #FFF , 452px 329px #FFF , 870px 339px #FFF , 1101px 1127px #FFF , 296px 1882px #FFF , 1301px 1825px #FFF , 1767px 194px #FFF , 452px 584px #FFF , 1195px 936px #FFF , 146px 1221px #FFF , 1398px 1225px #FFF , 1382px 220px #FFF , 1336px 700px #FFF , 935px 1444px #FFF , 781px 817px #FFF , 187px 1264px #FFF , 997px 439px #FFF , 587px 139px #FFF , 1824px 975px #FFF , 1475px 177px #FFF , 1275px 623px #FFF , 177px 1632px #FFF , 236px 749px #FFF , 1327px 1389px #FFF , 1832px 488px #FFF , 1846px 1685px #FFF , 856px 1257px #FFF , 1359px 1669px #FFF , 115px 102px #FFF , 49px 1419px #FFF , 689px 1136px #FFF , 460px 1737px #FFF , 821px 1031px #FFF , 446px 1192px #FFF , 666px 844px #FFF , 194px 1250px #FFF , 965px 1507px #FFF , 1388px 1301px #FFF , 1924px 1013px #FFF , 758px 1070px #FFF , 1886px 1346px #FFF , 99px 670px #FFF , 794px 499px #FFF , 122px 290px #FFF , 1003px 1841px #FFF , 54px 238px #FFF , 1708px 1533px #FFF , 667px 1973px #FFF , 19px 1170px #FFF , 433px 1897px #FFF , 1661px 806px #FFF , 807px 286px #FFF , 1788px 1022px #FFF , 1401px 296px #FFF , 582px 1184px #FFF , 1194px 1619px #FFF , 716px 48px #FFF , 1065px 761px #FFF , 959px 427px #FFF , 1920px 162px #FFF , 1198px 1111px #FFF , 974px 1px #FFF , 1885px 1721px #FFF , 418px 104px #FFF , 1956px 1486px #FFF , 265px 408px #FFF , 913px 941px #FFF , 1160px 1553px #FFF , 94px 1037px #FFF , 1106px 757px #FFF , 373px 1073px #FFF , 903px 1004px #FFF , 807px 516px #FFF , 395px 1559px #FFF , 704px 1421px #FFF , 1341px 1047px #FFF , 1927px 1738px #FFF , 1531px 509px #FFF , 909px 1037px #FFF , 96px 1364px #FFF , 450px 800px #FFF , 319px 479px #FFF , 398px 1027px #FFF , 667px 1974px #FFF , 639px 703px #FFF , 707px 185px #FFF , 1625px 568px #FFF , 642px 1289px #FFF , 344px 158px #FFF , 1402px 1741px #FFF , 938px 1218px #FFF , 273px 1511px #FFF , 107px 1692px #FFF , 1619px 1379px #FFF , 405px 398px #FFF , 190px 901px #FFF , 1283px 1620px #FFF , 1966px 11px #FFF , 1163px 874px #FFF , 42px 1377px #FFF , 404px 687px #FFF , 631px 1014px #FFF , 92px 1341px #FFF , 1399px 1093px #FFF , 1609px 849px #FFF , 100px 1385px #FFF , 594px 86px #FFF , 581px 958px #FFF , 577px 55px #FFF , 1991px 516px #FFF , 1060px 1516px #FFF , 1110px 112px #FFF , 1670px 1739px #FFF , 1467px 209px #FFF , 861px 1809px #FFF , 665px 1952px #FFF , 1479px 432px #FFF , 370px 789px #FFF , 1793px 1805px #FFF , 594px 17px #FFF , 1819px 1149px #FFF , 1198px 1309px #FFF , 1330px 1555px #FFF , 1804px 1833px #FFF , 959px 1027px #FFF , 154px 591px #FFF , 1545px 384px #FFF , 1830px 281px #FFF , 1364px 115px #FFF , 800px 831px #FFF , 927px 63px #FFF , 1105px 1524px #FFF , 380px 275px #FFF , 637px 412px #FFF , 78px 794px #FFF , 173px 541px #FFF , 1903px 854px #FFF , 1622px 534px #FFF , 1835px 1718px #FFF , 1988px 301px #FFF , 667px 397px #FFF , 1603px 1861px #FFF , 1987px 232px #FFF , 726px 1653px #FFF , 1824px 495px #FFF , 1352px 301px #FFF , 276px 95px #FFF , 1564px 1454px #FFF , 921px 904px #FFF , 830px 553px #FFF , 183px 1908px #FFF , 1350px 1226px #FFF , 370px 16px #FFF , 1915px 990px #FFF , 1969px 974px #FFF , 215px 492px #FFF , 1829px 234px #FFF , 1724px 1426px #FFF , 61px 1124px #FFF , 1219px 106px #FFF , 692px 813px #FFF , 955px 1082px #FFF , 53px 907px #FFF , 1693px 1078px #FFF , 621px 860px #FFF , 251px 1709px #FFF , 86px 1678px #FFF , 1440px 333px #FFF , 48px 77px #FFF , 169px 220px #FFF , 1955px 1133px #FFF , 1529px 421px #FFF , 39px 730px #FFF , 1015px 1684px #FFF , 1480px 122px #FFF , 1258px 534px #FFF , 1830px 1463px #FFF , 1792px 1677px #FFF , 997px 10px #FFF , 1263px 1233px #FFF , 777px 1570px #FFF , 1628px 1558px #FFF , 560px 1636px #FFF , 764px 1849px #FFF , 1656px 1568px #FFF , 597px 1484px #FFF , 367px 911px #FFF , 264px 59px #FFF , 547px 1852px #FFF , 307px 1557px #FFF , 714px 1361px #FFF , 1040px 1239px #FFF , 1043px 491px #FFF , 1751px 1662px #FFF , 1660px 1472px #FFF , 543px 850px #FFF , 719px 618px #FFF , 921px 6px #FFF , 1443px 1837px #FFF , 1545px 1620px #FFF , 1107px 966px #FFF , 1927px 1214px #FFF , 1006px 1028px #FFF , 833px 1858px #FFF , 501px 650px #FFF , 648px 66px #FFF , 1818px 625px #FFF , 1095px 1474px #FFF , 1542px 1644px #FFF , 616px 1977px #FFF , 1850px 1996px #FFF , 85px 1802px #FFF , 1503px 829px #FFF , 344px 1941px #FFF , 807px 1592px #FFF , 635px 1278px #FFF , 583px 1566px #FFF , 675px 1387px #FFF , 942px 552px #FFF , 1466px 1894px #FFF , 702px 665px #FFF , 1396px 1836px #FFF , 1261px 1814px #FFF , 1836px 640px #FFF , 1931px 24px #FFF , 1293px 1852px #FFF , 190px 1122px #FFF , 24px 1117px #FFF , 261px 1808px #FFF , 64px 795px #FFF , 729px 1633px #FFF , 1676px 1887px #FFF , 674px 32px #FFF , 1543px 492px #FFF , 1268px 216px #FFF , 44px 902px #FFF , 174px 1019px #FFF , 14px 803px #FFF , 1638px 1168px #FFF , 646px 1932px #FFF , 1601px 1010px #FFF , 1426px 399px #FFF , 274px 1924px #FFF , 1019px 442px #FFF , 1587px 1700px #FFF , 1436px 397px #FFF , 42px 56px #FFF , 1616px 645px #FFF , 1670px 104px #FFF , 11px 473px #FFF , 99px 121px #FFF , 1833px 885px #FFF , 1795px 1644px #FFF , 51px 649px #FFF , 624px 187px #FFF , 1584px 315px #FFF , 834px 780px #FFF , 1597px 513px #FFF , 720px 65px #FFF , 1488px 1311px #FFF , 1854px 944px #FFF , 2000px 1827px #FFF , 1974px 1157px #FFF , 430px 511px #FFF , 1653px 447px #FFF , 110px 1075px #FFF , 1968px 1674px #FFF , 194px 130px #FFF , 550px 904px #FFF , 729px 1673px #FFF , 1383px 929px #FFF , 1204px 368px #FFF , 876px 401px #FFF , 227px 1578px #FFF , 1903px 761px #FFF , 599px 1521px #FFF , 258px 191px #FFF , 1046px 1343px #FFF , 771px 246px #FFF , 971px 939px #FFF , 1400px 761px #FFF , 643px 58px #FFF , 1670px 64px #FFF , 1270px 1354px #FFF , 515px 1431px #FFF , 1629px 798px #FFF , 1172px 2000px #FFF , 244px 1003px #FFF , 159px 839px #FFF , 529px 509px #FFF , 673px 317px #FFF , 1794px 1487px #FFF , 1359px 1246px #FFF , 1803px 1548px #FFF , 1779px 798px #FFF , 716px 1830px #FFF , 1205px 1832px #FFF , 180px 645px #FFF , 1933px 1547px #FFF , 416px 1208px #FFF , 1503px 959px #FFF , 639px 906px #FFF , 76px 1757px #FFF , 863px 830px #FFF , 928px 818px #FFF , 1455px 1670px #FFF , 1622px 1412px #FFF , 1552px 1072px #FFF , 1952px 1289px #FFF , 934px 378px #FFF , 233px 1241px #FFF , 1537px 40px #FFF , 361px 1082px #FFF , 1479px 888px #FFF , 1041px 536px #FFF , 1209px 1558px #FFF , 591px 1724px #FFF , 1060px 966px #FFF , 869px 1818px #FFF , 498px 77px #FFF , 801px 91px #FFF , 1089px 1090px #FFF , 1566px 873px #FFF , 18px 508px #FFF , 1354px 503px #FFF , 1703px 1869px #FFF , 9px 1164px #FFF , 1486px 1517px #FFF , 1859px 1365px #FFF , 1903px 430px #FFF , 721px 421px #FFF , 1422px 1573px #FFF , 1353px 880px #FFF , 1248px 1659px #FFF , 1346px 1500px #FFF , 1784px 1283px #FFF , 435px 1608px #FFF , 944px 389px #FFF , 1987px 615px #FFF , 1120px 408px #FFF , 658px 1941px #FFF , 93px 229px #FFF , 1373px 1696px #FFF , 195px 1785px #FFF , 571px 1984px #FFF , 1225px 337px #FFF , 122px 324px #FFF , 1628px 1132px #FFF , 805px 281px #FFF , 389px 233px #FFF , 722px 546px #FFF , 1858px 1591px #FFF , 557px 129px #FFF , 1212px 296px #FFF , 1132px 1235px #FFF , 773px 513px #FFF , 838px 1720px #FFF , 1367px 721px #FFF , 1703px 1520px #FFF , 234px 1374px #FFF , 1692px 368px #FFF , 687px 1690px #FFF , 904px 237px #FFF , 655px 723px #FFF , 155px 1923px #FFF , 585px 1377px #FFF , 1394px 385px #FFF , 549px 971px #FFF , 1712px 179px #FFF , 428px 1372px #FFF , 1387px 1687px #FFF , 1766px 551px #FFF , 1792px 1442px #FFF , 1224px 1690px #FFF , 1041px 306px #FFF , 243px 1365px #FFF , 88px 1992px #FFF , 1149px 1468px #FFF , 1433px 1182px #FFF , 1225px 157px #FFF , 661px 1770px #FFF , 332px 859px #FFF , 1487px 1984px #FFF , 490px 422px #FFF , 149px 1962px #FFF , 1044px 40px #FFF , 781px 430px #FFF , 1422px 633px #FFF , 1175px 423px #FFF , 1134px 979px #FFF , 431px 1576px #FFF , 256px 1133px #FFF , 1672px 441px #FFF , 606px 589px #FFF , 1343px 971px #FFF , 1234px 172px #FFF , 1490px 1002px #FFF , 803px 1271px #FFF , 1136px 1255px #FFF , 175px 1859px #FFF , 203px 1632px #FFF , 1018px 868px #FFF , 1404px 1600px #FFF , 918px 772px #FFF , 432px 778px #FFF , 608px 520px #FFF , 338px 290px #FFF , 1579px 408px #FFF , 1459px 119px #FFF , 1925px 854px #FFF , 1762px 1418px #FFF , 750px 1766px #FFF , 1109px 472px #FFF , 1021px 480px #FFF , 173px 103px #FFF , 301px 1658px #FFF , 816px 1631px #FFF , 1000px 1108px #FFF , 601px 1975px #FFF , 204px 1117px #FFF , 1396px 453px #FFF , 1121px 257px #FFF , 1407px 1296px #FFF , 146px 766px #FFF , 1551px 1053px #FFF , 56px 1646px #FFF , 1071px 669px #FFF , 280px 523px #FFF , 27px 534px #FFF , 1270px 1987px #FFF , 1810px 1311px #FFF , 832px 246px #FFF , 526px 1217px #FFF , 17px 240px #FFF , 1384px 444px #FFF , 1415px 960px #FFF , 1142px 906px #FFF , 75px 892px #FFF , 776px 1136px #FFF , 583px 1644px #FFF , 404px 453px #FFF , 1720px 1458px #FFF , 1092px 1970px #FFF , 1751px 1461px #FFF , 1036px 386px #FFF , 134px 718px #FFF , 1267px 980px #FFF , 574px 487px #FFF , 889px 1113px #FFF , 669px 419px #FFF , 72px 1061px #FFF , 1969px 1214px #FFF , 1090px 1470px #FFF , 1399px 1866px #FFF , 537px 1732px #FFF , 996px 1176px #FFF , 1993px 910px #FFF , 545px 1010px #FFF , 1430px 1506px #FFF , 1857px 1956px #FFF , 49px 1522px #FFF , 334px 687px #FFF , 988px 941px #FFF , 425px 16px #FFF , 298px 1244px #FFF , 1211px 1548px #FFF , 1100px 303px #FFF , 886px 1632px #FFF , 721px 1580px #FFF , 1794px 962px #FFF , 1309px 1091px #FFF , 1962px 1362px #FFF , 1841px 1257px #FFF , 56px 1738px #FFF , 1731px 1421px #FFF , 913px 719px #FFF , 877px 1626px #FFF , 639px 534px #FFF , 1010px 932px #FFF , 79px 1941px #FFF , 1010px 1093px #FFF , 171px 117px #FFF , 246px 258px #FFF , 703px 1983px #FFF , 631px 620px #FFF , 921px 1923px #FFF , 1033px 725px #FFF , 1631px 1596px #FFF , 286px 649px #FFF , 175px 635px #FFF , 1099px 1579px #FFF , 1135px 1910px #FFF , 812px 1918px #FFF , 914px 1003px #FFF , 1117px 905px #FFF , 882px 237px #FFF , 1908px 724px #FFF , 641px 1718px #FFF , 267px 522px #FFF , 308px 1718px #FFF , 57px 1447px #FFF , 1591px 1490px #FFF , 959px 497px #FFF , 993px 275px #FFF , 1181px 1855px #FFF , 10px 326px #FFF , 39px 460px #FFF , 643px 929px #FFF , 814px 1395px #FFF , 1843px 1598px #FFF , 1576px 463px #FFF , 827px 227px #FFF , 1461px 162px #FFF , 733px 1076px #FFF , 495px 1453px #FFF , 1082px 344px #FFF , 1967px 946px #FFF , 1720px 776px #FFF , 45px 680px #FFF , 90px 1794px #FFF , 1449px 1448px #FFF , 371px 281px #FFF , 1866px 435px #FFF , 1717px 34px #FFF , 1694px 566px #FFF , 318px 1219px #FFF , 1982px 1794px #FFF , 1104px 37px #FFF , 1124px 1104px #FFF , 1799px 1051px #FFF , 1395px 1957px #FFF , 1363px 1508px #FFF , 667px 1614px #FFF , 1644px 1573px #FFF , 676px 1522px #FFF , 1478px 1663px #FFF , 1818px 625px #FFF , 1011px 1571px #FFF , 1094px 64px #FFF , 1724px 910px #FFF , 1598px 32px #FFF , 1120px 1957px #FFF , 1537px 1956px #FFF , 1122px 58px #FFF , 151px 212px #FFF , 1509px 1405px #FFF , 846px 338px #FFF , 305px 324px #FFF , 202px 1934px #FFF , 1532px 1428px #FFF , 1395px 1657px #FFF , 569px 1169px #FFF , 1856px 1096px #FFF , 876px 1286px #FFF , 224px 1943px #FFF , 1719px 1075px #FFF , 744px 1983px #FFF , 957px 1236px #FFF , 1937px 832px #FFF , 1456px 1424px #FFF , 72px 746px #FFF , 1914px 1527px #FFF , 831px 1215px #FFF , 685px 240px #FFF , 1234px 136px #FFF , 1912px 1663px #FFF , 971px 943px #FFF , 1899px 1650px #FFF , 1670px 165px #FFF , 19px 917px #FFF;\n" +
+            "            animation: animStar 50s linear infinite;\n" +
+            "        }\n" +
+            "        #stars:after {\n" +
+            "            content: \" \";\n" +
+            "            position: absolute;\n" +
+            "            top: 2000px;\n" +
+            "            width: 1px;\n" +
+            "            height: 1px;\n" +
+            "            background: transparent;\n" +
+            "            box-shadow: 1419px 897px #FFF , 1011px 1491px #FFF , 527px 785px #FFF , 290px 1832px #FFF , 843px 1055px #FFF , 1767px 924px #FFF , 1142px 187px #FFF , 832px 793px #FFF , 1631px 210px #FFF , 1576px 985px #FFF , 730px 206px #FFF , 1862px 1102px #FFF , 938px 1883px #FFF , 573px 1222px #FFF , 1402px 618px #FFF , 1459px 693px #FFF , 1966px 480px #FFF , 621px 669px #FFF , 1933px 1457px #FFF , 1894px 78px #FFF , 83px 14px #FFF , 627px 636px #FFF , 1920px 77px #FFF , 430px 1356px #FFF , 595px 1734px #FFF , 484px 470px #FFF , 620px 1017px #FFF , 1009px 1241px #FFF , 1710px 448px #FFF , 1770px 1039px #FFF , 808px 1976px #FFF , 920px 1099px #FFF , 897px 1399px #FFF , 1181px 1508px #FFF , 129px 1622px #FFF , 1159px 794px #FFF , 1286px 127px #FFF , 801px 985px #FFF , 167px 785px #FFF , 1495px 1586px #FFF , 191px 606px #FFF , 56px 1080px #FFF , 51px 908px #FFF , 993px 766px #FFF , 826px 1286px #FFF , 1953px 1958px #FFF , 970px 1930px #FFF , 351px 1815px #FFF , 1065px 75px #FFF , 799px 1501px #FFF , 352px 37px #FFF , 1823px 135px #FFF , 1880px 21px #FFF , 1960px 187px #FFF , 837px 1439px #FFF , 1444px 815px #FFF , 1361px 651px #FFF , 479px 1340px #FFF , 138px 575px #FFF , 270px 1357px #FFF , 1131px 658px #FFF , 13px 104px #FFF , 1302px 198px #FFF , 829px 29px #FFF , 1964px 608px #FFF , 950px 445px #FFF , 987px 1520px #FFF , 1993px 1174px #FFF , 453px 360px #FFF , 93px 1588px #FFF , 917px 124px #FFF , 673px 971px #FFF , 648px 1958px #FFF , 982px 468px #FFF , 1990px 1377px #FFF , 1638px 1545px #FFF , 1011px 997px #FFF , 1319px 193px #FFF , 893px 214px #FFF , 1090px 567px #FFF , 431px 1046px #FFF , 1599px 229px #FFF , 65px 157px #FFF , 450px 1722px #FFF , 939px 1917px #FFF , 1785px 1726px #FFF , 418px 1384px #FFF , 1199px 1408px #FFF , 1089px 353px #FFF , 1407px 464px #FFF , 639px 1829px #FFF , 1902px 1669px #FFF , 461px 1331px #FFF , 1263px 319px #FFF , 1580px 921px #FFF , 1542px 1272px #FFF , 1942px 1792px #FFF , 366px 1964px #FFF , 1841px 1022px #FFF , 588px 231px #FFF , 1757px 611px #FFF , 54px 1969px #FFF , 1014px 833px #FFF , 432px 1347px #FFF , 181px 90px #FFF , 922px 1238px #FFF , 684px 584px #FFF , 1948px 1495px #FFF , 458px 479px #FFF , 1726px 790px #FFF , 1650px 496px #FFF , 1715px 1929px #FFF , 1721px 1345px #FFF , 729px 688px #FFF , 682px 986px #FFF , 850px 199px #FFF , 879px 1754px #FFF , 636px 8px #FFF , 611px 170px #FFF , 1px 593px #FFF , 325px 296px #FFF , 35px 597px #FFF , 1035px 853px #FFF , 1565px 263px #FFF , 586px 428px #FFF , 366px 1176px #FFF , 52px 1876px #FFF , 256px 1911px #FFF , 707px 86px #FFF , 177px 1278px #FFF , 371px 1196px #FFF , 452px 329px #FFF , 870px 339px #FFF , 1101px 1127px #FFF , 296px 1882px #FFF , 1301px 1825px #FFF , 1767px 194px #FFF , 452px 584px #FFF , 1195px 936px #FFF , 146px 1221px #FFF , 1398px 1225px #FFF , 1382px 220px #FFF , 1336px 700px #FFF , 935px 1444px #FFF , 781px 817px #FFF , 187px 1264px #FFF , 997px 439px #FFF , 587px 139px #FFF , 1824px 975px #FFF , 1475px 177px #FFF , 1275px 623px #FFF , 177px 1632px #FFF , 236px 749px #FFF , 1327px 1389px #FFF , 1832px 488px #FFF , 1846px 1685px #FFF , 856px 1257px #FFF , 1359px 1669px #FFF , 115px 102px #FFF , 49px 1419px #FFF , 689px 1136px #FFF , 460px 1737px #FFF , 821px 1031px #FFF , 446px 1192px #FFF , 666px 844px #FFF , 194px 1250px #FFF , 965px 1507px #FFF , 1388px 1301px #FFF , 1924px 1013px #FFF , 758px 1070px #FFF , 1886px 1346px #FFF , 99px 670px #FFF , 794px 499px #FFF , 122px 290px #FFF , 1003px 1841px #FFF , 54px 238px #FFF , 1708px 1533px #FFF , 667px 1973px #FFF , 19px 1170px #FFF , 433px 1897px #FFF , 1661px 806px #FFF , 807px 286px #FFF , 1788px 1022px #FFF , 1401px 296px #FFF , 582px 1184px #FFF , 1194px 1619px #FFF , 716px 48px #FFF , 1065px 761px #FFF , 959px 427px #FFF , 1920px 162px #FFF , 1198px 1111px #FFF , 974px 1px #FFF , 1885px 1721px #FFF , 418px 104px #FFF , 1956px 1486px #FFF , 265px 408px #FFF , 913px 941px #FFF , 1160px 1553px #FFF , 94px 1037px #FFF , 1106px 757px #FFF , 373px 1073px #FFF , 903px 1004px #FFF , 807px 516px #FFF , 395px 1559px #FFF , 704px 1421px #FFF , 1341px 1047px #FFF , 1927px 1738px #FFF , 1531px 509px #FFF , 909px 1037px #FFF , 96px 1364px #FFF , 450px 800px #FFF , 319px 479px #FFF , 398px 1027px #FFF , 667px 1974px #FFF , 639px 703px #FFF , 707px 185px #FFF , 1625px 568px #FFF , 642px 1289px #FFF , 344px 158px #FFF , 1402px 1741px #FFF , 938px 1218px #FFF , 273px 1511px #FFF , 107px 1692px #FFF , 1619px 1379px #FFF , 405px 398px #FFF , 190px 901px #FFF , 1283px 1620px #FFF , 1966px 11px #FFF , 1163px 874px #FFF , 42px 1377px #FFF , 404px 687px #FFF , 631px 1014px #FFF , 92px 1341px #FFF , 1399px 1093px #FFF , 1609px 849px #FFF , 100px 1385px #FFF , 594px 86px #FFF , 581px 958px #FFF , 577px 55px #FFF , 1991px 516px #FFF , 1060px 1516px #FFF , 1110px 112px #FFF , 1670px 1739px #FFF , 1467px 209px #FFF , 861px 1809px #FFF , 665px 1952px #FFF , 1479px 432px #FFF , 370px 789px #FFF , 1793px 1805px #FFF , 594px 17px #FFF , 1819px 1149px #FFF , 1198px 1309px #FFF , 1330px 1555px #FFF , 1804px 1833px #FFF , 959px 1027px #FFF , 154px 591px #FFF , 1545px 384px #FFF , 1830px 281px #FFF , 1364px 115px #FFF , 800px 831px #FFF , 927px 63px #FFF , 1105px 1524px #FFF , 380px 275px #FFF , 637px 412px #FFF , 78px 794px #FFF , 173px 541px #FFF , 1903px 854px #FFF , 1622px 534px #FFF , 1835px 1718px #FFF , 1988px 301px #FFF , 667px 397px #FFF , 1603px 1861px #FFF , 1987px 232px #FFF , 726px 1653px #FFF , 1824px 495px #FFF , 1352px 301px #FFF , 276px 95px #FFF , 1564px 1454px #FFF , 921px 904px #FFF , 830px 553px #FFF , 183px 1908px #FFF , 1350px 1226px #FFF , 370px 16px #FFF , 1915px 990px #FFF , 1969px 974px #FFF , 215px 492px #FFF , 1829px 234px #FFF , 1724px 1426px #FFF , 61px 1124px #FFF , 1219px 106px #FFF , 692px 813px #FFF , 955px 1082px #FFF , 53px 907px #FFF , 1693px 1078px #FFF , 621px 860px #FFF , 251px 1709px #FFF , 86px 1678px #FFF , 1440px 333px #FFF , 48px 77px #FFF , 169px 220px #FFF , 1955px 1133px #FFF , 1529px 421px #FFF , 39px 730px #FFF , 1015px 1684px #FFF , 1480px 122px #FFF , 1258px 534px #FFF , 1830px 1463px #FFF , 1792px 1677px #FFF , 997px 10px #FFF , 1263px 1233px #FFF , 777px 1570px #FFF , 1628px 1558px #FFF , 560px 1636px #FFF , 764px 1849px #FFF , 1656px 1568px #FFF , 597px 1484px #FFF , 367px 911px #FFF , 264px 59px #FFF , 547px 1852px #FFF , 307px 1557px #FFF , 714px 1361px #FFF , 1040px 1239px #FFF , 1043px 491px #FFF , 1751px 1662px #FFF , 1660px 1472px #FFF , 543px 850px #FFF , 719px 618px #FFF , 921px 6px #FFF , 1443px 1837px #FFF , 1545px 1620px #FFF , 1107px 966px #FFF , 1927px 1214px #FFF , 1006px 1028px #FFF , 833px 1858px #FFF , 501px 650px #FFF , 648px 66px #FFF , 1818px 625px #FFF , 1095px 1474px #FFF , 1542px 1644px #FFF , 616px 1977px #FFF , 1850px 1996px #FFF , 85px 1802px #FFF , 1503px 829px #FFF , 344px 1941px #FFF , 807px 1592px #FFF , 635px 1278px #FFF , 583px 1566px #FFF , 675px 1387px #FFF , 942px 552px #FFF , 1466px 1894px #FFF , 702px 665px #FFF , 1396px 1836px #FFF , 1261px 1814px #FFF , 1836px 640px #FFF , 1931px 24px #FFF , 1293px 1852px #FFF , 190px 1122px #FFF , 24px 1117px #FFF , 261px 1808px #FFF , 64px 795px #FFF , 729px 1633px #FFF , 1676px 1887px #FFF , 674px 32px #FFF , 1543px 492px #FFF , 1268px 216px #FFF , 44px 902px #FFF , 174px 1019px #FFF , 14px 803px #FFF , 1638px 1168px #FFF , 646px 1932px #FFF , 1601px 1010px #FFF , 1426px 399px #FFF , 274px 1924px #FFF , 1019px 442px #FFF , 1587px 1700px #FFF , 1436px 397px #FFF , 42px 56px #FFF , 1616px 645px #FFF , 1670px 104px #FFF , 11px 473px #FFF , 99px 121px #FFF , 1833px 885px #FFF , 1795px 1644px #FFF , 51px 649px #FFF , 624px 187px #FFF , 1584px 315px #FFF , 834px 780px #FFF , 1597px 513px #FFF , 720px 65px #FFF , 1488px 1311px #FFF , 1854px 944px #FFF , 2000px 1827px #FFF , 1974px 1157px #FFF , 430px 511px #FFF , 1653px 447px #FFF , 110px 1075px #FFF , 1968px 1674px #FFF , 194px 130px #FFF , 550px 904px #FFF , 729px 1673px #FFF , 1383px 929px #FFF , 1204px 368px #FFF , 876px 401px #FFF , 227px 1578px #FFF , 1903px 761px #FFF , 599px 1521px #FFF , 258px 191px #FFF , 1046px 1343px #FFF , 771px 246px #FFF , 971px 939px #FFF , 1400px 761px #FFF , 643px 58px #FFF , 1670px 64px #FFF , 1270px 1354px #FFF , 515px 1431px #FFF , 1629px 798px #FFF , 1172px 2000px #FFF , 244px 1003px #FFF , 159px 839px #FFF , 529px 509px #FFF , 673px 317px #FFF , 1794px 1487px #FFF , 1359px 1246px #FFF , 1803px 1548px #FFF , 1779px 798px #FFF , 716px 1830px #FFF , 1205px 1832px #FFF , 180px 645px #FFF , 1933px 1547px #FFF , 416px 1208px #FFF , 1503px 959px #FFF , 639px 906px #FFF , 76px 1757px #FFF , 863px 830px #FFF , 928px 818px #FFF , 1455px 1670px #FFF , 1622px 1412px #FFF , 1552px 1072px #FFF , 1952px 1289px #FFF , 934px 378px #FFF , 233px 1241px #FFF , 1537px 40px #FFF , 361px 1082px #FFF , 1479px 888px #FFF , 1041px 536px #FFF , 1209px 1558px #FFF , 591px 1724px #FFF , 1060px 966px #FFF , 869px 1818px #FFF , 498px 77px #FFF , 801px 91px #FFF , 1089px 1090px #FFF , 1566px 873px #FFF , 18px 508px #FFF , 1354px 503px #FFF , 1703px 1869px #FFF , 9px 1164px #FFF , 1486px 1517px #FFF , 1859px 1365px #FFF , 1903px 430px #FFF , 721px 421px #FFF , 1422px 1573px #FFF , 1353px 880px #FFF , 1248px 1659px #FFF , 1346px 1500px #FFF , 1784px 1283px #FFF , 435px 1608px #FFF , 944px 389px #FFF , 1987px 615px #FFF , 1120px 408px #FFF , 658px 1941px #FFF , 93px 229px #FFF , 1373px 1696px #FFF , 195px 1785px #FFF , 571px 1984px #FFF , 1225px 337px #FFF , 122px 324px #FFF , 1628px 1132px #FFF , 805px 281px #FFF , 389px 233px #FFF , 722px 546px #FFF , 1858px 1591px #FFF , 557px 129px #FFF , 1212px 296px #FFF , 1132px 1235px #FFF , 773px 513px #FFF , 838px 1720px #FFF , 1367px 721px #FFF , 1703px 1520px #FFF , 234px 1374px #FFF , 1692px 368px #FFF , 687px 1690px #FFF , 904px 237px #FFF , 655px 723px #FFF , 155px 1923px #FFF , 585px 1377px #FFF , 1394px 385px #FFF , 549px 971px #FFF , 1712px 179px #FFF , 428px 1372px #FFF , 1387px 1687px #FFF , 1766px 551px #FFF , 1792px 1442px #FFF , 1224px 1690px #FFF , 1041px 306px #FFF , 243px 1365px #FFF , 88px 1992px #FFF , 1149px 1468px #FFF , 1433px 1182px #FFF , 1225px 157px #FFF , 661px 1770px #FFF , 332px 859px #FFF , 1487px 1984px #FFF , 490px 422px #FFF , 149px 1962px #FFF , 1044px 40px #FFF , 781px 430px #FFF , 1422px 633px #FFF , 1175px 423px #FFF , 1134px 979px #FFF , 431px 1576px #FFF , 256px 1133px #FFF , 1672px 441px #FFF , 606px 589px #FFF , 1343px 971px #FFF , 1234px 172px #FFF , 1490px 1002px #FFF , 803px 1271px #FFF , 1136px 1255px #FFF , 175px 1859px #FFF , 203px 1632px #FFF , 1018px 868px #FFF , 1404px 1600px #FFF , 918px 772px #FFF , 432px 778px #FFF , 608px 520px #FFF , 338px 290px #FFF , 1579px 408px #FFF , 1459px 119px #FFF , 1925px 854px #FFF , 1762px 1418px #FFF , 750px 1766px #FFF , 1109px 472px #FFF , 1021px 480px #FFF , 173px 103px #FFF , 301px 1658px #FFF , 816px 1631px #FFF , 1000px 1108px #FFF , 601px 1975px #FFF , 204px 1117px #FFF , 1396px 453px #FFF , 1121px 257px #FFF , 1407px 1296px #FFF , 146px 766px #FFF , 1551px 1053px #FFF , 56px 1646px #FFF , 1071px 669px #FFF , 280px 523px #FFF , 27px 534px #FFF , 1270px 1987px #FFF , 1810px 1311px #FFF , 832px 246px #FFF , 526px 1217px #FFF , 17px 240px #FFF , 1384px 444px #FFF , 1415px 960px #FFF , 1142px 906px #FFF , 75px 892px #FFF , 776px 1136px #FFF , 583px 1644px #FFF , 404px 453px #FFF , 1720px 1458px #FFF , 1092px 1970px #FFF , 1751px 1461px #FFF , 1036px 386px #FFF , 134px 718px #FFF , 1267px 980px #FFF , 574px 487px #FFF , 889px 1113px #FFF , 669px 419px #FFF , 72px 1061px #FFF , 1969px 1214px #FFF , 1090px 1470px #FFF , 1399px 1866px #FFF , 537px 1732px #FFF , 996px 1176px #FFF , 1993px 910px #FFF , 545px 1010px #FFF , 1430px 1506px #FFF , 1857px 1956px #FFF , 49px 1522px #FFF , 334px 687px #FFF , 988px 941px #FFF , 425px 16px #FFF , 298px 1244px #FFF , 1211px 1548px #FFF , 1100px 303px #FFF , 886px 1632px #FFF , 721px 1580px #FFF , 1794px 962px #FFF , 1309px 1091px #FFF , 1962px 1362px #FFF , 1841px 1257px #FFF , 56px 1738px #FFF , 1731px 1421px #FFF , 913px 719px #FFF , 877px 1626px #FFF , 639px 534px #FFF , 1010px 932px #FFF , 79px 1941px #FFF , 1010px 1093px #FFF , 171px 117px #FFF , 246px 258px #FFF , 703px 1983px #FFF , 631px 620px #FFF , 921px 1923px #FFF , 1033px 725px #FFF , 1631px 1596px #FFF , 286px 649px #FFF , 175px 635px #FFF , 1099px 1579px #FFF , 1135px 1910px #FFF , 812px 1918px #FFF , 914px 1003px #FFF , 1117px 905px #FFF , 882px 237px #FFF , 1908px 724px #FFF , 641px 1718px #FFF , 267px 522px #FFF , 308px 1718px #FFF , 57px 1447px #FFF , 1591px 1490px #FFF , 959px 497px #FFF , 993px 275px #FFF , 1181px 1855px #FFF , 10px 326px #FFF , 39px 460px #FFF , 643px 929px #FFF , 814px 1395px #FFF , 1843px 1598px #FFF , 1576px 463px #FFF , 827px 227px #FFF , 1461px 162px #FFF , 733px 1076px #FFF , 495px 1453px #FFF , 1082px 344px #FFF , 1967px 946px #FFF , 1720px 776px #FFF , 45px 680px #FFF , 90px 1794px #FFF , 1449px 1448px #FFF , 371px 281px #FFF , 1866px 435px #FFF , 1717px 34px #FFF , 1694px 566px #FFF , 318px 1219px #FFF , 1982px 1794px #FFF , 1104px 37px #FFF , 1124px 1104px #FFF , 1799px 1051px #FFF , 1395px 1957px #FFF , 1363px 1508px #FFF , 667px 1614px #FFF , 1644px 1573px #FFF , 676px 1522px #FFF , 1478px 1663px #FFF , 1818px 625px #FFF , 1011px 1571px #FFF , 1094px 64px #FFF , 1724px 910px #FFF , 1598px 32px #FFF , 1120px 1957px #FFF , 1537px 1956px #FFF , 1122px 58px #FFF , 151px 212px #FFF , 1509px 1405px #FFF , 846px 338px #FFF , 305px 324px #FFF , 202px 1934px #FFF , 1532px 1428px #FFF , 1395px 1657px #FFF , 569px 1169px #FFF , 1856px 1096px #FFF , 876px 1286px #FFF , 224px 1943px #FFF , 1719px 1075px #FFF , 744px 1983px #FFF , 957px 1236px #FFF , 1937px 832px #FFF , 1456px 1424px #FFF , 72px 746px #FFF , 1914px 1527px #FFF , 831px 1215px #FFF , 685px 240px #FFF , 1234px 136px #FFF , 1912px 1663px #FFF , 971px 943px #FFF , 1899px 1650px #FFF , 1670px 165px #FFF , 19px 917px #FFF;\n" +
+            "        }\n" +
+            "\n" +
+            "        #stars2 {\n" +
+            "            width: 2px;\n" +
+            "            height: 2px;\n" +
+            "            background: transparent;\n" +
+            "            box-shadow: 893px 1965px #FFF , 464px 279px #FFF , 410px 1520px #FFF , 233px 1286px #FFF , 1758px 1472px #FFF , 1244px 1263px #FFF , 318px 232px #FFF , 1684px 877px #FFF , 571px 859px #FFF , 714px 452px #FFF , 695px 556px #FFF , 544px 571px #FFF , 1201px 553px #FFF , 1783px 287px #FFF , 1277px 356px #FFF , 446px 1819px #FFF , 1130px 1761px #FFF , 878px 915px #FFF , 253px 528px #FFF , 382px 1095px #FFF , 331px 443px #FFF , 125px 1318px #FFF , 1575px 367px #FFF , 163px 1505px #FFF , 1980px 1943px #FFF , 1431px 288px #FFF , 178px 26px #FFF , 63px 1687px #FFF , 829px 611px #FFF , 1617px 1190px #FFF , 1722px 26px #FFF , 694px 358px #FFF , 342px 192px #FFF , 109px 1154px #FFF , 1496px 101px #FFF , 1115px 415px #FFF , 1517px 483px #FFF , 187px 427px #FFF , 140px 1395px #FFF , 335px 1410px #FFF , 1003px 942px #FFF , 231px 834px #FFF , 1141px 1415px #FFF , 1444px 939px #FFF , 353px 1176px #FFF , 1199px 1157px #FFF , 495px 1749px #FFF , 347px 1612px #FFF , 1430px 518px #FFF , 323px 3px #FFF , 1165px 514px #FFF , 710px 143px #FFF , 1096px 438px #FFF , 829px 660px #FFF , 1575px 134px #FFF , 694px 541px #FFF , 1263px 842px #FFF , 1701px 1983px #FFF , 1875px 1127px #FFF , 1407px 1886px #FFF , 514px 398px #FFF , 1106px 563px #FFF , 569px 560px #FFF , 1284px 387px #FFF , 1654px 1256px #FFF , 170px 283px #FFF , 207px 327px #FFF , 134px 1821px #FFF , 66px 770px #FFF , 1595px 1851px #FFF , 1387px 670px #FFF , 368px 1985px #FFF , 1803px 647px #FFF , 1668px 871px #FFF , 298px 1144px #FFF , 1340px 247px #FFF , 799px 1956px #FFF , 1377px 244px #FFF , 1366px 1873px #FFF , 457px 1804px #FFF , 871px 1668px #FFF , 474px 425px #FFF , 1865px 1297px #FFF , 440px 1414px #FFF , 895px 1026px #FFF , 1725px 1856px #FFF , 473px 1389px #FFF , 1190px 1064px #FFF , 1148px 1250px #FFF , 286px 1503px #FFF , 1533px 590px #FFF , 130px 923px #FFF , 911px 1640px #FFF , 1999px 655px #FFF , 274px 2px #FFF , 1670px 1973px #FFF , 568px 257px #FFF , 544px 1980px #FFF , 1829px 1384px #FFF , 661px 1458px #FFF , 1767px 1185px #FFF , 1357px 140px #FFF , 936px 223px #FFF , 1063px 1346px #FFF , 1938px 1245px #FFF , 1102px 439px #FFF , 213px 359px #FFF , 138px 396px #FFF , 1003px 1423px #FFF , 1037px 77px #FFF , 615px 752px #FFF , 1535px 1800px #FFF , 1731px 1444px #FFF , 787px 1944px #FFF , 298px 122px #FFF , 889px 1173px #FFF , 257px 1223px #FFF , 1964px 1333px #FFF , 1060px 1085px #FFF , 1205px 1186px #FFF , 293px 1420px #FFF , 659px 1718px #FFF , 1660px 1023px #FFF , 1555px 1927px #FFF , 374px 778px #FFF , 1278px 123px #FFF , 1122px 1714px #FFF , 1282px 41px #FFF , 1710px 1435px #FFF , 1419px 100px #FFF , 1129px 1410px #FFF , 516px 1645px #FFF , 755px 1460px #FFF , 886px 1837px #FFF , 1518px 993px #FFF , 761px 221px #FFF , 229px 492px #FFF , 570px 1699px #FFF , 1737px 693px #FFF , 255px 1863px #FFF , 589px 956px #FFF , 1981px 1515px #FFF , 1894px 961px #FFF , 309px 67px #FFF , 41px 1589px #FFF , 1861px 181px #FFF , 987px 1763px #FFF , 1483px 650px #FFF , 1100px 986px #FFF , 41px 1193px #FFF , 128px 200px #FFF , 1641px 1704px #FFF , 313px 709px #FFF , 1922px 1452px #FFF , 940px 866px #FFF , 1886px 1680px #FFF , 467px 1675px #FFF , 545px 590px #FFF , 1161px 582px #FFF , 651px 1703px #FFF , 1990px 1400px #FFF , 1135px 983px #FFF , 659px 1287px #FFF , 1580px 1036px #FFF , 1113px 998px #FFF , 503px 1764px #FFF , 673px 1177px #FFF , 598px 495px #FFF , 1211px 799px #FFF , 1034px 173px #FFF , 116px 1354px #FFF , 1009px 1227px #FFF , 1452px 719px #FFF , 792px 644px #FFF , 1139px 907px #FFF , 181px 599px #FFF , 1919px 559px #FFF , 265px 521px #FFF , 917px 1598px #FFF , 195px 43px #FFF , 891px 956px #FFF , 1722px 361px #FFF , 851px 969px #FFF , 802px 199px #FFF , 408px 306px #FFF , 834px 1879px #FFF , 826px 1512px #FFF , 1080px 1415px #FFF , 1533px 263px #FFF , 1620px 1962px #FFF , 98px 1657px #FFF , 881px 526px #FFF , 798px 236px #FFF , 585px 314px #FFF , 1156px 821px #FFF , 898px 792px #FFF , 296px 1613px #FFF , 1118px 542px #FFF , 484px 1672px #FFF , 1615px 445px #FFF;\n" +
+            "            animation: animStar 100s linear infinite;\n" +
+            "        }\n" +
+            "        #stars2:after {\n" +
+            "            content: \" \";\n" +
+            "            position: absolute;\n" +
+            "            top: 2000px;\n" +
+            "            width: 2px;\n" +
+            "            height: 2px;\n" +
+            "            background: transparent;\n" +
+            "            box-shadow: 893px 1965px #FFF , 464px 279px #FFF , 410px 1520px #FFF , 233px 1286px #FFF , 1758px 1472px #FFF , 1244px 1263px #FFF , 318px 232px #FFF , 1684px 877px #FFF , 571px 859px #FFF , 714px 452px #FFF , 695px 556px #FFF , 544px 571px #FFF , 1201px 553px #FFF , 1783px 287px #FFF , 1277px 356px #FFF , 446px 1819px #FFF , 1130px 1761px #FFF , 878px 915px #FFF , 253px 528px #FFF , 382px 1095px #FFF , 331px 443px #FFF , 125px 1318px #FFF , 1575px 367px #FFF , 163px 1505px #FFF , 1980px 1943px #FFF , 1431px 288px #FFF , 178px 26px #FFF , 63px 1687px #FFF , 829px 611px #FFF , 1617px 1190px #FFF , 1722px 26px #FFF , 694px 358px #FFF , 342px 192px #FFF , 109px 1154px #FFF , 1496px 101px #FFF , 1115px 415px #FFF , 1517px 483px #FFF , 187px 427px #FFF , 140px 1395px #FFF , 335px 1410px #FFF , 1003px 942px #FFF , 231px 834px #FFF , 1141px 1415px #FFF , 1444px 939px #FFF , 353px 1176px #FFF , 1199px 1157px #FFF , 495px 1749px #FFF , 347px 1612px #FFF , 1430px 518px #FFF , 323px 3px #FFF , 1165px 514px #FFF , 710px 143px #FFF , 1096px 438px #FFF , 829px 660px #FFF , 1575px 134px #FFF , 694px 541px #FFF , 1263px 842px #FFF , 1701px 1983px #FFF , 1875px 1127px #FFF , 1407px 1886px #FFF , 514px 398px #FFF , 1106px 563px #FFF , 569px 560px #FFF , 1284px 387px #FFF , 1654px 1256px #FFF , 170px 283px #FFF , 207px 327px #FFF , 134px 1821px #FFF , 66px 770px #FFF , 1595px 1851px #FFF , 1387px 670px #FFF , 368px 1985px #FFF , 1803px 647px #FFF , 1668px 871px #FFF , 298px 1144px #FFF , 1340px 247px #FFF , 799px 1956px #FFF , 1377px 244px #FFF , 1366px 1873px #FFF , 457px 1804px #FFF , 871px 1668px #FFF , 474px 425px #FFF , 1865px 1297px #FFF , 440px 1414px #FFF , 895px 1026px #FFF , 1725px 1856px #FFF , 473px 1389px #FFF , 1190px 1064px #FFF , 1148px 1250px #FFF , 286px 1503px #FFF , 1533px 590px #FFF , 130px 923px #FFF , 911px 1640px #FFF , 1999px 655px #FFF , 274px 2px #FFF , 1670px 1973px #FFF , 568px 257px #FFF , 544px 1980px #FFF , 1829px 1384px #FFF , 661px 1458px #FFF , 1767px 1185px #FFF , 1357px 140px #FFF , 936px 223px #FFF , 1063px 1346px #FFF , 1938px 1245px #FFF , 1102px 439px #FFF , 213px 359px #FFF , 138px 396px #FFF , 1003px 1423px #FFF , 1037px 77px #FFF , 615px 752px #FFF , 1535px 1800px #FFF , 1731px 1444px #FFF , 787px 1944px #FFF , 298px 122px #FFF , 889px 1173px #FFF , 257px 1223px #FFF , 1964px 1333px #FFF , 1060px 1085px #FFF , 1205px 1186px #FFF , 293px 1420px #FFF , 659px 1718px #FFF , 1660px 1023px #FFF , 1555px 1927px #FFF , 374px 778px #FFF , 1278px 123px #FFF , 1122px 1714px #FFF , 1282px 41px #FFF , 1710px 1435px #FFF , 1419px 100px #FFF , 1129px 1410px #FFF , 516px 1645px #FFF , 755px 1460px #FFF , 886px 1837px #FFF , 1518px 993px #FFF , 761px 221px #FFF , 229px 492px #FFF , 570px 1699px #FFF , 1737px 693px #FFF , 255px 1863px #FFF , 589px 956px #FFF , 1981px 1515px #FFF , 1894px 961px #FFF , 309px 67px #FFF , 41px 1589px #FFF , 1861px 181px #FFF , 987px 1763px #FFF , 1483px 650px #FFF , 1100px 986px #FFF , 41px 1193px #FFF , 128px 200px #FFF , 1641px 1704px #FFF , 313px 709px #FFF , 1922px 1452px #FFF , 940px 866px #FFF , 1886px 1680px #FFF , 467px 1675px #FFF , 545px 590px #FFF , 1161px 582px #FFF , 651px 1703px #FFF , 1990px 1400px #FFF , 1135px 983px #FFF , 659px 1287px #FFF , 1580px 1036px #FFF , 1113px 998px #FFF , 503px 1764px #FFF , 673px 1177px #FFF , 598px 495px #FFF , 1211px 799px #FFF , 1034px 173px #FFF , 116px 1354px #FFF , 1009px 1227px #FFF , 1452px 719px #FFF , 792px 644px #FFF , 1139px 907px #FFF , 181px 599px #FFF , 1919px 559px #FFF , 265px 521px #FFF , 917px 1598px #FFF , 195px 43px #FFF , 891px 956px #FFF , 1722px 361px #FFF , 851px 969px #FFF , 802px 199px #FFF , 408px 306px #FFF , 834px 1879px #FFF , 826px 1512px #FFF , 1080px 1415px #FFF , 1533px 263px #FFF , 1620px 1962px #FFF , 98px 1657px #FFF , 881px 526px #FFF , 798px 236px #FFF , 585px 314px #FFF , 1156px 821px #FFF , 898px 792px #FFF , 296px 1613px #FFF , 1118px 542px #FFF , 484px 1672px #FFF , 1615px 445px #FFF;\n" +
+            "        }\n" +
+            "\n" +
+            "        #stars3 {\n" +
+            "            width: 3px;\n" +
+            "            height: 3px;\n" +
+            "            background: transparent;\n" +
+            "            box-shadow: 948px 1662px #FFF , 1560px 643px #FFF , 19px 260px #FFF , 20px 298px #FFF , 297px 429px #FFF , 134px 982px #FFF , 1605px 1114px #FFF , 986px 1637px #FFF , 853px 645px #FFF , 761px 570px #FFF , 84px 938px #FFF , 1411px 1061px #FFF , 1619px 1599px #FFF , 957px 194px #FFF , 1597px 777px #FFF , 1410px 133px #FFF , 689px 1272px #FFF , 159px 1156px #FFF , 1210px 1353px #FFF , 822px 1226px #FFF , 1574px 1598px #FFF , 1153px 774px #FFF , 1801px 8px #FFF , 958px 1029px #FFF , 729px 12px #FFF , 259px 1052px #FFF , 421px 1618px #FFF , 786px 769px #FFF , 1353px 788px #FFF , 290px 730px #FFF , 32px 995px #FFF , 1151px 306px #FFF , 25px 549px #FFF , 698px 137px #FFF , 1335px 1355px #FFF , 804px 292px #FFF , 708px 1012px #FFF , 1275px 816px #FFF , 44px 221px #FFF , 1746px 373px #FFF , 1101px 1915px #FFF , 252px 1280px #FFF , 294px 1263px #FFF , 1803px 732px #FFF , 224px 1798px #FFF , 1887px 1462px #FFF , 108px 1196px #FFF , 999px 306px #FFF , 1140px 14px #FFF , 502px 1803px #FFF , 883px 1848px #FFF , 125px 500px #FFF , 1760px 30px #FFF , 946px 1079px #FFF , 241px 636px #FFF , 623px 979px #FFF , 179px 223px #FFF , 600px 1338px #FFF , 70px 1333px #FFF , 303px 1737px #FFF , 709px 894px #FFF , 188px 1233px #FFF , 1887px 850px #FFF , 1162px 300px #FFF , 805px 997px #FFF , 392px 537px #FFF , 1788px 383px #FFF , 36px 1849px #FFF , 886px 678px #FFF , 1852px 121px #FFF , 129px 666px #FFF , 854px 547px #FFF , 1104px 1213px #FFF , 1991px 1355px #FFF , 1323px 102px #FFF , 1191px 867px #FFF , 352px 138px #FFF , 1646px 620px #FFF , 919px 1345px #FFF , 975px 1558px #FFF , 1636px 250px #FFF , 963px 1680px #FFF , 840px 859px #FFF , 25px 1675px #FFF , 1284px 357px #FFF , 846px 809px #FFF , 374px 219px #FFF , 106px 507px #FFF , 1774px 738px #FFF , 674px 109px #FFF , 332px 593px #FFF , 120px 1299px #FFF , 601px 1540px #FFF , 256px 1834px #FFF , 422px 59px #FFF , 1106px 1993px #FFF , 1202px 1164px #FFF , 1889px 751px #FFF , 1997px 1199px #FFF , 1129px 448px #FFF;\n" +
+            "            animation: animStar 150s linear infinite;\n" +
+            "        }\n" +
+            "        #stars3:after {\n" +
+            "            content: \" \";\n" +
+            "            position: absolute;\n" +
+            "            top: 2000px;\n" +
+            "            width: 3px;\n" +
+            "            height: 3px;\n" +
+            "            background: transparent;\n" +
+            "            box-shadow: 948px 1662px #FFF , 1560px 643px #FFF , 19px 260px #FFF , 20px 298px #FFF , 297px 429px #FFF , 134px 982px #FFF , 1605px 1114px #FFF , 986px 1637px #FFF , 853px 645px #FFF , 761px 570px #FFF , 84px 938px #FFF , 1411px 1061px #FFF , 1619px 1599px #FFF , 957px 194px #FFF , 1597px 777px #FFF , 1410px 133px #FFF , 689px 1272px #FFF , 159px 1156px #FFF , 1210px 1353px #FFF , 822px 1226px #FFF , 1574px 1598px #FFF , 1153px 774px #FFF , 1801px 8px #FFF , 958px 1029px #FFF , 729px 12px #FFF , 259px 1052px #FFF , 421px 1618px #FFF , 786px 769px #FFF , 1353px 788px #FFF , 290px 730px #FFF , 32px 995px #FFF , 1151px 306px #FFF , 25px 549px #FFF , 698px 137px #FFF , 1335px 1355px #FFF , 804px 292px #FFF , 708px 1012px #FFF , 1275px 816px #FFF , 44px 221px #FFF , 1746px 373px #FFF , 1101px 1915px #FFF , 252px 1280px #FFF , 294px 1263px #FFF , 1803px 732px #FFF , 224px 1798px #FFF , 1887px 1462px #FFF , 108px 1196px #FFF , 999px 306px #FFF , 1140px 14px #FFF , 502px 1803px #FFF , 883px 1848px #FFF , 125px 500px #FFF , 1760px 30px #FFF , 946px 1079px #FFF , 241px 636px #FFF , 623px 979px #FFF , 179px 223px #FFF , 600px 1338px #FFF , 70px 1333px #FFF , 303px 1737px #FFF , 709px 894px #FFF , 188px 1233px #FFF , 1887px 850px #FFF , 1162px 300px #FFF , 805px 997px #FFF , 392px 537px #FFF , 1788px 383px #FFF , 36px 1849px #FFF , 886px 678px #FFF , 1852px 121px #FFF , 129px 666px #FFF , 854px 547px #FFF , 1104px 1213px #FFF , 1991px 1355px #FFF , 1323px 102px #FFF , 1191px 867px #FFF , 352px 138px #FFF , 1646px 620px #FFF , 919px 1345px #FFF , 975px 1558px #FFF , 1636px 250px #FFF , 963px 1680px #FFF , 840px 859px #FFF , 25px 1675px #FFF , 1284px 357px #FFF , 846px 809px #FFF , 374px 219px #FFF , 106px 507px #FFF , 1774px 738px #FFF , 674px 109px #FFF , 332px 593px #FFF , 120px 1299px #FFF , 601px 1540px #FFF , 256px 1834px #FFF , 422px 59px #FFF , 1106px 1993px #FFF , 1202px 1164px #FFF , 1889px 751px #FFF , 1997px 1199px #FFF , 1129px 448px #FFF;\n" +
+            "        }\n" +
+            "\n" +
+            "        #title {\n" +
+            "            position: absolute;\n" +
+            "            top: 50%;\n" +
+            "            left: 0;\n" +
+            "            right: 0;\n" +
+            "            color: #FFF;\n" +
+            "            text-align: center;\n" +
+            "            font-family: \"lato\", sans-serif;\n" +
+            "            font-weight: 300;\n" +
+            "            font-size: 50px;\n" +
+            "            letter-spacing: 10px;\n" +
+            "            margin-top: -160px;\n" +
+            "            padding-left: 10px;\n" +
+            "            margin-left: 250px;\n" +
+            "        }\n" +
+            "        #title span {\n" +
+            "            background: -webkit-linear-gradient(white, #38495a);\n" +
+            "            -webkit-background-clip: text;\n" +
+            "            -webkit-text-fill-color: transparent;\n" +
+            "        }\n" +
+            "\n" +
+            "        @keyframes animStar {\n" +
+            "            from {\n" +
+            "                transform: translateY(0px);\n" +
+            "            }\n" +
+            "            to {\n" +
+            "                transform: translateY(-2000px);\n" +
+            "            }\n" +
+            "        }\n" +
+            "    </style>\n" +
+            "\n" +
+            "    <script src=\"http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js\"></script>\n" +
+            "    <script>\n" +
+            "        $(document).ready( function() {\n" +
+            "            $('body').on(\"click\", \".larg div h3\", function(){\n" +
+            "                if ($(this).children('span').hasClass('close')) {\n" +
+            "                    $(this).children('span').removeClass('close');\n" +
+            "                }\n" +
+            "                else {\n" +
+            "                    $(this).children('span').addClass('close');\n" +
+            "                }\n" +
+            "                $(this).parent().children('p').slideToggle(250);\n" +
+            "            });\n" +
+            "\n" +
+            "            $('body').on(\"click\", \"nav ul li a\", function(){\n" +
+            "                let title = $(this).data('title');\n" +
+            "                $('.title').children('h2').html(title);\n" +
+            "\n" +
+            "            });\n" +
+            "        });\n" +
+            "    </script>\n" +
+            "    <link rel=\"stylesheet\" href=\"http://www.tinymce.com/css/codepen.min.css\">\n" +
+            "</head>\n" +
+            "<body>\n" +
+            "<span class=\"bckg\"></span>\n" +
+            "<header>\n" +
+            "    <h1>Dashboard</h1>\n" +
+            "    <nav>\n" +
+            "        <ul>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function postedrender() {\n" +
+            "                        window.location.href = \"/postedrender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function Commentrender() {\n" +
+            "                        window.location.href = \"/Commentrender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Đang theo dõi\" onclick=\"WatchingRender()\">Đang theo dõi</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function WatchingRender() {\n" +
+            "                        window.location.href = \"/WatchingRender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Những người theo dõi\" onclick=\"WatchedRender()\">Những người theo dõi</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function WatchedRender() {\n" +
+            "                        window.location.href = \"/WatchedRender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Viết bài\" onclick=\"editorrender()\">Viết bài</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function editorrender() {\n" +
+            "                        window.location.href = \"/editorrender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Tìm kiếm\" onclick=\"FindingRender()\">Tìm kiếm</a>\n" +
+            "                <script type=\"text/javascript\"></script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <span style=\"color: red; margin-left: -5px;\">Dangerous place !</span>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Xóa bài đăng\" onclick=\"RemovePost()\">Xóa bài đăng</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "        </ul>\n" +
+            "    </nav>\n" +
+            "</header>\n" +
+            "<main>\n" +
+            "    <div class=\"title\">\n" +
+            "        <h2>Viết bài</h2>\n" +
+            "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
+            "    </div>\n" +
+            "    <div class=\"rendered\">\n" +
+            "        <div id=\"welcome\">\n" +
+            "            <div id=\"stars\"></div>\n" +
+            "            <div id=\"stars2\"></div>\n" +
+            "            <div id=\"stars3\"></div>\n" +
+            "            <div id=\"title\">\n" +
+            "            <span>\n" +
+            "                HI THERE\n" +
+            "            </span>\n" +
+            "                <br>\n" +
+            "                <span>\n" +
+            "                WE ARE WAITING FOR YOU\n" +
+            "            </span>\n" +
+            "            </div>\n" +
+            "        </div>\n" +
+            "        \n" +
+            "    </div>\n" +
+            "    <script src=\"http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js\"></script>\n" +
+            "    <script src=\"http://cdn.tinymce.com/4/tinymce.min.js\"></script>\n" +
+            "    <script>\n" +
+            "        tinymce.init({\n" +
+            "            selector: 'textarea',\n" +
+            "            height: 500,\n" +
+            "            plugins: [\n" +
+            "                'advlist autolink lists link image charmap print preview anchor',\n" +
+            "                'searchreplace visualblocks code fullscreen',\n" +
+            "                'insertdatetime media table contextmenu paste code'\n" +
+            "            ],\n" +
+            "            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',\n" +
+            "            content_css: [\n" +
+            "                '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',\n" +
+            "                '//www.tinymce.com/css/codepen.min.css'\n" +
+            "            ]\n" +
+            "        });\n" +
+            "    </script>\n" +
+            "</main>\n" +
+            "\n" +
+            "</body>\n" +
+            "</html>";
+        res.send(code);
+    },
+    WatchedRender : function (req,res) {
+        let code = "<!DOCTYPE html>\n" +
+            "<html lang=\"en\">\n" +
+            "<head>\n" +
+            "    <meta charset=\"UTF-8\">\n" +
+            "    <title>Watched</title>\n" +
+            "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
+            "    <style type=\"text/css\">\n" +
+            "        @import url(http://weloveiconfonts.com/api/?family=entypo);\n" +
+            "        @import url(https://fonts.googleapis.com/css?family=Muli);\n" +
+            "        body {\n" +
+            "            display: -webkit-box;\n" +
+            "            display: -moz-box;\n" +
+            "            display: -ms-flexbox;\n" +
+            "            display: -webkit-flex;\n" +
+            "            display: flex;\n" +
+            "            margin: 0;\n" +
+            "            padding: 0;\n" +
+            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
+            "            background-size: cover;\n" +
+            "            font-family: Muli, sans-serif;\n" +
+            "            color: #444;\n" +
+            "        }\n" +
+            "        ul {\n" +
+            "            list-style: none;\n" +
+            "            margin-top: 0;\n" +
+            "            padding: 0;\n" +
+            "        }\n" +
+            "        a {\n" +
+            "            cursor: pointer;\n" +
+            "            display: block;\n" +
+            "            color: #b3b3b3;\n" +
+            "            text-decoration: none;\n" +
+            "        }\n" +
+            "        .bckg {\n" +
+            "            background-color: #383B42;\n" +
+            "            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;\n" +
+            "            width: 230px;\n" +
+            "            height: 100%;\n" +
+            "            position: fixed;\n" +
+            "            left: 0;\n" +
+            "            top: 0;\n" +
+            "        }\n" +
+            "        h1 {\n" +
+            "            text-align: center;\n" +
+            "            font-weight: normal;\n" +
+            "            color: #F6F6EF;\n" +
+            "            line-height: 60px;\n" +
+            "            margin: 0;\n" +
+            "            font-size: 20px;\n" +
+            "            letter-spacing: 2px;\n" +
+            "            background-color: #34363A;\n" +
+            "            border-bottom: 1px solid rgba(101,116,134,0.57);\n" +
+            "        }\n" +
+            "        h2 {\n" +
+            "            font-size: 20px;\n" +
+            "            text-transform: uppercase;\n" +
+            "            margin: 0;\n" +
+            "            letter-spacing: 3px;\n" +
+            "            color: #919191;\n" +
+            "            font-weight: normal;\n" +
+            "            padding-left: 40px;\n" +
+            "            line-height: 60px;\n" +
+            "            text-shadow: 1px 1px 2px #fff;\n" +
+            "            position: relative;\n" +
+            "            flex: 1;\n" +
+            "            -webkit-flex: 1;\n" +
+            "            -ms-flex: 1;\n" +
+            "        }\n" +
+            "        h2:before {\n" +
+            "            content: '';\n" +
+            "            width: 36px;\n" +
+            "            height: 36px;\n" +
+            "            position: absolute;\n" +
+            "            left: -19px;\n" +
+            "            top: 12px;\n" +
+            "            background-color: #34363A;\n" +
+            "            -webkit-transform: rotate(45deg);\n" +
+            "            -moz-transform: rotate(45deg);\n" +
+            "            transform: rotate(45deg);\n" +
+            "        }\n" +
+            "        h3 {\n" +
+            "            font-size: 17px;\n" +
+            "            margin: 0;\n" +
+            "            line-height: 40px;\n" +
+            "            color: #555;\n" +
+            "            cursor: pointer;\n" +
+            "            position: relative;\n" +
+            "        }\n" +
+            "        header {\n" +
+            "            width: 200px;\n" +
+            "            height: 100%;\n" +
+            "            float: left;\n" +
+            "            position: relative;\n" +
+            "            z-index: 99;\n" +
+            "        }\n" +
+            "        header nav ul li {\n" +
+            "            border-bottom: 1px solid #42454D;\n" +
+            "            padding-left: 48px;\n" +
+            "            transition: all 0.6s;\n" +
+            "            border-top: 1px solid #2E3036;\n" +
+            "        }\n" +
+            "        header nav ul li:hover {\n" +
+            "            background-color: #454952;\n" +
+            "            transition: all 0.6s;\n" +
+            "            border-bottom: 1px solid #797979;\n" +
+            "        }\n" +
+            "        header nav ul li:hover a {\n" +
+            "            color: #fff;\n" +
+            "            transition: all 0.6s;\n" +
+            "        }\n" +
+            "        header nav ul li a {\n" +
+            "            line-height: 55px;\n" +
+            "            font-size: 18px;\n" +
+            "            position: relative;\n" +
+            "            letter-spacing: 1px;\n" +
+            "            transition: all 0.6s;\n" +
+            "        }\n" +
+            "        header nav ul li a:before {\n" +
+            "            font-family: 'entypo', sans-serif;\n" +
+            "            font-size: 20px;\n" +
+            "            position: absolute;\n" +
+            "            left: -32px;\n" +
+            "        }\n" +
+            "        header nav ul li:first-child a:before {\n" +
+            "            content: \"\\268f\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(2) a:before {\n" +
+            "            content: \"\\e771\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(3) a:before {\n" +
+            "            content: \"\\1f4c5\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(4) a:before {\n" +
+            "            content: \"\\1f465\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(5) a:before {\n" +
+            "            content: \"\\2699\";\n" +
+            "        }\n" +
+            "        header nav ul li:nth-child(6) a:before {\n" +
+            "            content: \"\\1f50d\";\n" +
+            "        }\n" +
+            "        main {\n" +
+            "            flex: 1;\n" +
+            "            -webkit-flex: 1;\n" +
+            "            -ms-flex: 1;\n" +
+            "        }\n" +
+            "        .title {\n" +
+            "            background-color: #fff;\n" +
+            "            border-bottom: 1px solid #C0C1C0;\n" +
+            "            height: 60px;\n" +
+            "            display: -webkit-box;\n" +
+            "            display: -moz-box;\n" +
+            "            display: -ms-flexbox;\n" +
+            "            display: -webkit-flex;\n" +
+            "            display: flex;\n" +
+            "        }\n" +
+            "        .title a {\n" +
+            "            color: #AAA;\n" +
+            "            width: auto;\n" +
+            "            margin: 0 20px;\n" +
+            "            float: right;\n" +
+            "            line-height: 62px;\n" +
+            "            position: relative;\n" +
+            "            text-decoration: none;\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .title a:before {\n" +
+            "            content: \"\\1f464\";\n" +
+            "            font-size: 38px;\n" +
+            "            position: absolute;\n" +
+            "            left: -50px;\n" +
+            "            font-family: 'entypo';\n" +
+            "        }\n" +
+            "        a:hover {\n" +
+            "            color: #33526B;\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .larg {\n" +
+            "            width: auto;\n" +
+            "            margin: 30px auto;\n" +
+            "            padding: 0 30px;\n" +
+            "        }\n" +
+            "        .larg div {\n" +
+            "            background-color: #F7F7F7;\n" +
+            "            border: 1px solid #E2E2E2;\n" +
+            "            padding: 0 20px;\n" +
+            "            margin: 15px 0;\n" +
+            "        }\n" +
+            "        .larg div:hover {\n" +
+            "            background-color: #fafafa;\n" +
+            "        }\n" +
+            "        .larg div h3 span {\n" +
+            "            font-family: 'entypo';\n" +
+            "            font-size: 19px;\n" +
+            "            position: absolute;\n" +
+            "            right: 0;\n" +
+            "            transition: all .6s;\n" +
+            "        }\n" +
+            "        .larg div h3 span.close {\n" +
+            "            -webkit-transform: rotate(180deg);\n" +
+            "            transition: all .5s;\n" +
+            "        }\n" +
+            "        .larg div p {\n" +
+            "            display: none;\n" +
+            "            margin-left: 10px;\n" +
+            "            padding: 0 15px;\n" +
+            "            border-left: 1px solid #ccc;\n" +
+            "        }\n" +
+            "        .rendered{\n" +
+            "            margin-left: 25px;\n" +
+            "            height: auto;\n" +
+            "            margin-top: 100px;\n" +
+            "            background-image: url(\"../../img/scotland.jpg\");\n" +
+            "            background-size: cover;\n" +
+            "        }\n" +
+            "    </style>\n" +
+            "    <style type=\"text/css\">\n" +
+            "        .wrapper {\n" +
+            "            width: 600px;\n" +
+            "        }\n" +
+            "        .product-grid {\n" +
+            "            width: 60em;\n" +
+            "            margin: 2% auto;\n" +
+            "        }\n" +
+            "        .product-grid.product-grid--flexbox .product-grid__wrapper {\n" +
+            "            display: flex;\n" +
+            "            flex-wrap: wrap;\n" +
+            "        }\n" +
+            "        .product-grid.product-grid--flexbox .product-grid__title {\n" +
+            "            height: auto;\n" +
+            "        }\n" +
+            "        .product-grid.product-grid--flexbox .product-grid__title:after {\n" +
+            "            display: none;\n" +
+            "        }\n" +
+            "        .product-grid__wrapper {\n" +
+            "            margin-left: -1rem;\n" +
+            "            margin-right: -1rem;\n" +
+            "        }\n" +
+            "        .product-grid__product-wrapper {\n" +
+            "            padding: 1rem;\n" +
+            "            float: left;\n" +
+            "            width: 33.33333%;\n" +
+            "        }\n" +
+            "        .product-grid__product {\n" +
+            "            padding: 1rem;\n" +
+            "            position: relative;\n" +
+            "            cursor: pointer;\n" +
+            "            background: #fff;\n" +
+            "            border-radius: 4px;\n" +
+            "        }\n" +
+            "        .product-grid__product:hover {\n" +
+            "            box-shadow: 0px 0px 0px 1px #eee;\n" +
+            "            z-index: 50;\n" +
+            "        }\n" +
+            "        .product-grid__product:hover .product-grid__extend {\n" +
+            "            display: block;\n" +
+            "        }\n" +
+            "        .product-grid__img-wrapper {\n" +
+            "            width: 100%;\n" +
+            "            text-align: center;\n" +
+            "            padding-top: 1rem;\n" +
+            "            padding-bottom: 1rem;\n" +
+            "            height: 150px;\n" +
+            "        }\n" +
+            "        .product-grid__img {\n" +
+            "            max-width: 100%;\n" +
+            "            height: auto;\n" +
+            "            max-height: 100%;\n" +
+            "        }\n" +
+            "        .product-grid__title {\n" +
+            "            margin-top: 0.875rem;\n" +
+            "            display: block;\n" +
+            "            font-size: 1.125em;\n" +
+            "            color: #222;\n" +
+            "            height: 3em;\n" +
+            "            overflow: hidden;\n" +
+            "            position: relative;\n" +
+            "        }\n" +
+            "        .product-grid__title:after {\n" +
+            "            content: \"\";\n" +
+            "            display: block;\n" +
+            "            position: absolute;\n" +
+            "            bottom: 0;\n" +
+            "            right: 0;\n" +
+            "            width: 2.4em;\n" +
+            "            height: 1.5em;\n" +
+            "            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);\n" +
+            "        }\n" +
+            "        .product-grid__price {\n" +
+            "            color: #e91e63;\n" +
+            "            font-weight: bold;\n" +
+            "            letter-spacing: 0.4px;\n" +
+            "        }\n" +
+            "        .product-grid__extend-wrapper {\n" +
+            "            position: relative;\n" +
+            "        }\n" +
+            "        .product-grid__extend {\n" +
+            "            display: none;\n" +
+            "            position: absolute;\n" +
+            "            padding: 0 1rem 1rem 1rem;\n" +
+            "            margin: 0.4375rem -1rem 0;\n" +
+            "            box-shadow: 0px 0px 0px 1px #eee;\n" +
+            "            background: #fff;\n" +
+            "            border-radius: 0 0 4px 4px;\n" +
+            "        }\n" +
+            "        .product-grid__extend:before {\n" +
+            "            content: \"\";\n" +
+            "            height: 0.875rem;\n" +
+            "            width: 100%;\n" +
+            "            position: absolute;\n" +
+            "            top: -0.4375rem;\n" +
+            "            left: 0;\n" +
+            "            background: #fff;\n" +
+            "        }\n" +
+            "        .product-grid__description {\n" +
+            "            font-size: 0.875em;\n" +
+            "            margin-top: 0.4375rem;\n" +
+            "            margin-bottom: 0;\n" +
+            "        }\n" +
+            "        .product-grid__btn {\n" +
+            "            display: inline-block;\n" +
+            "            font-size: 0.875em;\n" +
+            "            color: #777;\n" +
+            "            background: #eee;\n" +
+            "            padding: 0.5em 0.625em;\n" +
+            "            margin-top: 0.875rem;\n" +
+            "            margin-right: 0.625rem;\n" +
+            "            cursor: pointer;\n" +
+            "            border-radius: 4px;\n" +
+            "        }\n" +
+            "        .product-grid__btn i.fa {\n" +
+            "            margin-right: 0.3125rem;\n" +
+            "        }\n" +
+            "        .product-grid__add-to-cart {\n" +
+            "            color: #fff;\n" +
+            "            background: #e91e63;\n" +
+            "        }\n" +
+            "        .product-grid__add-to-cart:hover {\n" +
+            "            background: #ee4c83;\n" +
+            "        }\n" +
+            "        .product-grid__view {\n" +
+            "            color: #777;\n" +
+            "            background: #eee;\n" +
+            "        }\n" +
+            "        .product-grid__view:hover {\n" +
+            "            background: #fff;\n" +
+            "        }\n" +
+            "        .users{\n" +
+            "            width: 1500px;\n" +
+            "            height: 300px;\n" +
+            "            background: #FFFFFF;\n" +
+            "            -webkit-border-radius: 30px;\n" +
+            "            -moz-border-radius: 30px;\n" +
+            "            border-radius: 30px;\n" +
+            "            float: left;\n" +
+            "            margin: 20px;\n" +
+            "        }\n" +
+            "    </style>\n" +
+            "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+            "    <script>\n" +
+            "        $(document).ready( function() {\n" +
+            "            $('body').on(\"click\", \".larg div h3\", function(){\n" +
+            "                if ($(this).children('span').hasClass('close')) {\n" +
+            "                    $(this).children('span').removeClass('close');\n" +
+            "                }\n" +
+            "                else {\n" +
+            "                    $(this).children('span').addClass('close');\n" +
+            "                }\n" +
+            "                $(this).parent().children('p').slideToggle(250);\n" +
+            "            });\n" +
+            "\n" +
+            "            $('body').on(\"click\", \"nav ul li a\", function(){\n" +
+            "                let title = $(this).data('title');\n" +
+            "                $('.title').children('h2').html(title);\n" +
+            "\n" +
+            "            });\n" +
+            "        });\n" +
+            "\n" +
+            "        /**\n" +
+            "         * @return {number}\n" +
+            "         */\n" +
+            "        function RandDomNumber(max) {\n" +
+            "            let boundary = Number.parseInt(max);\n" +
+            "            return Math.floor(Math.random()*boundary);\n" +
+            "        }\n" +
+            "    </script>\n" +
+            "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
+            "</head>\n" +
+            "<body>\n" +
+            "<span class=\"bckg\"></span>\n" +
+            "<header>\n" +
+            "    <h1>Dashboard</h1>\n" +
+            "    <nav>\n" +
+            "        <ul>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function postedrender() {\n" +
+            "                        window.location.href = \"/postedrender\"\n" +
+            "                        //https://codepen.io/ricardpanades/pen/pjaaLa\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function Commentrender() {\n" +
+            "                        window.location.href = \"/Commentrender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Đang theo dõi\" onclick=\"WatchingRender()\">Đang theo dõi</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function WatchingRender() {\n" +
+            "                        window.location.href = \"/WatchingRender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Những người theo dõi\" onclick=\"WatchedRender()\">Những người theo dõi</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function WatchedRender() {\n" +
+            "                        window.location.href = \"/WatchedRender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Viết bài\" onclick=\"editorrender()\">Viết bài</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function editorrender() {\n" +
+            "                        window.location.href = \"/editorrender\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Tìm kiếm\" onclick=\"FindingRender()\">Tìm kiếm</a>\n" +
+            "                <script type=\"text/javascript\"></script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <span style=\"color: red; margin-left: -5px;\">Dangerous place !</span>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Xóa bài đăng\" onclick=\"RemovePost()\">Xóa bài đăng</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "        </ul>\n" +
+            "    </nav>\n" +
+            "</header>\n" +
+            "<main>\n" +
+            "    <div class=\"title\">\n" +
+            "        <h2>Viết bài</h2>\n" +
+            "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
+            "    </div>\n" +
+            "    <div class=\"rendered\">\n" +
+            "        <h2 style=\"background: #333333;color: #FFFFFF;opacity: 0.6;\">Bạn đang theo dõi </h2>\n" +
+            "        <div class=\"users\"></div>\n" +
+            "    </div>\n" +
+            "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+            "    <script src='http://cdn.tinymce.com/4/tinymce.min.js'></script>\n" +
+            "    <script>\n" +
+            "        tinymce.init({\n" +
+            "            selector: 'textarea',\n" +
+            "            height: 500,\n" +
+            "            plugins: [\n" +
+            "                'advlist autolink lists link image charmap print preview anchor',\n" +
+            "                'searchreplace visualblocks code fullscreen',\n" +
+            "                'insertdatetime media table contextmenu paste code'\n" +
+            "            ],\n" +
+            "            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',\n" +
+            "            content_css: [\n" +
+            "                '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',\n" +
+            "                '//www.tinymce.com/css/codepen.min.css'\n" +
+            "            ]\n" +
+            "        });\n" +
+            "    </script>\n" +
+            "</main>\n" +
+            "</body>\n";
+        res.send(code);
+    }
 };

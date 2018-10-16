@@ -2,20 +2,21 @@ const express = require('express');
 const app = express();
 let bodyParser = require('body-parser');
 let AWS = require('aws-sdk');
-let mongoose = require('mongoose');
-let morgan = require('morgan');
-let jsonwebtoken = require('jsonwebtoken');
-let config = require('./api/config');
-let User = require('./api/models/user');
-let dynamoModule = require('./NodeJS/GetItem');
+let Renderator = require('./NodeJS/Renderator');
+//let mongoose = require('mongoose');
+//let morgan = require('morgan');
+//let jsonwebtoken = require('jsonwebtoken');
+//let config = require('./api/config');
+//let User = require('./api/models/user');
+//let dynamoModule = require('./NodeJS/GetItem');
 let urlencodedParser = bodyParser.urlencoded({ extended : true});
 //below library can help convert post data into an object
 //connecting to mongodb
-mongoose.connect(config.url);
-app.set('superSecret',config.secret);
+//mongoose.connect(config.url);
+//app.set('superSecret',config.secret);
 //
 app.use(express.static('public'));
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 //tạo middleware cho express và phải chắc chắn rằng middleware này chạy đầu tiên
 app.use(function (req,res,next) {
     if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT'){
@@ -495,23 +496,32 @@ app.get('/house',function (req,res) {
 });
 
 app.get('/writerpage',function (req,res) {
-    res.sendFile(__dirname+ "/public/view/" + 'WriterPage.html');
+    //res.sendFile(__dirname+ "/public/view/" + 'WriterPage.html');
+    Renderator.WriterPageRender(req,res);
 });
 
 app.get('/editorrender',function (req,res) {
-    res.sendFile(__dirname+ "/public/view/partials/" + 'EditorPage.html');
+    //res.sendFile(__dirname+ "/public/view/partials/" + 'EditorPage.html');
+    Renderator.EditorPageRender(req,res);
 });
 
 app.get('/postedrender',function (req,res) {
-    res.sendFile(__dirname+ "/public/view/partials/" + 'Posted.html');
+    //res.sendFile(__dirname+ "/public/view/partials/" + 'Posted.html');
+    Renderator.PostedRender(req,res);
 });
 
 app.get('/Commentrender',function (req,res) {
-    res.sendFile(__dirname+ "/public/view.partials/" + 'Comments.html');
+    //res.sendFile(__dirname+ "/public/view.partials/" + 'Comments.html');
+    Renderator.CommentRender(req,res);
 });
 
 app.get('/WatchingRender',function (req,res) {
-    res.sendFile(__dirname+ "/public/view/partials/" + 'Watching.html');
+    //res.sendFile(__dirname+ "/public/view/partials/" + 'Watching.html');
+    Renderator.WatchingRender(req,res);
+});
+
+app.get('/WatchedRender',function (req,res) {
+    Renderator.WatchedRender(req,res);
 });
 //below method help to retrieve data
 
