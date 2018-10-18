@@ -1,24 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="04aade82-3761-47f0-9a1c-9b055c40fd13" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="04aade82-3761-47f0-9a1c-9b055c40fd13" name="Default Changelist" comment="Updated on 17th October 2018">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Image/clock.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Image/feedback.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Image/header1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/NodeJS/GetItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/NodeJS/GetItem.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NodeJS/Renderator.js" beforeDir="false" afterPath="$PROJECT_DIR$/NodeJS/Renderator.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NodeJS/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/NodeJS/test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/exserver.js" beforeDir="false" afterPath="$PROJECT_DIR$/exserver.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/view/WriterPage.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/view/partials/Comments.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/view/partials/EditorPage.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/view/partials/Posted.ejs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/view/partials/Posted.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/view/partials/Watching.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/view/partials/editor.ejs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/jquery/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/jquery/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/view/partials/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/view/partials/test.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -152,28 +141,31 @@
     <session id="-974979332">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="3" />
           <entry key="project.open.time.22" value="1" />
+          <entry key="project.open.time.29" value="2" />
           <entry key="project.open.time.30" value="1" />
           <entry key="project.open.time.35" value="1" />
           <entry key="project.open.time.39" value="1" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.opened" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="2" />
           <entry key="ejs" value="41" />
-          <entry key="html" value="2440" />
-          <entry key="js" value="1192" />
+          <entry key="html" value="3932" />
+          <entry key="js" value="2022" />
+          <entry key="txt" value="28" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="2" />
           <entry key="EJS" value="41" />
-          <entry key="HTML" value="2441" />
-          <entry key="JavaScript" value="1191" />
+          <entry key="HTML" value="3933" />
+          <entry key="JavaScript" value="2021" />
+          <entry key="PLAIN_TEXT" value="28" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -181,7 +173,7 @@
           <entry key="css" value="6" />
           <entry key="ejs" value="5" />
           <entry key="html" value="14" />
-          <entry key="js" value="3" />
+          <entry key="js" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -189,7 +181,7 @@
           <entry key="CSS" value="6" />
           <entry key="EJS" value="5" />
           <entry key="HTML" value="14" />
-          <entry key="JavaScript" value="3" />
+          <entry key="JavaScript" value="5" />
         </counts>
       </usages-collector>
     </session>
@@ -199,51 +191,38 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/exserver.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="497" column="20" selection-start-line="497" selection-start-column="10" selection-end-line="497" selection-end-column="20" />
+            <state relative-caret-position="-92">
+              <caret line="500" column="3" lean-forward="true" selection-start-line="500" selection-start-column="3" selection-end-line="500" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/NodeJS/Renderator.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="403">
+              <caret line="2831" column="20" selection-start-line="2831" selection-start-column="20" selection-end-line="2831" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/view/partials/test.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="319">
+              <caret line="629" column="12" lean-forward="true" selection-end-line="964" selection-end-column="7" />
               <folding>
-                <element signature="n#style#0;n#img#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#a#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#a#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#li#7;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/NodeJS/Renderator.js">
+        <entry file="file://$PROJECT_DIR$/NodeJS/forecasts.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2236">
-              <caret line="2309" column="20" selection-start-line="2309" selection-start-column="20" selection-end-line="2309" selection-end-column="20" />
-              <folding>
-                <element signature="n#style#0;n#span#0;n#li#7;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#li#0;n#ul#0;n#div#0;n#div#0;n#div#0;n#div#1;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#li#7;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h2#0;n#div#1;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#li#7;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h1#0;n#textarea#0;n#label#0;n#div#1;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#table#0;n#textarea#0;n#label#0;n#div#1;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#li#7;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h2#0;n#div#1;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#li#7;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#li#7;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h2#0;n#div#1;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/view/partials/test.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="449" column="6" selection-start-line="449" selection-start-column="6" selection-end-line="449" selection-end-column="6" />
-              <folding>
-                <element signature="n#style#0;n#span#0;n#li#7;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="207">
+              <caret line="24" column="46" selection-start-line="24" selection-start-column="46" selection-end-line="24" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -254,9 +233,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package.json" />
-        <option value="JavaScript File" />
         <option value="HTML File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -281,8 +260,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/HTML/login.html" />
-        <option value="$PROJECT_DIR$/HTML/404NotFound.html" />
         <option value="$PROJECT_DIR$/HTML/index.html" />
         <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/public/js/home_page.js" />
@@ -330,8 +307,10 @@
         <option value="$PROJECT_DIR$/public/view/partials/Watching.html" />
         <option value="$PROJECT_DIR$/exserver.js" />
         <option value="$PROJECT_DIR$/public/CSS/WriterPage.css" />
-        <option value="$PROJECT_DIR$/NodeJS/Renderator.js" />
+        <option value="$PROJECT_DIR$/NodeJS/WeatherForecast.js" />
+        <option value="$PROJECT_DIR$/NodeJS/forecasts.js" />
         <option value="$PROJECT_DIR$/public/view/partials/test.html" />
+        <option value="$PROJECT_DIR$/NodeJS/Renderator.js" />
       </list>
     </option>
   </component>
@@ -350,9 +329,10 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="676" />
+    <option name="x" value="1595" />
+    <option name="y" value="69" />
     <option name="width" value="697" />
-    <option name="height" value="735" />
+    <option name="height" value="697" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -370,25 +350,12 @@
             <path>
               <item name="HandmadeWeb_git" type="b2602c69:ProjectViewProjectNode" />
               <item name="HandmadeWeb_git" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="NodeJS" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HandmadeWeb_git" type="b2602c69:ProjectViewProjectNode" />
               <item name="HandmadeWeb_git" type="462c0819:PsiDirectoryNode" />
               <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="CSS" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="HandmadeWeb_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="HandmadeWeb_git" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="img" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="HandmadeWeb_git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="HandmadeWeb_git" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -445,10 +412,10 @@
     <configuration name="Mongoconnection.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/NodeJS/Mongoconnection.js" working-dir="$PROJECT_DIR$/public/js">
       <method v="2" />
     </configuration>
-    <configuration name="createCollections.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" nameIsGenerated="true" path-to-js-file="createCollections.js" working-dir="$PROJECT_DIR$/NodeJS">
+    <configuration name="exserver.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" nameIsGenerated="true" path-to-js-file="exserver.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
-    <configuration name="exserver.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" nameIsGenerated="true" path-to-js-file="exserver.js" working-dir="$PROJECT_DIR$">
+    <configuration name="forecasts.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" nameIsGenerated="true" path-to-js-file="forecasts.js" working-dir="$PROJECT_DIR$/NodeJS">
       <method v="2" />
     </configuration>
     <configuration name="test.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" nameIsGenerated="true" path-to-js-file="test.js" working-dir="$PROJECT_DIR$/NodeJS">
@@ -457,17 +424,17 @@
     <list>
       <item itemvalue="Node.js.exserver.js" />
       <item itemvalue="Node.js.Mongoconnection.js" />
-      <item itemvalue="Node.js.createCollections.js" />
       <item itemvalue="Node.js.InsertItemMongodb.js" />
       <item itemvalue="Node.js.test.js" />
+      <item itemvalue="Node.js.forecasts.js" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Node.js.exserver.js" />
+        <item itemvalue="Node.js.forecasts.js" />
         <item itemvalue="Node.js.test.js" />
         <item itemvalue="Node.js.Mongoconnection.js" />
         <item itemvalue="Node.js.InsertItemMongodb.js" />
-        <item itemvalue="Node.js.createCollections.js" />
       </list>
     </recent_temporary>
   </component>
@@ -526,32 +493,34 @@
       <workItem from="1539579303832" duration="17700000" />
       <workItem from="1539686537257" duration="8044000" />
       <workItem from="1539703172594" duration="559000" />
-      <workItem from="1539708729937" duration="6481000" />
+      <workItem from="1539708729937" duration="7572000" />
+      <workItem from="1539773409680" duration="3505000" />
+      <workItem from="1539831080751" duration="16301000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="299418000" />
+    <option name="totallyTimeSpent" value="320315000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12872024" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25074404" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49479166" weight="0.20302014" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.63988096" visible="true" weight="0.18624161" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.6369048" visible="true" weight="0.08389262" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.36011904" side_tool="true" visible="true" weight="0.18624161" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.48065478" weight="0.077181205" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.36309522" side_tool="true" visible="true" weight="0.08389262" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.47767857" weight="0.2751678" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -563,9 +532,11 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Updated on 17th October 2018" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated on 17th October 2018" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/api/modelsfolder/userModel.js" />
-    <entry file="file://$PROJECT_DIR$/api/controllers/authController.js" />
     <entry file="file://$PROJECT_DIR$/api/controllers/AuthenticationTasks.js" />
     <entry file="file://$PROJECT_DIR$/../../node-refresh-token/app.js" />
     <entry file="file://$PROJECT_DIR$/api/controllers/userController.js" />
@@ -766,49 +737,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/NodeJS/Renderator.js">
+    <entry file="file://$PROJECT_DIR$/NodeJS/WeatherForecast.js" />
+    <entry file="file://$PROJECT_DIR$/NodeJS/forecasts.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2236">
-          <caret line="2309" column="20" selection-start-line="2309" selection-start-column="20" selection-end-line="2309" selection-end-column="20" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#li#7;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#li#0;n#ul#0;n#div#0;n#div#0;n#div#0;n#div#1;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#li#7;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h2#0;n#div#1;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#li#7;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h1#0;n#textarea#0;n#label#0;n#div#1;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#table#0;n#textarea#0;n#label#0;n#div#1;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#li#7;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h2#0;n#div#1;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#li#7;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#li#7;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h2#0;n#div#1;n#main#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="207">
+          <caret line="24" column="46" selection-start-line="24" selection-start-column="46" selection-end-line="24" selection-end-column="46" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/exserver.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="497" column="20" selection-start-line="497" selection-start-column="10" selection-end-line="497" selection-end-column="20" />
-          <folding>
-            <element signature="n#style#0;n#img#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#a#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#a#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="-92">
+          <caret line="500" column="3" lean-forward="true" selection-start-line="500" selection-start-column="3" selection-end-line="500" selection-end-column="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/view/partials/test.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="449" column="6" selection-start-line="449" selection-start-column="6" selection-end-line="449" selection-end-column="6" />
+        <state relative-caret-position="319">
+          <caret line="629" column="12" lean-forward="true" selection-end-line="964" selection-end-column="7" />
           <folding>
             <element signature="n#style#0;n#span#0;n#li#7;n#ul#0;n#nav#0;n#header#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/NodeJS/Renderator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="2831" column="20" selection-start-line="2831" selection-start-column="20" selection-end-line="2831" selection-end-column="20" />
         </state>
       </provider>
     </entry>

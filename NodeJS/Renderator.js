@@ -724,7 +724,7 @@ module.exports = {
             "            margin-left: 25px;\n" +
             "            height: auto;\n" +
             "            margin-top: 100px;\n" +
-            "            background-image: url(\"../../img/scotland.jpg\");\n" +
+            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
             "            background-size: cover;\n" +
             "        }\n" +
             "    </style>\n" +
@@ -1213,7 +1213,7 @@ module.exports = {
             "            margin-left: 25px;\n" +
             "            height: auto;\n" +
             "            margin-top: 100px;\n" +
-            "            background-image: url(\"../../img/scotland.jpg\");\n" +
+            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
             "            background-size: cover;\n" +
             "        }\n" +
             "    </style>\n" +
@@ -1588,7 +1588,7 @@ module.exports = {
             "            margin-left: 25px;\n" +
             "            height: auto;\n" +
             "            margin-top: 100px;\n" +
-            "            background-image: url(\"../../img/scotland.jpg\");\n" +
+            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
             "            background-size: cover;\n" +
             "        }\n" +
             "    </style>\n" +
@@ -1905,7 +1905,7 @@ module.exports = {
             "        .bckg {\n" +
             "            background-color: #383B42;\n" +
             "            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;\n" +
-            "            width: 230px;\n" +
+            "            width: 270px;\n" +
             "            height: 100%;\n" +
             "            position: fixed;\n" +
             "            left: 0;\n" +
@@ -1917,7 +1917,7 @@ module.exports = {
             "            color: #F6F6EF;\n" +
             "            line-height: 60px;\n" +
             "            margin: 0;\n" +
-            "            font-size: 20px;\n" +
+            "            font-size: 15px;\n" +
             "            letter-spacing: 2px;\n" +
             "            background-color: #34363A;\n" +
             "            border-bottom: 1px solid rgba(101,116,134,0.57);\n" +
@@ -2024,6 +2024,7 @@ module.exports = {
             "            display: -ms-flexbox;\n" +
             "            display: -webkit-flex;\n" +
             "            display: flex;\n" +
+            "            margin-left: 30px;\n" +
             "        }\n" +
             "        .title a {\n" +
             "            color: #AAA;\n" +
@@ -2087,7 +2088,7 @@ module.exports = {
             "        #welcome {\n" +
             "            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);\n" +
             "            overflow: hidden;\n" +
-            "            margin-left: 20px;\n" +
+            "            margin-left: 50px;\n" +
             "            margin-top: -50px;\n" +
             "            height: 400px;\n" +
             "        }\n" +
@@ -2154,7 +2155,7 @@ module.exports = {
             "            font-weight: 300;\n" +
             "            font-size: 50px;\n" +
             "            letter-spacing: 10px;\n" +
-            "            margin-top: -160px;\n" +
+            "            margin-top: -220px;\n" +
             "            padding-left: 10px;\n" +
             "            margin-left: 250px;\n" +
             "        }\n" +
@@ -2172,8 +2173,328 @@ module.exports = {
             "                transform: translateY(-2000px);\n" +
             "            }\n" +
             "        }\n" +
-            "    </style>\n" +
             "\n" +
+            "        /*weather*/\n" +
+            "        #weather\n" +
+            "        {\n" +
+            "            background: #545456;\n" +
+            "            color:#fff;\n" +
+            "            font-family: 'Quicksand';\n" +
+            "            width: 1500px;\n" +
+            "            height:500px;\n" +
+            "            margin-left: 50px;\n" +
+            "            -webkit-border-radius: 30px;\n" +
+            "            -moz-border-radius: 30px;\n" +
+            "            border-radius: 30px;\n" +
+            "            margin-top: -40px;\n" +
+            "        }\n" +
+            "        .btn\n" +
+            "        {\n" +
+            "            background-color: rgba(255, 60, 65, 1);\n" +
+            "            font-size: 12px;\n" +
+            "            padding-bottom: 2px;\n" +
+            "            padding-top: 2px;\n" +
+            "            border-radius: 2px;\n" +
+            "            height: 24px;\n" +
+            "            width: 40px;\n" +
+            "            color: #fff;\n" +
+            "            margin-top:12px;\n" +
+            "            outline: 0;\n" +
+            "\n" +
+            "        }\n" +
+            "\n" +
+            "\n" +
+            "        #home\n" +
+            "        {\n" +
+            "            font-size:45px;\n" +
+            "            padding-right: 10px;\n" +
+            "        }\n" +
+            "        h2\n" +
+            "        {\n" +
+            "            font-size:30px;\n" +
+            "        }\n" +
+            "\n" +
+            "        .container\n" +
+            "        {\n" +
+            "            margin:5% auto auto auto;\n" +
+            "            max-width:500px;\n" +
+            "            background: rgba(49, 49, 49, 0.34);\n" +
+            "            box-shadow: 0 7px 7px -7px #000;\n" +
+            "\n" +
+            "        }\n" +
+            "\n" +
+            "        .iconInfo\n" +
+            "        {\n" +
+            "            text-align:center;\n" +
+            "            padding-top:15px;\n" +
+            "        }\n" +
+            "\n" +
+            "        .info\n" +
+            "        {\n" +
+            "            text-align:center;\n" +
+            "            font-size:15px;\n" +
+            "            padding-top:15px;\n" +
+            "        }\n" +
+            "\n" +
+            "        .weather-body\n" +
+            "        {\n" +
+            "            text-transform:none;\n" +
+            "        }\n" +
+            "\n" +
+            "        .city  {\n" +
+            "            text-align:center;\n" +
+            "        }\n" +
+            "\n" +
+            "        h5{\n" +
+            "            font-size: 14px;\n" +
+            "        }\n" +
+            "\n" +
+            "        h2 small {\n" +
+            "            color: #fff;\n" +
+            "        }\n" +
+            "\n" +
+            "        h5 small {\n" +
+            "            color: #fff;\n" +
+            "        }\n" +
+            "\n" +
+            "\n" +
+            "        p {\n" +
+            "            font-size:14px;\n" +
+            "            text-align:center;\n" +
+            "        }\n" +
+            "\n" +
+            "        .row {\n" +
+            "            font-size:14px;\n" +
+            "            text-align:center;\n" +
+            "        }\n" +
+            "\n" +
+            "\n" +
+            "        .footerholder {\n" +
+            "            font-size:12px;\n" +
+            "            bottom: 0px;\n" +
+            "            position: fixed;\n" +
+            "            width: 100%;\n" +
+            "            color:#000;\n" +
+            "            background:#fff;\n" +
+            "            text-align:center;\n" +
+            "        }\n" +
+            "\n" +
+            "        h6 {\n" +
+            "            padding-top:10px;\n" +
+            "            font-size:14px !important;\n" +
+            "            text-align:center;\n" +
+            "            font-weight: 300 !important;\n" +
+            "        }\n" +
+            "    </style>\n" +
+            "    <style>\n" +
+            "        @import url(\"https://fonts.googleapis.com/css?family=Lato\");\n" +
+            "        @font-face {\n" +
+            "            font-family: 'Weather-Icons';\n" +
+            "            font-style: normal;\n" +
+            "            font-weight: normal;\n" +
+            "            src: url(\"https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/font/weathericons-regular-webfont.ttf\");\n" +
+            "        }\n" +
+            "        body {\n" +
+            "            padding: 0;\n" +
+            "            margin: 0;\n" +
+            "            color: #fff;\n" +
+            "            font-family: 'Lato', sans-serif;\n" +
+            "            font-style: normal;\n" +
+            "            font-weight: normal;\n" +
+            "            font-size: 20px;\n" +
+            "        }\n" +
+            "        .wrapper {\n" +
+            "            background-color: #353535;\n" +
+            "            display: flex;\n" +
+            "            flex-flow: column nowrap;\n" +
+            "            justify-content: center;\n" +
+            "            height: 400px;\n" +
+            "            width: 700px;\n" +
+            "            text-align: center;\n" +
+            "            max-width: 500px;\n" +
+            "            margin: 20px auto auto 50px;\n" +
+            "            float: left;\n" +
+            "        }\n" +
+            "        .wrapper .today {\n" +
+            "            flex: 1;\n" +
+            "            height: 10em;\n" +
+            "            position: relative;\n" +
+            "            justify-content: center;\n" +
+            "            width: 660px;\n" +
+            "        }\n" +
+            "        .wrapper .today #city {\n" +
+            "            color: #C1;\n" +
+            "            margin: 0.1rem;\n" +
+            "            width:100%;\n" +
+            "            justify-content: center;\n" +
+            "            margin: 10px 0;\n" +
+            "        }\n" +
+            "        .wrapper .today .weatherInfo {\n" +
+            "            display: flex;\n" +
+            "            flex-flow: row wrap;\n" +
+            "            justify-content: center;\n" +
+            "            width: 50%;\n" +
+            "            height: 100%;\n" +
+            "            background: rgb(41, 41, 41);\n" +
+            "            position: absolute;\n" +
+            "            top: 0;\n" +
+            "            left: 0;\n" +
+            "        }\n" +
+            "\n" +
+            "        .wrapper .today .weatherRight{\n" +
+            "            display: flex;\n" +
+            "            flex-flow: row wrap;\n" +
+            "            justify-content: center;\n" +
+            "            width: 50%;\n" +
+            "            height: 100%;\n" +
+            "            background: rgb(237, 237, 237);\n" +
+            "            position: absolute;\n" +
+            "            top: 0;\n" +
+            "            left: 50%;\n" +
+            "        }\n" +
+            "        .wrapper .today .weatherRight #weatherIcon {\n" +
+            "            font-size: 70px;\n" +
+            "            justify-content: center;\n" +
+            "            color:rgb(41, 41, 41);\n" +
+            "            margin-top: -15px;\n" +
+            "        }\n" +
+            "        .wrapper .today .weatherRight  #weatherIcon:after {\n" +
+            "            font-family: 'Weather-Icons';\n" +
+            "            content: attr(data-icon);\n" +
+            "        }\n" +
+            "        .wrapper .today .weatherRight #forecast {\n" +
+            "            color: #4c4c4c;\n" +
+            "            margin: 0.1rem;\n" +
+            "            width:100%;\n" +
+            "            margin: 10px 0;\n" +
+            "        }\n" +
+            "        .wrapper .today .icon-wrapper {\n" +
+            "            display: flex;\n" +
+            "            justify-content: center;\n" +
+            "        }\n" +
+            "        .wrapper .today .temperature-wrapper {\n" +
+            "            display: flex;\n" +
+            "            justify-content: center;\n" +
+            "        }\n" +
+            "        .wrapper .today #temperature {\n" +
+            "            font-size: 70px;\n" +
+            "            position: relative;\n" +
+            "            width: 100%;\n" +
+            "            justify-content: center;\n" +
+            "        }\n" +
+            "        .wrapper .today #temperature #metrics {\n" +
+            "            position: absolute;\n" +
+            "            top: -0.3em;\n" +
+            "            right: -.8em;\n" +
+            "            font-size: 40px;\n" +
+            "        }\n" +
+            "        .wrapper .today #temperature #metrics:hover {\n" +
+            "            color: #f48c41;\n" +
+            "            transition: color 0.2s ease;\n" +
+            "\n" +
+            "        }\n" +
+            "        .wrapper .today #temperature #metrics:after {\n" +
+            "            font-family: 'Weather-Icons';\n" +
+            "            content: attr(data-icon);\n" +
+            "            transition: color 0.2s ease-out;\n" +
+            "        }\n" +
+            "        .wrapper .daily {\n" +
+            "            display: flex;\n" +
+            "            height: 6em;\n" +
+            "            background: #444;\n" +
+            "            flex-direction: column;\n" +
+            "            justify-content: center;\n" +
+            "            width: 660px;\n" +
+            "        }\n" +
+            "        .wrapper .daily .low-high {\n" +
+            "            font-size: 1rem;\n" +
+            "            color: #fff;\n" +
+            "            display: flex;\n" +
+            "            flex-direction: row;\n" +
+            "            justify-content: center;\n" +
+            "            align-items: center;\n" +
+            "        }\n" +
+            "\n" +
+            "        .wrapper .currently .low{\n" +
+            "            padding-right:2em;\n" +
+            "        }\n" +
+            "        .wrapper .currently .low #low {\n" +
+            "            color: #0f88ff;\n" +
+            "            padding-right:10px;\n" +
+            "        }\n" +
+            "        .wrapper .currently .high{\n" +
+            "            padding-left:2em;\n" +
+            "        }\n" +
+            "        .wrapper .currently .high #high {\n" +
+            "            color: #f95757;\n" +
+            "        }\n" +
+            "        .wrapper .daily .low-high span {\n" +
+            "            display: block;\n" +
+            "            font-size: 0.75rem;\n" +
+            "            color: #C1;\n" +
+            "            margin: 0 2em;\n" +
+            "        }\n" +
+            "        .wrapper .daily .low-high .temperature-range {\n" +
+            "            width: 100%;\n" +
+            "            height: 40px;\n" +
+            "            padding: 0;\n" +
+            "            margin: 0;\n" +
+            "            background: linear-gradient(to right, #0f88ff 0%, #2989d8 10%, #207cca 20%, #207cca 30%, #ce6fc0 58%, #f48c41 100%);\n" +
+            "        }\n" +
+            "        .wrapper .daily .currently {\n" +
+            "            display: flex;\n" +
+            "            padding: 40px 0;\n" +
+            "            flex-direction: row;\n" +
+            "            margin-bottom: 20px;\n" +
+            "            justify-content: center;\n" +
+            "        }\n" +
+            "        .wrapper .daily .currently .icon-wrapper {\n" +
+            "            color: #C1;\n" +
+            "            display: flex;\n" +
+            "            padding: 25px 0;\n" +
+            "            align-items: center;\n" +
+            "            margin: 0 0.8rem;\n" +
+            "            width: 500px;\n" +
+            "        }\n" +
+            "        .wrapper .daily .currently .icon-wrapper .metric-text {\n" +
+            "            margin: 0 20px auto 5px;\n" +
+            "            font-size: 18px;\n" +
+            "        }\n" +
+            "        .wrapper .daily .currently .icon-wrapper .wind:after {\n" +
+            "            font-family: 'Weather-Icons';\n" +
+            "            content: attr(data-icon);\n" +
+            "        }\n" +
+            "        .wrapper .daily .currently .icon-wrapper .rain:after {\n" +
+            "            font-family: 'Weather-Icons';\n" +
+            "            content: attr(data-icon);\n" +
+            "        }\n" +
+            "        .wrapper .daily .currently .icon-wrapper .humi:after {\n" +
+            "            font-family: 'Weather-Icons';\n" +
+            "            content: attr(data-icon);\n" +
+            "        }\n" +
+            "        .wrapper .week {\n" +
+            "            color: #C1;\n" +
+            "            flex: 1;\n" +
+            "            height: 8em;\n" +
+            "            display: flex;\n" +
+            "            justify-content: center;\n" +
+            "            align-items: center;\n" +
+            "            width: 660px;\n" +
+            "        }\n" +
+            "        .wrapper .week .day {\n" +
+            "            margin: 0 0.8rem;\n" +
+            "        }\n" +
+            "        .wrapper .week .day .day-low-high {\n" +
+            "            font-size: 18px;\n" +
+            "            padding-top:10px;\n" +
+            "        }\n" +
+            "        .wrapper .week .day .day-icon:after {\n" +
+            "            color: #999;\n" +
+            "            padding-top: 15px;\n" +
+            "            font-family: 'Weather-Icons';\n" +
+            "            content: attr(data-icon);\n" +
+            "        }\n" +
+            "    </style>\n" +
             "    <script src=\"http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js\"></script>\n" +
             "    <script>\n" +
             "        $(document).ready( function() {\n" +
@@ -2194,12 +2515,119 @@ module.exports = {
             "            });\n" +
             "        });\n" +
             "    </script>\n" +
+            "    <!-- get weather data-->\n" +
+            "    <script>\n" +
+            "\n" +
+            "        $(document).ready(function(){\n" +
+            "            $('#metrics').on(\"click\", toggleMetric);\n" +
+            "            init();\n" +
+            "        });\n" +
+            "\n" +
+            "        var apiKey = \"8499bfb5784b8d4294e452ea585904d7\";\n" +
+            "\n" +
+            "        var metric = \"us\";\n" +
+            "        var days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];\n" +
+            "        var icons = {\n" +
+            "            'clear-day': '\uf00d',\n" +
+            "            'clear-night': '\uf02e',\n" +
+            "            'wind': '\uf050',\n" +
+            "            'day-sunny': '\uf00d',\n" +
+            "            'night-clear': '\uf02e',\n" +
+            "            'rain': '\uf019',\n" +
+            "            'snow': '\uf076',\n" +
+            "            'sleet': '\uf0b5',\n" +
+            "            'strong-wind': '\uf050',\n" +
+            "            'fog': '\uf014',\n" +
+            "            'cloudy': '\uf013',\n" +
+            "            'day-cloudy': '\uf002',\n" +
+            "            'night-cloudy': '\uf086',\n" +
+            "            'hail': '\uf015',\n" +
+            "            'thunderstorm': '\uf01e',\n" +
+            "            'tornado': '\uf056',\n" +
+            "            'partly-cloudy-night': '\uf081',\n" +
+            "            'partly-cloudy-day': '\uf002',\n" +
+            "            'n/a': '\uf07b'\n" +
+            "        };\n" +
+            "\n" +
+            "        function init(){\n" +
+            "            getGeoPos();\n" +
+            "        }\n" +
+            "\n" +
+            "        function getGeoPos(){\n" +
+            "            $.getJSON('https://ipinfo.io', function(data){\n" +
+            "                setLocation(data);\n" +
+            "                getWeather(data);\n" +
+            "            });\n" +
+            "        }\n" +
+            "\n" +
+            "        function getWeather(geo){\n" +
+            "            $.ajax({\n" +
+            "                url: 'https://api.forecast.io/forecast/'+apiKey+'/'+geo.loc+'?units='+metric,\n" +
+            "                data: {format: 'json'},\n" +
+            "                type: 'GET',\n" +
+            "                dataType: 'jsonp',\n" +
+            "                success: function(data) {\n" +
+            "                    setWeather(data);\n" +
+            "                }\n" +
+            "            });\n" +
+            "        }\n" +
+            "\n" +
+            "        function setWeather(forecast){\n" +
+            "            $('#forecast').text(forecast.currently.summary);\n" +
+            "            var icon = icons[forecast.currently.icon] || icons['n/a'];\n" +
+            "            $('#weatherIcon').attr('data-icon', icon);\n" +
+            "            $('#temperature>.temp').text(Math.ceil(forecast.currently.temperature));\n" +
+            "            var windMetric = metric === 'us' ? 'mph' : 'm/s';\n" +
+            "            $('#wind-text').text(Math.ceil(forecast.currently.windSpeed)+' '+windMetric);\n" +
+            "            $('#rain-text').text(forecast.currently.precipProbability+'%');\n" +
+            "            var humidity = Math.round(forecast.currently.humidity * 100);\n" +
+            "            $('#humi-text').text(humidity+'%');\n" +
+            "            $('#low').text(Math.ceil(forecast.daily.data[0].apparentTemperatureMin));\n" +
+            "            $('#high').text(Math.ceil(forecast.daily.data[0].apparentTemperatureMax));\n" +
+            "            console.log(forecast);\n" +
+            "            var daily = getWeekdays(forecast.daily.data);\n" +
+            "            $('.day').each(function(i,day){\n" +
+            "                $(day).find('.day-desc').text(daily[i].day);\n" +
+            "                var icon = icons[daily[i].icon] || icons['n/a'];\n" +
+            "                $(day).find('.day-icon').attr('data-icon', icon);\n" +
+            "                $(day).find('.day-low-high').text(daily[i].min+'°/'+daily[i].max+'°');\n" +
+            "            });\n" +
+            "        }\n" +
+            "\n" +
+            "        function getWeekdays(week){\n" +
+            "            return week.map(function(day){\n" +
+            "                var date = new Date(day.time*1000);\n" +
+            "                return {\n" +
+            "                    day: days[date.getDay()],\n" +
+            "                    max: Math.ceil(day.apparentTemperatureMax),\n" +
+            "                    min: Math.ceil(day.apparentTemperatureMin),\n" +
+            "                    icon: day.icon\n" +
+            "                };\n" +
+            "            }).splice(1, week.length);\n" +
+            "        }\n" +
+            "\n" +
+            "        function setLocation(loc){\n" +
+            "            if(loc.city){\n" +
+            "                $('#city').text(loc.city+', '+loc.country);\n" +
+            "            }\n" +
+            "        };\n" +
+            "\n" +
+            "        function toggleMetric(){\n" +
+            "            metric = metric === 'us' ? 'si' : 'us';\n" +
+            "            var icon = metric === 'us' ? '\uf045' : '\uf03c';\n" +
+            "            $(this).attr('data-icon', icon);\n" +
+            "            init();\n" +
+            "        }\n" +
+            "\n" +
+            "    </script>\n" +
+            "    <!-- widget weather forecast-->\n" +
+            "\n" +
             "    <link rel=\"stylesheet\" href=\"http://www.tinymce.com/css/codepen.min.css\">\n" +
             "</head>\n" +
             "<body>\n" +
             "<span class=\"bckg\"></span>\n" +
             "<header>\n" +
-            "    <h1>Dashboard</h1>\n" +
+            "    <a href=\"/writerpage\" id=\"home\">Dashboard</a>\n" +
             "    <nav>\n" +
             "        <ul>\n" +
             "            <li>\n" +
@@ -2284,7 +2712,101 @@ module.exports = {
             "            </span>\n" +
             "            </div>\n" +
             "        </div>\n" +
+            "        <!--Tab setting here-->\n" +
             "        \n" +
+            "        <!---->\n" +
+            "        <div class=\"wrapper\">\n" +
+            "            <div class=\"today\">\n" +
+            "                <div class=\"weatherInfo\">\n" +
+            "                    <div id=\"city\"></div>\n" +
+            "\n" +
+            "                    <div class=\"temperature-wrapper\">\n" +
+            "                        <div id=\"temperature\">\n" +
+            "                            <div class=\"temp\"></div>\n" +
+            "                            <div id=\"metrics\" data-icon=\"\"></div>\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "                <div class=\"weatherRight\">\n" +
+            "                    <div id=\"forecast\"></div>\n" +
+            "                    <div class=\"icon-wrapper\">\n" +
+            "                        <div id=\"weatherIcon\" data-icon=\"\"></div>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "            <div class=\"daily\">\n" +
+            "                <div class=\"low-high\">\n" +
+            "                    <div class=\"temperature-range\"></div>\n" +
+            "                </div>\n" +
+            "                <div class=\"currently\">\n" +
+            "                    <div class=\"low\">\n" +
+            "                        <div id=\"low\"></div><span>Low</span>\n" +
+            "                    </div>\n" +
+            "                    <div class=\"icon-wrapper\">\n" +
+            "                        <div>\n" +
+            "                            <div class=\"wind\" data-icon=\"\"></div>\n" +
+            "                            <div class=\"metric-text\">Wind</div>\n" +
+            "                        </div>\n" +
+            "                        <div class=\"metric-text\" id=\"wind-text\"></div>\n" +
+            "                    </div>\n" +
+            "                    <div class=\"icon-wrapper\">\n" +
+            "                        <div>\n" +
+            "                            <div class=\"rain\" data-icon=\"\"></div>\n" +
+            "                            <div class=\"metric-text\">Rain</div>\n" +
+            "                        </div>\n" +
+            "                        <div class=\"metric-text\" id=\"rain-text\"> </div>\n" +
+            "                    </div>\n" +
+            "                    <div class=\"icon-wrapper\">\n" +
+            "                        <div>\n" +
+            "                            <div class=\"humi\" data-icon=\"\"></div>\n" +
+            "                            <div class=\"metric-text\">Humidity</div>\n" +
+            "                        </div>\n" +
+            "                        <div class=\"metric-text\" id=\"humi-text\"></div>\n" +
+            "                    </div>\n" +
+            "                    <div class=\"high\">\n" +
+            "                        <div id=\"high\"></div><span>High</span>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "            <div class=\"week\">\n" +
+            "                <div class=\"day\">\n" +
+            "                    <div class=\"day-desc\">Mon</div>\n" +
+            "                    <div class=\"day-icon\" data-icon=\"\"></div>\n" +
+            "                    <div class=\"day-low-high\"></div>\n" +
+            "                </div>\n" +
+            "                <div class=\"day\">\n" +
+            "                    <div class=\"day-desc\">Tue</div>\n" +
+            "                    <div class=\"day-icon\" data-icon=\"\"></div>\n" +
+            "                    <div class=\"day-low-high\"></div>\n" +
+            "                </div>\n" +
+            "                <div class=\"day\">\n" +
+            "                    <div class=\"day-desc\">Wed</div>\n" +
+            "                    <div class=\"day-icon\" data-icon=\"\"></div>\n" +
+            "                    <div class=\"day-low-high\"></div>\n" +
+            "                </div>\n" +
+            "                <div class=\"day\">\n" +
+            "                    <div class=\"day-desc\">Thu</div>\n" +
+            "                    <div class=\"day-icon\" data-icon=\"\"></div>\n" +
+            "                    <div class=\"day-low-high\"></div>\n" +
+            "                </div>\n" +
+            "                <div class=\"day\">\n" +
+            "                    <div class=\"day-desc\">Fri</div>\n" +
+            "                    <div class=\"day-icon\" data-icon=\"\"></div>\n" +
+            "                    <div class=\"day-low-high\"></div>\n" +
+            "                </div>\n" +
+            "                <div class=\"day\">\n" +
+            "                    <div class=\"day-desc\">Sat</div>\n" +
+            "                    <div class=\"day-icon\" data-icon=\"\"></div>\n" +
+            "                    <div class=\"day-low-high\"></div>\n" +
+            "                </div>\n" +
+            "                <div class=\"day\">\n" +
+            "                    <div class=\"day-desc\">Sun</div>\n" +
+            "                    <div class=\"day-icon\" data-icon=\"\"></div>\n" +
+            "                    <div class=\"day-low-high\"></div>\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "\n" +
+            "        </div>\n" +
             "    </div>\n" +
             "    <script src=\"http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js\"></script>\n" +
             "    <script src=\"http://cdn.tinymce.com/4/tinymce.min.js\"></script>\n" +
@@ -2523,7 +3045,7 @@ module.exports = {
             "            margin-left: 25px;\n" +
             "            height: auto;\n" +
             "            margin-top: 100px;\n" +
-            "            background-image: url(\"../../img/scotland.jpg\");\n" +
+            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
             "            background-size: cover;\n" +
             "        }\n" +
             "    </style>\n" +
