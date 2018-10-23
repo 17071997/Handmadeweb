@@ -1001,10 +1001,28 @@ module.exports = {
         res.send(code);
     },
     EditorPageRender : function (req,res) {
-        let code = "<!DOCTYPE html>\n" +
+        let code = "\n" +
+            "<!DOCTYPE html>\n" +
             "<html lang=\"en\">\n" +
             "<head>\n" +
             "    <meta charset=\"UTF-8\">\n" +
+            "    <meta charset=\"utf-8\">\n" +
+            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
+            "    <link href=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css\" rel=\"stylesheet\">\n" +
+            "    <link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\n" +
+            "    <style>\n" +
+            "        .container {\n" +
+            "            max-width: 900px;\n" +
+            "            margin-top: 50px;\n" +
+            "            margin-left: 50px;\n" +
+            "            background: #FFFFFF;\n" +
+            "            -webkit-border-radius: 30px;\n" +
+            "            -moz-border-radius: 30px;\n" +
+            "            border-radius: 30px;\n" +
+            "            padding: 10px;\n" +
+            "            float: left;\n" +
+            "        }\n" +
+            "    </style>\n" +
             "    <title>Happy writting</title>\n" +
             "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
             "    <style type=\"text/css\">\n" +
@@ -1314,7 +1332,6 @@ module.exports = {
             "    </div>\n" +
             "    <div class=\"rendered\">\n" +
             "        <!-- views/partials/editor.ejs -->\n" +
-            "\n" +
             "        <label>\n" +
             "        <textarea>\n" +
             "            <h1 style=\"text-align: center;\">Welcome to this editor demo!</h1>\n" +
@@ -1352,6 +1369,131 @@ module.exports = {
             "        </textarea>\n" +
             "        </label>\n" +
             "    </div>\n" +
+            "    <h1 style=\"margin-top: 20px;\">Hoặc có thể bạn muốn up video ! :))</h1>\n" +
+            "    <!--Upload video field-->\n" +
+            "    <div class=\"container\">\n" +
+            "        <div class=\"section\">\n" +
+            "            <div class=\"row\">\n" +
+            "                <div class=\"col s12\">\n" +
+            "                    <h4 class=\"center light-blue-text\">Đăng video</h4>\n" +
+            "                    <p class=\"center\" style=\"font-size: 20px;\">Tải video trực tiếp lên channel</p>\n" +
+            "                </div>\n" +
+            "            </div>\n" +
+            "        </div>\n" +
+            "        <div class=\"row\">\n" +
+            "            <form class=\"col s12\" action=\"Dangbai\" method=\"post\" id=\"uploadForm\" enctype=\"multipart/form-data\">\n" +
+            "                <div class=\"row\">\n" +
+            "                    <div class=\"input-field col m6 s12\">\n" +
+            "                        <input id=\"video_title\" type=\"text\" class=\"validate\" name=\"video_title\">\n" +
+            "                        <label for=\"video_title\">Tựa đề video</label>\n" +
+            "                    </div>\n" +
+            "                    <div class=\"input-field col m6 s12\">\n" +
+            "                        <input id=\"video_tags\" type=\"text\" class=\"validate\" name=\"video_tags\">\n" +
+            "                        <label for=\"video_tags\">Gắn thẻ video</label>\n" +
+            "                    </div>\n" +
+            "                    <div class=\"input-field col s12\">\n" +
+            "                        <input id=\"video_description\" type=\"text\" class=\"validate\" name=\"video_description\">\n" +
+            "                        <label for=\"video_description\">Mô tả video</label>\n" +
+            "                    </div>\n" +
+            "                    <div class=\"input-field col m6 s12\">\n" +
+            "                        <select id=\"video_category\">\n" +
+            "                            <option value=\"\" disabled selected>Chọn loại video</option>\n" +
+            "                            <option value=\"1\">Trang trí</option>\n" +
+            "                            <option value=\"2\">Món ăn</option>\n" +
+            "                            <option value=\"10\">Làm nhà</option>\n" +
+            "                            <option value=\"15\">Gấp giấy origami</option>\n" +
+            "                        </select>\n" +
+            "                    </div>\n" +
+            "\n" +
+            "                    <div class=\"file-field input-field col s12\">\n" +
+            "                        <div class=\"btn\">\n" +
+            "                            <span>Video</span>\n" +
+            "                            <input type=\"file\" accept=\"video/*\" id=\"fileupload\" name=\"fileupload\">\n" +
+            "                        </div>\n" +
+            "                        <div class=\"file-path-wrapper\">\n" +
+            "                            <input class=\"file-path validate\" type=\"text\" placeholder=\"Click to select and upload any video file\">\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "\n" +
+            "                    <div class=\"input-field col s12\">\n" +
+            "                        <input id=\"video_path\" type=\"text\" class=\"validate\" name=\"video_path\" placeholder=\"Đường dẫn video\" />\n" +
+            "                    </div>\n" +
+            "\n" +
+            "                    <div class=\"input-field col m4 s12\">\n" +
+            "                        <input type=\"submit\" class=\"waves-effect waves-light btn-large\" value=\"Upload Video\" name=\"submit\"/>\n" +
+            "                    </div>\n" +
+            "\n" +
+            "                    <div class=\"input-field col m8 s12\">\n" +
+            "                        <p class=\"left-align\">\n" +
+            "                            <span id=\"message\"></span>\n" +
+            "                            <span id=\"progress\" style=\"display:none\">\n" +
+            "                                <span id=\"percent-transferred\"></span>% done (<span id=\"bytes-transferred\"></span>/<span id=\"total-bytes\"></span> KB)\n" +
+            "                            </span>\n" +
+            "                        </p>\n" +
+            "                    </div>\n" +
+            "                </div>\n" +
+            "            </form>\n" +
+            "        </div>\n" +
+            "    </div>\n" +
+            "    <!--video player-->\n" +
+            "    <video height=\"540\" width=\"690\" controls style=\"float: left;margin-top: 50px;margin-left: 50px;\" id=\"clip\" >\n" +
+            "        <source src=\"\" type=\"video/mp4\">\n" +
+            "        <source src=\"\" type=\"video/ogg\">\n" +
+            "        Your browser does not support the video tag\n" +
+            "    </video>\n" +
+            "    <!--******************************************************************************************************************-->\n" +
+            "    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js\"></script>\n" +
+            "    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js\"></script>\n" +
+            "\n" +
+            "    <script>\n" +
+            "        fileupload.onchange = function(){\n" +
+            "            let clip = document.getElementById('clip');\n" +
+            "            let reader = new FileReader();\n" +
+            "            reader.onload = function (e) {\n" +
+            "                clip.src = this.result;\n" +
+            "                clip.controls = true;\n" +
+            "                clip.play();\n" +
+            "            };\n" +
+            "            reader.readAsDataURL(this.files[0]);\n" +
+            "            let filename = document.getElementById(\"fileupload\").files[0].name;\n" +
+            "            document.getElementById('video_path').value = filename;//document.getElementById(\"fileupload\").name;\n" +
+            "        };\n" +
+            "\n" +
+            "        let $message,\n" +
+            "            $progress,\n" +
+            "            $btn;\n" +
+            "\n" +
+            "        function toggleUpload(status) {\n" +
+            "            if (status)\n" +
+            "                $btn.removeClass(\"disabled\");\n" +
+            "            else\n" +
+            "                $btn.addClass(\"disabled\");\n" +
+            "        }\n" +
+            "\n" +
+            "        $(document).ready(function() {\n" +
+            "            $('select').material_select();\n" +
+            "            $progress = $('#progress');\n" +
+            "            $btn = $('#btnUpload');\n" +
+            "        });\n" +
+            "\n" +
+            "        function uploadVideo() {\n" +
+            "            hideProgress();\n" +
+            "            $message.html(\"Uploading video, please wait..\");\n" +
+            "            let uploadVideo = new UploadVideo();\n" +
+            "            uploadFile($('#file').get(0).files[0]);\n" +
+            "        }\n" +
+            "\n" +
+            "        function hideProgress() {\n" +
+            "            $progress.hide();\n" +
+            "        }\n" +
+            "\n" +
+            "        function showProgress() {\n" +
+            "            $message.html(\"\");\n" +
+            "            $progress.show();\n" +
+            "        }\n" +
+            "\n" +
+            "    </script>\n" +
+            "    <!--*********************************************************************************************************************************-->\n" +
             "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
             "    <script src='http://cdn.tinymce.com/4/tinymce.min.js'></script>\n" +
             "    <script>\n" +
