@@ -1,4 +1,3 @@
-
 module.exports = {
     PostedRender : function (req,res) {
         let code = "<!DOCTYPE html>\n" +
@@ -1002,6 +1001,7 @@ module.exports = {
     },
     EditorPageRender : function (req,res) {
         let code = "\n" +
+            "\n" +
             "<!DOCTYPE html>\n" +
             "<html lang=\"en\">\n" +
             "<head>\n" +
@@ -1012,15 +1012,298 @@ module.exports = {
             "    <link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\n" +
             "    <style>\n" +
             "        .container {\n" +
-            "            max-width: 900px;\n" +
+            "            max-width: 1400px;\n" +
             "            margin-top: 50px;\n" +
-            "            margin-left: 50px;\n" +
+            "            margin-left: 200px;\n" +
             "            background: #FFFFFF;\n" +
             "            -webkit-border-radius: 30px;\n" +
             "            -moz-border-radius: 30px;\n" +
             "            border-radius: 30px;\n" +
-            "            padding: 10px;\n" +
+            "            padding: 20px;\n" +
             "            float: left;\n" +
+            "        }\n" +
+            "        div.cs-select {\n" +
+            "            position: relative;\n" +
+            "            z-index: 100;\n" +
+            "            display: inline-block;\n" +
+            "            width: 100%;\n" +
+            "            max-width: 500px;\n" +
+            "            -webkit-user-select: none;\n" +
+            "            -moz-user-select: none;\n" +
+            "            -ms-user-select: none;\n" +
+            "            user-select: none;\n" +
+            "            text-align: left;\n" +
+            "            vertical-align: middle;\n" +
+            "            background: #fff;\n" +
+            "            -webkit-touch-callout: none;\n" +
+            "            -khtml-user-select: none;\n" +
+            "        }\n" +
+            "\n" +
+            "        div.cs-select:focus {\n" +
+            "            outline: none;\n" +
+            "            /* For better accessibility add a style for this in your skin */\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-select select {\n" +
+            "            display: none;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-select span {\n" +
+            "            position: relative;\n" +
+            "            display: block;\n" +
+            "            overflow: hidden;\n" +
+            "            padding: 1em;\n" +
+            "            cursor: pointer;\n" +
+            "            white-space: nowrap;\n" +
+            "            text-overflow: ellipsis;\n" +
+            "        }\n" +
+            "        /* Placeholder and selected option */\n" +
+            "\n" +
+            "        .cs-select > span {\n" +
+            "            padding-right: 3em;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-select > span::after,\n" +
+            "        .cs-select .cs-selected span::after {\n" +
+            "            position: absolute;\n" +
+            "            top: 50%;\n" +
+            "            -webkit-transform: translateY(-50%);\n" +
+            "            transform: translateY(-50%);\n" +
+            "            speak: none;\n" +
+            "            -webkit-font-smoothing: antialiased;\n" +
+            "            -moz-osx-font-smoothing: grayscale;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-select > span::after {\n" +
+            "            right: 1em;\n" +
+            "            content: '\\25BE';\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-select .cs-selected span::after {\n" +
+            "            margin-left: 1em;\n" +
+            "            content: '\\2713';\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-select.cs-active > span::after {\n" +
+            "            -webkit-transform: translateY(-50%) rotate(180deg);\n" +
+            "            transform: translateY(-50%) rotate(180deg);\n" +
+            "        }\n" +
+            "\n" +
+            "        div.cs-active {\n" +
+            "            z-index: 200;\n" +
+            "        }\n" +
+            "        /* Options */\n" +
+            "\n" +
+            "        .cs-select .cs-options {\n" +
+            "            position: absolute;\n" +
+            "            visibility: hidden;\n" +
+            "            overflow: hidden;\n" +
+            "            width: 100%;\n" +
+            "            background: #fff;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-select.cs-active .cs-options {\n" +
+            "            visibility: visible;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-select ul {\n" +
+            "            width: 100%;\n" +
+            "            margin: 0;\n" +
+            "            padding: 0;\n" +
+            "            list-style: none;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-select ul span {\n" +
+            "            padding: 1em;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-select ul li.cs-focus span {\n" +
+            "            background-color: #ddd;\n" +
+            "        }\n" +
+            "        /* Optgroup and optgroup label */\n" +
+            "\n" +
+            "        .cs-select li.cs-optgroup ul {\n" +
+            "            padding-left: 1em;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-select li.cs-optgroup > span {\n" +
+            "            cursor: default;\n" +
+            "        }\n" +
+            "\n" +
+            "        div.cs-skin-elastic {\n" +
+            "            font-size: 1.5em;\n" +
+            "            font-weight: 700;\n" +
+            "            color: #5b8583;\n" +
+            "            background: transparent;\n" +
+            "        }\n" +
+            "\n" +
+            "        @media screen and (max-width: 30em) {\n" +
+            "            div.cs-skin-elastic {\n" +
+            "                font-size: 1em;\n" +
+            "            }\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-skin-elastic > span {\n" +
+            "            z-index: 100;\n" +
+            "            background-color: #fff;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-skin-elastic .cs-options {\n" +
+            "            visibility: visible;\n" +
+            "            overflow: visible;\n" +
+            "            padding-bottom: 1.25em;\n" +
+            "            pointer-events: none;\n" +
+            "            opacity: 1;\n" +
+            "            background: transparent;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-skin-elastic.cs-active .cs-options {\n" +
+            "            pointer-events: auto;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-skin-elastic .cs-options > ul::before {\n" +
+            "            position: absolute;\n" +
+            "            top: 0;\n" +
+            "            left: 0;\n" +
+            "            width: 100%;\n" +
+            "            height: 100%;\n" +
+            "            content: '';\n" +
+            "            -webkit-transition: -webkit-transform .3s;\n" +
+            "            transition: transform .3s;\n" +
+            "            -webkit-transform: scale3d(1, 0, 1);\n" +
+            "            transform: scale3d(1, 0, 1);\n" +
+            "            -webkit-transform-origin: 50% 0;\n" +
+            "            transform-origin: 50% 0;\n" +
+            "            background: #fff;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-skin-elastic.cs-active .cs-options > ul::before {\n" +
+            "            -webkit-transition: none;\n" +
+            "            transition: none;\n" +
+            "            -webkit-transform: scale3d(1, 1, 1);\n" +
+            "            transform: scale3d(1, 1, 1);\n" +
+            "            -webkit-animation: expand .6s ease-out;\n" +
+            "            animation: expand .6s ease-out;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-skin-elastic .cs-options ul li {\n" +
+            "            -webkit-transition: opacity .15s, -webkit-transform .15s;\n" +
+            "            transition: opacity .15s, transform .15s;\n" +
+            "            -webkit-transform: translate3d(0, -25px, 0);\n" +
+            "            transform: translate3d(0, -25px, 0);\n" +
+            "            opacity: 0;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-skin-elastic.cs-active .cs-options ul li {\n" +
+            "            -webkit-transition: none;\n" +
+            "            transition: none;\n" +
+            "            -webkit-transform: translate3d(0, 0, 0);\n" +
+            "            transform: translate3d(0, 0, 0);\n" +
+            "            -webkit-animation: bounce .6s ease-out;\n" +
+            "            animation: bounce .6s ease-out;\n" +
+            "            opacity: 1;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-skin-elastic .cs-options span {\n" +
+            "            background-repeat: no-repeat;\n" +
+            "            background-position: 1.5em 50%;\n" +
+            "            background-size: 2em auto;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-skin-elastic .cs-options span:hover,\n" +
+            "        .cs-skin-elastic .cs-options li.cs-focus span,\n" +
+            "        .cs-skin-elastic .cs-options .cs-selected span {\n" +
+            "            color: #1e4c4a;\n" +
+            "        }\n" +
+            "\n" +
+            "        .cs-skin-elastic .cs-options .cs-selected span::after {\n" +
+            "            content: '';\n" +
+            "        }\n" +
+            "\n" +
+            "        @-webkit-keyframes expand {\n" +
+            "            0% {\n" +
+            "                -webkit-transform: scale3d(1, 0, 1);\n" +
+            "            }\n" +
+            "            25% {\n" +
+            "                -webkit-transform: scale3d(1, 1.2, 1);\n" +
+            "            }\n" +
+            "            50% {\n" +
+            "                -webkit-transform: scale3d(1, .85, 1);\n" +
+            "            }\n" +
+            "            75% {\n" +
+            "                -webkit-transform: scale3d(1, 1.05, 1);\n" +
+            "            }\n" +
+            "            100% {\n" +
+            "                -webkit-transform: scale3d(1, 1, 1);\n" +
+            "            }\n" +
+            "        }\n" +
+            "\n" +
+            "        @keyframes expand {\n" +
+            "            0% {\n" +
+            "                -webkit-transform: scale3d(1, 0, 1);\n" +
+            "                transform: scale3d(1, 0, 1);\n" +
+            "            }\n" +
+            "            25% {\n" +
+            "                -webkit-transform: scale3d(1, 1.2, 1);\n" +
+            "                transform: scale3d(1, 1.2, 1);\n" +
+            "            }\n" +
+            "            50% {\n" +
+            "                -webkit-transform: scale3d(1, .85, 1);\n" +
+            "                transform: scale3d(1, .85, 1);\n" +
+            "            }\n" +
+            "            75% {\n" +
+            "                -webkit-transform: scale3d(1, 1.05, 1);\n" +
+            "                transform: scale3d(1, 1.05, 1);\n" +
+            "            }\n" +
+            "            100% {\n" +
+            "                -webkit-transform: scale3d(1, 1, 1);\n" +
+            "                transform: scale3d(1, 1, 1);\n" +
+            "            }\n" +
+            "        }\n" +
+            "\n" +
+            "        @-webkit-keyframes bounce {\n" +
+            "            0% {\n" +
+            "                -webkit-transform: translate3d(0, -25px, 0);\n" +
+            "                opacity: 0;\n" +
+            "            }\n" +
+            "            25% {\n" +
+            "                -webkit-transform: translate3d(0, 10px, 0);\n" +
+            "            }\n" +
+            "            50% {\n" +
+            "                -webkit-transform: translate3d(0, -6px, 0);\n" +
+            "            }\n" +
+            "            75% {\n" +
+            "                -webkit-transform: translate3d(0, 2px, 0);\n" +
+            "            }\n" +
+            "            100% {\n" +
+            "                -webkit-transform: translate3d(0, 0, 0);\n" +
+            "                opacity: 1;\n" +
+            "            }\n" +
+            "        }\n" +
+            "\n" +
+            "        @keyframes bounce {\n" +
+            "            0% {\n" +
+            "                -webkit-transform: translate3d(0, -25px, 0);\n" +
+            "                transform: translate3d(0, -25px, 0);\n" +
+            "                opacity: 0;\n" +
+            "            }\n" +
+            "            25% {\n" +
+            "                -webkit-transform: translate3d(0, 10px, 0);\n" +
+            "                transform: translate3d(0, 10px, 0);\n" +
+            "            }\n" +
+            "            50% {\n" +
+            "                -webkit-transform: translate3d(0, -6px, 0);\n" +
+            "                transform: translate3d(0, -6px, 0);\n" +
+            "            }\n" +
+            "            75% {\n" +
+            "                -webkit-transform: translate3d(0, 2px, 0);\n" +
+            "                transform: translate3d(0, 2px, 0);\n" +
+            "            }\n" +
+            "            100% {\n" +
+            "                -webkit-transform: translate3d(0, 0, 0);\n" +
+            "                transform: translate3d(0, 0, 0);\n" +
+            "                opacity: 1;\n" +
+            "            }\n" +
             "        }\n" +
             "    </style>\n" +
             "    <title>Happy writting</title>\n" +
@@ -1382,27 +1665,20 @@ module.exports = {
             "        </div>\n" +
             "        <div class=\"row\">\n" +
             "            <form class=\"col s12\" action=\"Dangbai\" method=\"post\" id=\"uploadForm\" enctype=\"multipart/form-data\">\n" +
+            "\n" +
             "                <div class=\"row\">\n" +
             "                    <div class=\"input-field col m6 s12\">\n" +
             "                        <input id=\"video_title\" type=\"text\" class=\"validate\" name=\"video_title\">\n" +
             "                        <label for=\"video_title\">Tựa đề video</label>\n" +
             "                    </div>\n" +
+            "\n" +
             "                    <div class=\"input-field col m6 s12\">\n" +
-            "                        <input id=\"video_tags\" type=\"text\" class=\"validate\" name=\"video_tags\">\n" +
-            "                        <label for=\"video_tags\">Gắn thẻ video</label>\n" +
+            "                        <input id=\"email\" type=\"email\" class=\"validate\" name=\"email\">\n" +
+            "                        <label for=\"email\">Email của bạn</label>\n" +
             "                    </div>\n" +
             "                    <div class=\"input-field col s12\">\n" +
             "                        <input id=\"video_description\" type=\"text\" class=\"validate\" name=\"video_description\">\n" +
             "                        <label for=\"video_description\">Mô tả video</label>\n" +
-            "                    </div>\n" +
-            "                    <div class=\"input-field col m6 s12\">\n" +
-            "                        <select id=\"video_category\">\n" +
-            "                            <option value=\"\" disabled selected>Chọn loại video</option>\n" +
-            "                            <option value=\"1\">Trang trí</option>\n" +
-            "                            <option value=\"2\">Món ăn</option>\n" +
-            "                            <option value=\"10\">Làm nhà</option>\n" +
-            "                            <option value=\"15\">Gấp giấy origami</option>\n" +
-            "                        </select>\n" +
             "                    </div>\n" +
             "\n" +
             "                    <div class=\"file-field input-field col s12\">\n" +
@@ -1411,12 +1687,38 @@ module.exports = {
             "                            <input type=\"file\" accept=\"video/*\" id=\"fileupload\" name=\"fileupload\">\n" +
             "                        </div>\n" +
             "                        <div class=\"file-path-wrapper\">\n" +
-            "                            <input class=\"file-path validate\" type=\"text\" placeholder=\"Click to select and upload any video file\">\n" +
+            "                            <input class=\"file-path validate\" type=\"text\" placeholder=\"Click để chọn file upload\">\n" +
+            "                        </div>\n" +
+            "                    </div>\n" +
+            "\n" +
+            "                    <div class=\"input-field col m6 s12\">\n" +
+            "                        <input id=\"video_path\" type=\"text\" class=\"validate\" name=\"video_path\" placeholder=\"Đường dẫn video\" />\n" +
+            "                    </div>\n" +
+            "\n" +
+            "                    <div class=\"input-field col m6 s12\">\n" +
+            "                        <label>\n" +
+            "                            <select class=\"cs-select cs-skin-elastic\" name=\"video_tags\">\n" +
+            "                                <option value=\"\" disabled selected>Chọn loại video</option>\n" +
+            "                                <option value=\"Origami\">Origami</option>\n" +
+            "                                <option value=\"Cook\">Nấu ăn</option>\n" +
+            "                                <option value=\"Model\">Mô hình nhà</option>\n" +
+            "                                <option value=\"Decorate\">Trang trí</option>\n" +
+            "                            </select>\n" +
+            "                        </label>\n" +
+            "                    </div>\n" +
+            "\n" +
+            "                    <div class=\"file-field input-field col s12\">\n" +
+            "                        <div class=\"btn\">\n" +
+            "                            <span>Ảnh đại diện</span>\n" +
+            "                            <input type=\"file\" accept=\"image/*\" id=\"imageupload\" name=\"imageupload\">\n" +
+            "                        </div>\n" +
+            "                        <div class=\"file-path-wrapper\">\n" +
+            "                            <input class=\"file-path validate\" type=\"text\" placeholder=\"Click để chọn file upload\">\n" +
             "                        </div>\n" +
             "                    </div>\n" +
             "\n" +
             "                    <div class=\"input-field col s12\">\n" +
-            "                        <input id=\"video_path\" type=\"text\" class=\"validate\" name=\"video_path\" placeholder=\"Đường dẫn video\" />\n" +
+            "                        <input id=\"image_path\" type=\"text\" class=\"validate\" name=\"image_path\" placeholder=\"Đường dẫn hình ảnh\" />\n" +
             "                    </div>\n" +
             "\n" +
             "                    <div class=\"input-field col m4 s12\">\n" +
@@ -1433,10 +1735,11 @@ module.exports = {
             "                    </div>\n" +
             "                </div>\n" +
             "            </form>\n" +
+            "            <div></div>\n" +
             "        </div>\n" +
             "    </div>\n" +
             "    <!--video player-->\n" +
-            "    <video height=\"540\" width=\"690\" controls style=\"float: left;margin-top: 50px;margin-left: 50px;\" id=\"clip\" >\n" +
+            "    <video height=\"540\" width=\"1480\" controls style=\"float: left;margin-top: 50px;margin-left: 50px;\" id=\"clip\" >\n" +
             "        <source src=\"\" type=\"video/mp4\">\n" +
             "        <source src=\"\" type=\"video/ogg\">\n" +
             "        Your browser does not support the video tag\n" +
@@ -1457,6 +1760,11 @@ module.exports = {
             "            reader.readAsDataURL(this.files[0]);\n" +
             "            let filename = document.getElementById(\"fileupload\").files[0].name;\n" +
             "            document.getElementById('video_path').value = filename;//document.getElementById(\"fileupload\").name;\n" +
+            "        };\n" +
+            "\n" +
+            "        imageupload.onchange = function(){\n" +
+            "            let imagename = document.getElementById(\"imageupload\").files[0].name;\n" +
+            "            document.getElementById('image_path').value = imagename;//document.getElementById(\"fileupload\").name;\n" +
             "        };\n" +
             "\n" +
             "        let $message,\n" +
@@ -1492,6 +1800,144 @@ module.exports = {
             "            $progress.show();\n" +
             "        }\n" +
             "\n" +
+            "    </script>\n" +
+            "\n" +
+            "    <script>\n" +
+            "        ! function(e) {\n" +
+            "            \"use strict\";\n" +
+            "\n" +
+            "            function t(e) {\n" +
+            "                return new RegExp(\"(^|\\\\s+)\" + e + \"(\\\\s+|$)\")\n" +
+            "            }\n" +
+            "\n" +
+            "            function s(e, t) {\n" +
+            "                var s = l(e, t) ? i : n;\n" +
+            "                s(e, t)\n" +
+            "            }\n" +
+            "            var l, n, i;\n" +
+            "            \"classList\" in document.documentElement ? (l = function(e, t) {\n" +
+            "                return e.classList.contains(t)\n" +
+            "            }, n = function(e, t) {\n" +
+            "                e.classList.add(t)\n" +
+            "            }, i = function(e, t) {\n" +
+            "                e.classList.remove(t)\n" +
+            "            }) : (l = function(e, s) {\n" +
+            "                return t(s).test(e.className)\n" +
+            "            }, n = function(e, t) {\n" +
+            "                l(e, t) || (e.className = e.className + \" \" + t)\n" +
+            "            }, i = function(e, s) {\n" +
+            "                e.className = e.className.replace(t(s), \" \")\n" +
+            "            });\n" +
+            "            var c = {\n" +
+            "                hasClass: l,\n" +
+            "                addClass: n,\n" +
+            "                removeClass: i,\n" +
+            "                toggleClass: s,\n" +
+            "                has: l,\n" +
+            "                add: n,\n" +
+            "                remove: i,\n" +
+            "                toggle: s\n" +
+            "            };\n" +
+            "            \"function\" == typeof define && define.amd ? define(c) : e.classie = c\n" +
+            "        }(window),\n" +
+            "            function(e) {\n" +
+            "                \"use strict\";\n" +
+            "\n" +
+            "                function t(e, t) {\n" +
+            "                    if (!e) return !1;\n" +
+            "                    for (var s = e.target || e.srcElement || e || !1; s && s != t;) s = s.parentNode || !1;\n" +
+            "                    return s !== !1\n" +
+            "                }\n" +
+            "\n" +
+            "                function s(e, t) {\n" +
+            "                    for (var s in t) t.hasOwnProperty(s) && (e[s] = t[s]);\n" +
+            "                    return e\n" +
+            "                }\n" +
+            "\n" +
+            "                function l(e, t) {\n" +
+            "                    this.el = e, this.options = s({}, this.options), s(this.options, t), this._init()\n" +
+            "                }\n" +
+            "                l.prototype.options = {\n" +
+            "                    newTab: !0,\n" +
+            "                    stickyPlaceholder: !0,\n" +
+            "                    onChange: function() {\n" +
+            "                        return !1\n" +
+            "                    }\n" +
+            "                }, l.prototype._init = function() {\n" +
+            "                    var e = this.el.querySelector(\"option[selected]\");\n" +
+            "                    this.hasDefaultPlaceholder = e && e.disabled, this.selectedOpt = e || this.el.querySelector(\"option\"), this._createSelectEl(), this.selOpts = [].slice.call(this.selEl.querySelectorAll(\"li[data-option]\")), this.selOptsCount = this.selOpts.length, this.current = this.selOpts.indexOf(this.selEl.querySelector(\"li.cs-selected\")) || -1, this.selPlaceholder = this.selEl.querySelector(\"span.cs-placeholder\"), this._initEvents()\n" +
+            "                }, l.prototype._createSelectEl = function() {\n" +
+            "                    var e = \"\",\n" +
+            "                        t = function(e) {\n" +
+            "                            var t = \"\",\n" +
+            "                                s = \"\",\n" +
+            "                                l = \"\";\n" +
+            "                            return !e.selectedOpt || this.foundSelected || this.hasDefaultPlaceholder || (s += \"cs-selected \", this.foundSelected = !0), e.getAttribute(\"data-class\") && (s += e.getAttribute(\"data-class\")), e.getAttribute(\"data-link\") && (l = \"data-link=\" + e.getAttribute(\"data-link\")), \"\" !== s && (t = 'class=\"' + s + '\" '), \"<li \" + t + l + ' data-option data-value=\"' + e.value + '\"><span>' + e.textContent + \"</span></li>\"\n" +
+            "                        };\n" +
+            "                    [].slice.call(this.el.children).forEach(function(s) {\n" +
+            "                        if (!s.disabled) {\n" +
+            "                            var l = s.tagName.toLowerCase();\n" +
+            "                            \"option\" === l ? e += t(s) : \"optgroup\" === l && (e += '<li class=\"cs-optgroup\"><span>' + s.label + \"</span><ul>\", [].slice.call(s.children).forEach(function(s) {\n" +
+            "                                e += t(s)\n" +
+            "                            }), e += \"</ul></li>\")\n" +
+            "                        }\n" +
+            "                    });\n" +
+            "                    var s = '<div class=\"cs-options\"><ul>' + e + \"</ul></div>\";\n" +
+            "                    this.selEl = document.createElement(\"div\"), this.selEl.className = this.el.className, this.selEl.tabIndex = this.el.tabIndex, this.selEl.innerHTML = '<span class=\"cs-placeholder\">' + this.selectedOpt.textContent + \"</span>\" + s, this.el.parentNode.appendChild(this.selEl), this.selEl.appendChild(this.el)\n" +
+            "                }, l.prototype._initEvents = function() {\n" +
+            "                    var e = this;\n" +
+            "                    this.selPlaceholder.addEventListener(\"click\", function() {\n" +
+            "                        e._toggleSelect()\n" +
+            "                    }), this.selOpts.forEach(function(t, s) {\n" +
+            "                        t.addEventListener(\"click\", function() {\n" +
+            "                            e.current = s, e._changeOption(), e._toggleSelect()\n" +
+            "                        })\n" +
+            "                    }), document.addEventListener(\"click\", function(s) {\n" +
+            "                        var l = s.target;\n" +
+            "                        e._isOpen() && l !== e.selEl && !t(l, e.selEl) && e._toggleSelect()\n" +
+            "                    }), this.selEl.addEventListener(\"keydown\", function(t) {\n" +
+            "                        var s = t.keyCode || t.which;\n" +
+            "                        switch (s) {\n" +
+            "                            case 38:\n" +
+            "                                t.preventDefault(), e._navigateOpts(\"prev\");\n" +
+            "                                break;\n" +
+            "                            case 40:\n" +
+            "                                t.preventDefault(), e._navigateOpts(\"next\");\n" +
+            "                                break;\n" +
+            "                            case 32:\n" +
+            "                                t.preventDefault(), e._isOpen() && \"undefined\" != typeof e.preSelCurrent && -1 !== e.preSelCurrent && e._changeOption(), e._toggleSelect();\n" +
+            "                                break;\n" +
+            "                            case 13:\n" +
+            "                                t.preventDefault(), e._isOpen() && \"undefined\" != typeof e.preSelCurrent && -1 !== e.preSelCurrent && (e._changeOption(), e._toggleSelect());\n" +
+            "                                break;\n" +
+            "                            case 27:\n" +
+            "                                t.preventDefault(), e._isOpen() && e._toggleSelect()\n" +
+            "                        }\n" +
+            "                    })\n" +
+            "                }, l.prototype._navigateOpts = function(e) {\n" +
+            "                    this._isOpen() || this._toggleSelect();\n" +
+            "                    var t = \"undefined\" != typeof this.preSelCurrent && -1 !== this.preSelCurrent ? this.preSelCurrent : this.current;\n" +
+            "                    (\"prev\" === e && t > 0 || \"next\" === e && t < this.selOptsCount - 1) && (this.preSelCurrent = \"next\" === e ? t + 1 : t - 1, this._removeFocus(), classie.add(this.selOpts[this.preSelCurrent], \"cs-focus\"))\n" +
+            "                }, l.prototype._toggleSelect = function() {\n" +
+            "                    this._removeFocus(), this._isOpen() ? (-1 !== this.current && (this.selPlaceholder.textContent = this.selOpts[this.current].textContent), classie.remove(this.selEl, \"cs-active\")) : (this.hasDefaultPlaceholder && this.options.stickyPlaceholder && (this.selPlaceholder.textContent = this.selectedOpt.textContent), classie.add(this.selEl, \"cs-active\"))\n" +
+            "                }, l.prototype._changeOption = function() {\n" +
+            "                    \"undefined\" != typeof this.preSelCurrent && -1 !== this.preSelCurrent && (this.current = this.preSelCurrent, this.preSelCurrent = -1);\n" +
+            "                    var t = this.selOpts[this.current];\n" +
+            "                    this.selPlaceholder.textContent = t.textContent, this.el.value = t.getAttribute(\"data-value\");\n" +
+            "                    var s = this.selEl.querySelector(\"li.cs-selected\");\n" +
+            "                    s && classie.remove(s, \"cs-selected\"), classie.add(t, \"cs-selected\"), t.getAttribute(\"data-link\") && (this.options.newTab ? e.open(t.getAttribute(\"data-link\"), \"_blank\") : e.location = t.getAttribute(\"data-link\")), this.options.onChange(this.el.value)\n" +
+            "                }, l.prototype._isOpen = function() {\n" +
+            "                    return classie.has(this.selEl, \"cs-active\")\n" +
+            "                }, l.prototype._removeFocus = function() {\n" +
+            "                    var e = this.selEl.querySelector(\"li.cs-focus\");\n" +
+            "                    e && classie.remove(e, \"cs-focus\")\n" +
+            "                }, e.SelectFx = l\n" +
+            "            }(window),\n" +
+            "            function() {\n" +
+            "                [].slice.call(document.querySelectorAll(\"select.cs-select\")).forEach(function(e) {\n" +
+            "                    new SelectFx(e)\n" +
+            "                })\n" +
+            "            }();\n" +
             "    </script>\n" +
             "    <!--*********************************************************************************************************************************-->\n" +
             "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +

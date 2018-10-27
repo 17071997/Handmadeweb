@@ -19,7 +19,7 @@
     "mongodb": "^3.1.8",
     "mongoose": "^5.3.2",
     "morgan": "^1.9.1",
-    "multer": "^1.4.0",
+    "multer": "^1.4.1",
     "node-fetch": "^2.2.0",
     "path": "^0.12.7",
     "querystring": "^0.2.0",
