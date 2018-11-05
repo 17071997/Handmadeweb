@@ -1,961 +1,494 @@
-
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
+
 <head>
     <meta charset="UTF-8">
-    <meta charset="utf-8">
+    <title>Home Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <style>
-        .container {
-            max-width: 1400px;
-            margin-top: 50px;
-            margin-left: 200px;
-            background: #FFFFFF;
-            -webkit-border-radius: 30px;
-            -moz-border-radius: 30px;
-            border-radius: 30px;
-            padding: 20px;
-            float: left;
-        }
-        div.cs-select {
-            position: relative;
-            z-index: 100;
-            display: inline-block;
-            width: 100%;
-            max-width: 500px;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            text-align: left;
-            vertical-align: middle;
-            background: #fff;
-            -webkit-touch-callout: none;
-            -khtml-user-select: none;
-        }
-
-        div.cs-select:focus {
-            outline: none;
-            /* For better accessibility add a style for this in your skin */
-        }
-
-        .cs-select select {
-            display: none;
-        }
-
-        .cs-select span {
-            position: relative;
-            display: block;
-            overflow: hidden;
-            padding: 1em;
-            cursor: pointer;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-        /* Placeholder and selected option */
-
-        .cs-select > span {
-            padding-right: 3em;
-        }
-
-        .cs-select > span::after,
-        .cs-select .cs-selected span::after {
-            position: absolute;
-            top: 50%;
-            -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
-            speak: none;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        .cs-select > span::after {
-            right: 1em;
-            content: '\25BE';
-        }
-
-        .cs-select .cs-selected span::after {
-            margin-left: 1em;
-            content: '\2713';
-        }
-
-        .cs-select.cs-active > span::after {
-            -webkit-transform: translateY(-50%) rotate(180deg);
-            transform: translateY(-50%) rotate(180deg);
-        }
-
-        div.cs-active {
-            z-index: 200;
-        }
-        /* Options */
-
-        .cs-select .cs-options {
-            position: absolute;
-            visibility: hidden;
-            overflow: hidden;
-            width: 100%;
-            background: #fff;
-        }
-
-        .cs-select.cs-active .cs-options {
-            visibility: visible;
-        }
-
-        .cs-select ul {
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        .cs-select ul span {
-            padding: 1em;
-        }
-
-        .cs-select ul li.cs-focus span {
-            background-color: #ddd;
-        }
-        /* Optgroup and optgroup label */
-
-        .cs-select li.cs-optgroup ul {
-            padding-left: 1em;
-        }
-
-        .cs-select li.cs-optgroup > span {
-            cursor: default;
-        }
-
-        div.cs-skin-elastic {
-            font-size: 1.5em;
-            font-weight: 700;
-            color: #5b8583;
-            background: transparent;
-        }
-
-        @media screen and (max-width: 30em) {
-            div.cs-skin-elastic {
-                font-size: 1em;
-            }
-        }
-
-        .cs-skin-elastic > span {
-            z-index: 100;
-            background-color: #fff;
-        }
-
-        .cs-skin-elastic .cs-options {
-            visibility: visible;
-            overflow: visible;
-            padding-bottom: 1.25em;
-            pointer-events: none;
-            opacity: 1;
-            background: transparent;
-        }
-
-        .cs-skin-elastic.cs-active .cs-options {
-            pointer-events: auto;
-        }
-
-        .cs-skin-elastic .cs-options > ul::before {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            content: '';
-            -webkit-transition: -webkit-transform .3s;
-            transition: transform .3s;
-            -webkit-transform: scale3d(1, 0, 1);
-            transform: scale3d(1, 0, 1);
-            -webkit-transform-origin: 50% 0;
-            transform-origin: 50% 0;
-            background: #fff;
-        }
-
-        .cs-skin-elastic.cs-active .cs-options > ul::before {
-            -webkit-transition: none;
-            transition: none;
-            -webkit-transform: scale3d(1, 1, 1);
-            transform: scale3d(1, 1, 1);
-            -webkit-animation: expand .6s ease-out;
-            animation: expand .6s ease-out;
-        }
-
-        .cs-skin-elastic .cs-options ul li {
-            -webkit-transition: opacity .15s, -webkit-transform .15s;
-            transition: opacity .15s, transform .15s;
-            -webkit-transform: translate3d(0, -25px, 0);
-            transform: translate3d(0, -25px, 0);
-            opacity: 0;
-        }
-
-        .cs-skin-elastic.cs-active .cs-options ul li {
-            -webkit-transition: none;
-            transition: none;
-            -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
-            -webkit-animation: bounce .6s ease-out;
-            animation: bounce .6s ease-out;
-            opacity: 1;
-        }
-
-        .cs-skin-elastic .cs-options span {
-            background-repeat: no-repeat;
-            background-position: 1.5em 50%;
-            background-size: 2em auto;
-        }
-
-        .cs-skin-elastic .cs-options span:hover,
-        .cs-skin-elastic .cs-options li.cs-focus span,
-        .cs-skin-elastic .cs-options .cs-selected span {
-            color: #1e4c4a;
-        }
-
-        .cs-skin-elastic .cs-options .cs-selected span::after {
-            content: '';
-        }
-
-        @-webkit-keyframes expand {
-            0% {
-                -webkit-transform: scale3d(1, 0, 1);
-            }
-            25% {
-                -webkit-transform: scale3d(1, 1.2, 1);
-            }
-            50% {
-                -webkit-transform: scale3d(1, .85, 1);
-            }
-            75% {
-                -webkit-transform: scale3d(1, 1.05, 1);
-            }
-            100% {
-                -webkit-transform: scale3d(1, 1, 1);
-            }
-        }
-
-        @keyframes expand {
-            0% {
-                -webkit-transform: scale3d(1, 0, 1);
-                transform: scale3d(1, 0, 1);
-            }
-            25% {
-                -webkit-transform: scale3d(1, 1.2, 1);
-                transform: scale3d(1, 1.2, 1);
-            }
-            50% {
-                -webkit-transform: scale3d(1, .85, 1);
-                transform: scale3d(1, .85, 1);
-            }
-            75% {
-                -webkit-transform: scale3d(1, 1.05, 1);
-                transform: scale3d(1, 1.05, 1);
-            }
-            100% {
-                -webkit-transform: scale3d(1, 1, 1);
-                transform: scale3d(1, 1, 1);
-            }
-        }
-
-        @-webkit-keyframes bounce {
-            0% {
-                -webkit-transform: translate3d(0, -25px, 0);
-                opacity: 0;
-            }
-            25% {
-                -webkit-transform: translate3d(0, 10px, 0);
-            }
-            50% {
-                -webkit-transform: translate3d(0, -6px, 0);
-            }
-            75% {
-                -webkit-transform: translate3d(0, 2px, 0);
-            }
-            100% {
-                -webkit-transform: translate3d(0, 0, 0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes bounce {
-            0% {
-                -webkit-transform: translate3d(0, -25px, 0);
-                transform: translate3d(0, -25px, 0);
-                opacity: 0;
-            }
-            25% {
-                -webkit-transform: translate3d(0, 10px, 0);
-                transform: translate3d(0, 10px, 0);
-            }
-            50% {
-                -webkit-transform: translate3d(0, -6px, 0);
-                transform: translate3d(0, -6px, 0);
-            }
-            75% {
-                -webkit-transform: translate3d(0, 2px, 0);
-                transform: translate3d(0, 2px, 0);
-            }
-            100% {
-                -webkit-transform: translate3d(0, 0, 0);
-                transform: translate3d(0, 0, 0);
-                opacity: 1;
-            }
-        }
-    </style>
-    <title>Happy writting</title>
-    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>
+    <meta name="viewport" content="width=device-width" />
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700'>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css'>
+    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="Stylesheet" href='https://fonts.googleapis.com/css?family=Muli' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,300italic,400italic,600italic,600' rel='stylesheet' type='text/css'>
+    <link rel="Stylesheet" href="css/master.css" type="text/css" />
+    <link rel="Stylesheet" href="https://ianlunn.github.io/Hover/css/hover.css" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link href="../CSS/slide.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
-        @import url(http://weloveiconfonts.com/api/?family=entypo);
-        @import url(https://fonts.googleapis.com/css?family=Muli);
-        body {
-            display: -webkit-box;
-            display: -moz-box;
-            display: -ms-flexbox;
-            display: -webkit-flex;
+        *{
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        a{
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+        }
+        .wrapper{
+            width:100%;
+            margin:30px auto 0;
+            background-color:#FFFFFF;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        header{
+            text-align:right;
+            padding:10px;
+            margin-bottom:10px;
+            background-color:#5DBA9D;
+        }
+
+        header a{
+            font-size:20px;
+            color:#FFFFFF;
+            width:40px;
+            height:40px;
+            line-height:40px;
+            margin-left:10px;
+            text-align:center;
+            display:inline-block;
+        }
+
+        header a:hover, .list-mode header a.hide-list:hover{
+            background-color:#11956c;
+        }
+
+        header a.hide-list{
+            background-color:#11956c;
+        }
+
+        .list-mode header a.hide-list{
+            background-color:#5DBA9D;
+        }
+
+        .list-mode header a.show-list{
+            background-color:#11956c;
+        }
+
+        .container:after{
+            content:"";
+            clear:both;
+            display:table;
+        }
+
+        .container{
+            padding:10px 0 10px 10px;
+            height:auto;            min-height: 1000px;
+            width: 1300px;
+        }
+        .wrapper .box{
+            float:left;
+            width:auto;
+            height:auto;
+            margin:0 10px 10px 0;
+            -webkit-transition:all 1.0s ease;
+            -moz-transition:all 1.0s ease;
+            transition:all 1.0s ease;
+            justify-content: center;
             display: flex;
-            margin: 0;
-            padding: 0;
-            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);
-            background-size: cover;
-            font-family: Muli, sans-serif;
-            color: #444;
+            flex-wrap: wrap;
+            padding: 1rem;
         }
-        ul {
-            list-style: none;
-            margin-top: 0;
-            padding: 0;
+        .wrapper.list-mode .container{
+            padding-right:10px;
         }
-        a {
-            cursor: pointer;
-            display: block;
-            color: #b3b3b3;
-            text-decoration: none;
-        }
-        .bckg {
-            background-color: #383B42;
-            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;
-            width: 230px;
-            height: 100%;
-            position: fixed;
-            left: 0;
-            top: 0;
-        }
-        h1 {
-            text-align: center;
-            font-weight: normal;
-            color: #F6F6EF;
-            line-height: 60px;
-            margin: 0;
-            font-size: 20px;
-            letter-spacing: 2px;
-            background-color: #34363A;
-            border-bottom: 1px solid rgba(101,116,134,0.57);
-        }
-        h2 {
-            font-size: 20px;
-            text-transform: uppercase;
-            margin: 0;
-            letter-spacing: 3px;
-            color: #919191;
-            font-weight: normal;
-            padding-left: 40px;
-            line-height: 60px;
-            text-shadow: 1px 1px 2px #fff;
-            position: relative;
-            flex: 1;
-            -webkit-flex: 1;
-            -ms-flex: 1;
-        }
-        h2:before {
-            content: '';
-            width: 36px;
-            height: 36px;
-            position: absolute;
-            left: -19px;
-            top: 12px;
-            background-color: #34363A;
-            -webkit-transform: rotate(45deg);
-            -moz-transform: rotate(45deg);
-            transform: rotate(45deg);
-        }
-        h3 {
-            font-size: 17px;
-            margin: 0;
-            line-height: 40px;
-            color: #555;
-            cursor: pointer;
-            position: relative;
-        }
-        header {
-            width: 200px;
-            height: 100%;
-            float: left;
-            position: relative;
-            z-index: 99;
-        }
-        header nav ul li {
-            border-bottom: 1px solid #42454D;
-            padding-left: 48px;
-            transition: all 0.6s;
-            border-top: 1px solid #2E3036;
-        }
-        header nav ul li:hover {
-            background-color: #454952;
-            transition: all 0.6s;
-            border-bottom: 1px solid #797979;
-        }
-        header nav ul li:hover a {
-            color: #fff;
-            transition: all 0.6s;
-        }
-        header nav ul li a {
-            line-height: 55px;
-            font-size: 18px;
-            position: relative;
-            letter-spacing: 1px;
-            transition: all 0.6s;
-        }
-        header nav ul li a:before {
-            font-family: 'entypo', sans-serif;
-            font-size: 20px;
-            position: absolute;
-            left: -32px;
-        }
-        header nav ul li:first-child a:before {
-            content: "\268f";
-        }
-        header nav ul li:nth-child(2) a:before {
-            content: "\e771";
-        }
-        header nav ul li:nth-child(3) a:before {
-            content: "\1f4c5";
-        }
-        header nav ul li:nth-child(4) a:before {
-            content: "\1f465";
-        }
-        header nav ul li:nth-child(5) a:before {
-            content: "\2699";
-        }
-        header nav ul li:nth-child(6) a:before {
-            content: "\1f50d";
-        }
-        main {
-            flex: 1;
-            -webkit-flex: 1;
-            -ms-flex: 1;
-        }
-        .title {
-            background-color: #fff;
-            border-bottom: 1px solid #C0C1C0;
-            height: 60px;
-            display: -webkit-box;
-            display: -moz-box;
-            display: -ms-flexbox;
-            display: -webkit-flex;
-            display: flex;
-        }
-        .title a {
-            color: #AAA;
-            width: auto;
-            margin: 0 20px;
-            float: right;
-            line-height: 62px;
-            position: relative;
-            text-decoration: none;
-            transition: all .5s;
-        }
-        .title a:before {
-            content: "\1f464";
-            font-size: 38px;
-            position: absolute;
-            left: -50px;
-            font-family: 'entypo';
-        }
-        a:hover {
-            color: #33526B;
-            transition: all .5s;
-        }
-        .larg {
-            width: auto;
-            margin: 30px auto;
-            padding: 0 30px;
-        }
-        .larg div {
-            background-color: #F7F7F7;
-            border: 1px solid #E2E2E2;
-            padding: 0 20px;
-            margin: 15px 0;
-        }
-        .larg div:hover {
-            background-color: #fafafa;
-        }
-        .larg div h3 span {
-            font-family: 'entypo';
-            font-size: 19px;
-            position: absolute;
-            right: 0;
-            transition: all .6s;
-        }
-        .larg div h3 span.close {
-            -webkit-transform: rotate(180deg);
-            transition: all .5s;
-        }
-        .larg div p {
-            display: none;
-            margin-left: 10px;
-            padding: 0 15px;
-            border-left: 1px solid #ccc;
-        }
-        .rendered{
-            margin-left: 25px;
-            height: auto;
-            margin-top: 100px;
-            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);
-            background-size: cover;
+
+        .wrapper.list-mode .box{
+            width:100%;
         }
     </style>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <script>
-        $(document).ready( function() {
-            $('body').on("click", ".larg div h3", function(){
-                if ($(this).children('span').hasClass('close')) {
-                    $(this).children('span').removeClass('close');
-                }
-                else {
-                    $(this).children('span').addClass('close');
-                }
-                $(this).parent().children('p').slideToggle(250);
-            });
+    <style>
+        :root {
+            --font-primary: "Open Sans", sans-serif;
+            --font-secondary: "Josefin Sans", sans-serif;
+            --color-primary: #7c83ff;
+            --color-secondary: #f097a5;
+            --color-text-primary: #000;
+            --color-text-secondary: #666;
+            --bg-body: #eee;
+            --bg-primary: #fff;
+            --bg-secondary: #fcfcfc;
+            --rem-mobile: 10px;
+            --rem-tablet: 12px;
+            --rem-laptop: 13px;
+            --rem-desktop: 14px;
+            --rem-big: 16px;
+            --size-mini: 0.8rem;
+            --size-small: 1.5rem;
+            --size-medium: 2rem;
+            --size-big: 3rem;
+            --size-massive: 4rem;
+        }
 
-            $('body').on("click", "nav ul li a", function(){
-                let title = $(this).data('title');
-                $('.title').children('h2').html(title);
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: inherit;
+        }
 
-            });
-        });
-    </script>
-    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>
+        html {
+            box-sizing: border-box;
+            font-size: 10px;
+        }
+        @media screen and (min-width: 426px) {
+            html {
+                font-size: 12px;
+            }
+        }
+        @media screen and (min-width: 769px) {
+            html {
+                font-size: 13px;
+            }
+        }
+        @media screen and (min-width: 1025px) {
+            html {
+                font-size: 14px;
+            }
+        }
+        @media screen and (min-width: 1441px) {
+            html {
+                font-size: 16px;
+            }
+        }
+
+        body {
+            font-size: 1.4rem;
+            background-color: #eee;
+            font-family: var(--font-primary);
+        }
+
+        .Icon {
+            transition: all 0.3s;
+        }
+
+        .Icon--colored {
+            fill: #f097a5;
+        }
+
+        .Icon--stroked {
+            fill: none;
+            stroke: var(--color-secondary);
+            stroke-width: 3px;
+        }
+
+        .Icon:hover {
+            opacity: 0.75;
+        }
+
+        .Icon--small {
+            height: 1.5rem;
+            width: 1.5rem;
+        }
+
+        .Icon--medium {
+            height: 2rem;
+            width: 2rem;
+        }
+
+        .Icon--big {
+            height: 3rem;
+            width: 3rem;
+        }
+
+        .Icon--massive {
+            height: 4rem;
+            width: 4rem;
+        }
+
+        .Icon--facebook {
+            fill: #3b5999;
+        }
+
+        .Icon--twitter {
+            fill: #55acee;
+        }
+
+        .SocialLink {
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 0 .2rem;
+        }
+
+        .IconBtn {
+            padding: 0;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .ProductSet {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 1rem;
+            width : 400px;
+        }
+        .ProductSet--grid {
+            margin-left: 1rem;
+            justify-content: center;
+            height: auto;
+        }
+        .ProductSet--grid > * {
+            margin: 0 1rem 1rem 0;
+        }
+        .ProductSet--list {
+            flex-direction: column;
+        }
+        .ProductSet--list > *:not(:last-child) {
+            margin-bottom: 1rem;
+        }
+
+        .ProductCard {
+            display: flex;
+            text-decoration: none;
+            border-radius: 1rem;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s;
+            width: 400px;
+        }
+        .ProductCard:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-0.5rem);
+        }
+        @media screen and (min-width: 426px) {
+            .ProductCard {
+                font-size: 1.2rem;
+            }
+        }
+        .ProductCard--grid {
+            width: 140rem;
+            flex-direction: column;
+        }
+        .ProductCard--list {
+            max-height: 15rem;
+        }
+        .ProductCard--list .ProductCard__img-wrapper {
+            max-width: 400px;
+            width: 400px;
+            margin: 2rem 0 2rem 2rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        @media screen and (min-width: 426px) {
+            .ProductCard--list .ProductCard__img-wrapper {
+                margin: initial;
+                flex: 1 1 auto;
+            }
+        }
+        .ProductCard__img {
+            width: 100%;
+        }
+        .ProductCard--grid .ProductCard__details {
+            padding: 3rem 1.5rem;
+        }
+        .ProductCard--list .ProductCard__details {
+            margin: 2.5rem;
+            width: 60%;
+        }
+        @media screen and (min-width: 426px) {
+            .ProductCard--list .ProductCard__details {
+                width: 0;
+                flex: 1 1 auto;
+            }
+        }
+        .ProductCard__details__header {
+            display: flex;
+            justify-content: space-between;
+        }
+        .ProductCard--grid .ProductCard__details__header {
+            align-items: flex-end;
+        }
+        .ProductCard--list .ProductCard__details__header {
+            margin-bottom: 2rem;
+            align-items: flex-start;
+        }
+        .ProductCard .ProductCard__titles {
+            margin-right: 1rem;
+        }
+        .ProductCard__title {
+            color: #000;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-family: var(--font-secondary);
+            font-weight: 400;
+        }
+        .ProductCard--list .ProductCard__title {
+            margin-bottom: 1.5rem;
+        }
+        .ProductCard__price {
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            font-weight: 400;
+        }
+        @media screen and (min-width: 426px) {
+            .ProductCard__price {
+                font-size: 1.1rem;
+            }
+        }
+        .ProductCard__description {
+            color: var(--color-text-secondary);
+            display: none;
+        }
+        @media screen and (min-width: 426px) {
+            .ProductCard__description {
+                font-size: 1rem;
+            }
+        }
+        @media screen and (min-width: 426px) {
+            .ProductCard--list .ProductCard__description {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                display: block;
+            }
+        }
+    </style>
+    <!-- Searching engine-->
+
+    <style>
+        #namanyay-search-btn {
+            background:#0099ff;
+            color:white;
+            font: 'trebuchet ms', trebuchet;
+            padding:10px 20px;
+            border-radius:0 5px 5px 0;
+            -moz-border-radius:0 5px 5px 0;
+            -webkit-border-radius:0 5px 5px 0;
+            -o-border-radius:0 5px 5px 0;
+            border:0 none;
+            font-weight:bold;
+        }
+
+        #namanyay-search-box {
+            background: #666666;
+            color: #FFFFFF;
+            padding:10px;
+            border-radius:5px 0 0 5px;
+            -moz-border-radius:5px 0 0 5px;
+            -webkit-border-radius:5px 0 0 5px;
+            -o-border-radius:5px 0 0 5px;
+            border:0 none;
+            width:80%;
+        }
+
+        .SearchEngine{
+            padding-left: 19%;
+            background: whitesmoke;
+        }
+    </style>
+
+    <!--------------------->
 </head>
 <body>
-<span class="bckg"></span>
-<header>
-    <h1>Dashboard</h1>
+<div class="InnerBackGround">
     <nav>
         <ul>
-            <li>
-                <a href="javascript:void(0);" data-title="Các bài đăng" onclick="postedrender()">Các bài đăng</a>
-                <script type="text/javascript">
-                    function postedrender() {
-                        window.location.href = "/postedrender"
-                    }
-                </script>
-            </li>
-            <li>
-                <a href="javascript:void(0);" data-title="Các bình luận" onclick="Commentrender()">Các bình luận</a>
-                <script type="text/javascript">
-                    function Commentrender() {
-                        window.location.href = "/Commentrender"
-                    }
-                </script>
-            </li>
-            <li>
-                <a href="javascript:void(0);" data-title="Đang theo dõi" onclick="WatchingRender()">Đang theo dõi</a>
-                <script type="text/javascript">
-                    function WatchingRender() {
-                        window.location.href = "/WatchingRender"
-                    }
-                </script>
-            </li>
-            <li>
-                <a href="javascript:void(0);" data-title="Những người theo dõi" onclick="WatchedRender()">Những người theo dõi</a>
-                <script type="text/javascript">
-                    function WatchedRender() {
-                        window.location.href = "/WatchedRender"
-                    }
-                </script>
-            </li>
-            <li>
-                <a href="javascript:void(0);" data-title="Viết bài" onclick="editorrender()">Viết bài</a>
-                <script type="text/javascript">
-                    function editorrender() {
-                        window.location.href = "/editorrender"
-                    }
-                </script>
-            </li>
-            <li>
-                <a href="javascript:void(0);" data-title="Tìm kiếm" onclick="FindingRender()">Tìm kiếm</a>
-                <script type="text/javascript"></script>
-            </li>
-            <li>
-                <a href="javascript:void(0);" data-title="Đăng xuất" onclick="Signout()">Đăng xuất</a>
-                <script type="text/javascript">
-
-                </script>
-            </li>
-            <li>
-                <span style="color: red; margin-left: -5px;">Dangerous place !</span>
-            </li>
-            <li>
-                <a href="javascript:void(0);" data-title="Xóa bài đăng" onclick="RemovePost()">Xóa bài đăng</a>
-                <script type="text/javascript">
-
-                </script>
-            </li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/decorate">Trang trí</a></li>
+            <li><a href="/food">Đồ ăn</a></li>
+            <li><a href="/house">Nhà</a></li>
+            <li><a href="/origami">Origami</a></li>
+            <li class="nav-item"><a href="/login" target="_blank" class="btn btn-danger btn-round">Login</a></li>
         </ul>
     </nav>
-</header>
-<main>
-    <div class="title">
-        <h2>Viết bài</h2>
-        <a href="javascript:void(0);">Hello nigga !</a>
-    </div>
-    <div class="rendered">
-        <!-- views/partials/editor.ejs -->
-        <label>
-        <textarea>
-            <h1 style="text-align: center;">Welcome to this editor demo!</h1>
-            <p>Please try out the features provided in this basic example.<br>
-                Note that any file and image management functionality in this example is part of our commercial offering – the demo is to show the integration.
-            </p>
-            <h2>Got questions or need help?</h2>
-            <ul>
-                <li>Our <a href="https://www.tinymce.com/docs/">documentation</a> is a great resource for learning how to configure TinyMCE.</li>
-                <li>Have a specific question? Visit the <a href="https://community.tinymce.com/forum/">Community Forum</a>.</li>
-                <li>We also offer enterprise grade support as part of <a href="www.tinymce.com/pricing">TinyMCE Enterprise</a>.</li>
-            </ul>
-            <h2>A simple table to play with</h2>
-            <table style="text-align: center;">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Cost</th>
-                        <th>Really?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>TinyMCE</td>
-                        <td>Free</td>
-                        <td>YES!</td>
-                    </tr>
-                    <tr>
-                        <td>Plupload</td>
-                        <td>Free</td>
-                        <td>YES!</td>
-                    </tr>
-                </tbody>
-            </table>
-        </textarea>
-        </label>
-    </div>
-    <h1 style="margin-top: 20px;">Hoặc có thể bạn muốn up video ! :))</h1>
-    <!--Upload video field-->
+</div>
+<div class="SearchEngine">
+    <form id="searchthis" action="search" style="display:inline;" method="get">
+        <input id="namanyay-search-box" name="q" size="40" type="text" placeholder="Search"/>
+        <input id="namanyay-search-btn" value="Go" type="submit"/>
+    </form>
+</div>
+<div class="wrapper">
+    <header>
+        <a href="javascript:void(0)" class="show-list"><i class="fa fa-th-list"></i></a>
+        <a href="javascript:void(0)" class="hide-list"><i class="fa fa-th"></i></a>
+    </header>
     <div class="container">
-        <div class="section">
-            <div class="row">
-                <div class="col s12">
-                    <h4 class="center light-blue-text">Đăng video</h4>
-                    <p class="center" style="font-size: 20px;">Tải video trực tiếp lên channel</p>
+        <div class="box">
+        <div class="ProductSet ProductSet--grid">
+            <!-- Product Card: vertical -->
+            <a href="#" class="ProductCard ProductCard--grid">
+                <div class="ProductCard__img-wrapper">
+                    <img src="http://handmadevideos001.s3.amazonaws.com/images/aaaa_04.png" alt="" class="ProductCard__img">
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <form class="col s12" action="Dangbai" method="post" id="uploadForm" enctype="multipart/form-data">
-
-                <div class="row">
-                    <div class="input-field col m6 s12">
-                        <input id="video_title" type="text" class="validate" name="video_title">
-                        <label for="video_title">Tựa đề video</label>
-                    </div>
-
-                    <div class="input-field col m6 s12">
-                        <input id="email" type="email" class="validate" name="email">
-                        <label for="email">Email của bạn</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input id="video_description" type="text" class="validate" name="video_description">
-                        <label for="video_description">Mô tả video</label>
-                    </div>
-
-                    <div class="file-field input-field col s12">
-                        <div class="btn">
-                            <span>Video</span>
-                            <input type="file" accept="video/*" id="fileupload" name="fileupload">
+                <div class="ProductCard__details">
+                    <div class="ProductCard__details__header">
+                        <div class="ProductCard__titles">
+                            <h4 class="ProductCard__title">Cách trang trí lọ cũ</h4>
+                            <h5 class="ProductCard__price">dotuananh.fit.iuh@gmail.com</h5>
                         </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" placeholder="Click để chọn file upload">
-                        </div>
+                        <button class="IconBtn">
+                            <svg class="Icon Icon--medium Icon--colored">
+                                <use xlink:href="./src/img/icons/svg-sprite.svg#heart"></use>
+                            </svg>
+                        </button>
                     </div>
+                    <p class="ProductCard__description">
 
-                    <div class="input-field col m6 s12">
-                        <input id="video_path" type="text" class="validate" name="video_path" placeholder="Đường dẫn video" />
-                    </div>
-
-                    <div class="input-field col m6 s12">
-                        <label>
-                            <select class="cs-select cs-skin-elastic" name="video_tags" id="video_tags">
-                                <option value="" disabled selected>Chọn loại video</option>
-                                <option value="Origami">Origami</option>
-                                <option value="Cook">Nấu ăn</option>
-                                <option value="Model">Mô hình nhà</option>
-                                <option value="Decorate">Trang trí</option>
-                            </select>
-                        </label>
-                    </div>
-
-                    <div class="file-field input-field col s12">
-                        <div class="btn">
-                            <span>Ảnh đại diện</span>
-                            <input type="file" accept="image/*" id="imageupload" name="imageupload">
-                        </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" placeholder="Click để chọn file upload">
-                        </div>
-                    </div>
-
-                    <div class="input-field col s12">
-                        <input id="image_path" type="text" class="validate" name="image_path" placeholder="Đường dẫn hình ảnh" />
-                    </div>
-
-                    <div class="input-field col m4 s12">
-                        <input type="submit" class="waves-effect waves-light btn-large" value="Upload Video" name="submit"/>
-                    </div>
-
-                    <div class="input-field col m8 s12">
-                        <p class="left-align">
-                            <span id="message"></span>
-                            <span id="progress" style="display:none">
-                                <span id="percent-transferred"></span>% done (<span id="bytes-transferred"></span>/<span id="total-bytes"></span> KB)
-                            </span>
-                        </p>
-                    </div>
+                    </p>
                 </div>
-            </form>
-            <div></div>
-        </div>
+            </a>
+        </div><div class="box">
+        <div class="ProductSet ProductSet--grid">
+            <!-- Product Card: vertical -->
+            <a href="#" class="ProductCard ProductCard--grid">
+                <div class="ProductCard__img-wrapper">
+                    <img src="https://s3.amazonaws.com/handmadevideos001/images/1540796103544aaaa_03.png" alt="" class="ProductCard__img">
+                </div>
+                <div class="ProductCard__details">
+                    <div class="ProductCard__details__header">
+                        <div class="ProductCard__titles">
+                            <h4 class="ProductCard__title">Cách làm quà tặng giáng sinh độc đáo</h4>
+                            <h5 class="ProductCard__price">tranthevu.iuh@gmail.com</h5>
+                        </div>
+                        <button class="IconBtn">
+                            <svg class="Icon Icon--medium Icon--colored">
+                                <use xlink:href="./src/img/icons/svg-sprite.svg#heart"></use>
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="ProductCard__description">
+
+                    </p>
+                </div>
+            </a>
+        </div>    </div>
     </div>
-    <!--video player-->
-    <video height="540" width="1480" controls style="float: left;margin-top: 50px;margin-left: 50px;" id="clip" >
-        <source src="" type="video/mp4">
-        <source src="" type="video/ogg">
-        Your browser does not support the video tag
-    </video>
-    <!--******************************************************************************************************************-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
-
-    <script>
-        fileupload.onchange = function(){
-            let clip = document.getElementById('clip');
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                clip.src = this.result;
-                clip.controls = true;
-                clip.play();
-            };
-            reader.readAsDataURL(this.files[0]);
-            let filename = document.getElementById("fileupload").files[0].name;
-            document.getElementById('video_path').value = filename;//document.getElementById("fileupload").name;
-        };
-
-        imageupload.onchange = function(){
-            let imagename = document.getElementById("imageupload").files[0].name;
-            document.getElementById('image_path').value = imagename;//document.getElementById("fileupload").name;
-        };
-
-        let $message,
-            $progress,
-            $btn;
-
-        function toggleUpload(status) {
-            if (status)
-                $btn.removeClass("disabled");
-            else
-                $btn.addClass("disabled");
-        }
-
-        $(document).ready(function() {
-            $('select').material_select();
-            $progress = $('#progress');
-            $btn = $('#btnUpload');
-        });
-
-        function uploadVideo() {
-            hideProgress();
-            $message.html("Uploading video, please wait..");
-            let uploadVideo = new UploadVideo();
-            uploadFile($('#file').get(0).files[0]);
-        }
-
-        function hideProgress() {
-            $progress.hide();
-        }
-
-        function showProgress() {
-            $message.html("");
-            $progress.show();
-        }
-
-    </script>
-
-    <script>
-        ! function(e) {
-            "use strict";
-
-            function t(e) {
-                return new RegExp("(^|\\s+)" + e + "(\\s+|$)")
-            }
-
-            function s(e, t) {
-                var s = l(e, t) ? i : n;
-                s(e, t)
-            }
-            var l, n, i;
-            "classList" in document.documentElement ? (l = function(e, t) {
-                return e.classList.contains(t)
-            }, n = function(e, t) {
-                e.classList.add(t)
-            }, i = function(e, t) {
-                e.classList.remove(t)
-            }) : (l = function(e, s) {
-                return t(s).test(e.className)
-            }, n = function(e, t) {
-                l(e, t) || (e.className = e.className + " " + t)
-            }, i = function(e, s) {
-                e.className = e.className.replace(t(s), " ")
+        <script>
+            $('.show-list').click(function(){
+                $('.wrapper').addClass('list-mode');
             });
-            var c = {
-                hasClass: l,
-                addClass: n,
-                removeClass: i,
-                toggleClass: s,
-                has: l,
-                add: n,
-                remove: i,
-                toggle: s
-            };
-            "function" == typeof define && define.amd ? define(c) : e.classie = c
-        }(window),
-            function(e) {
-                "use strict";
 
-                function t(e, t) {
-                    if (!e) return !1;
-                    for (var s = e.target || e.srcElement || e || !1; s && s != t;) s = s.parentNode || !1;
-                    return s !== !1
-                }
+            $('.hide-list').click(function(){
+                $('.wrapper').removeClass('list-mode');
+            });
+            $(function(){
+                let header = $("nav"),
+                    yOffset = 0,
+                    triggerPoint = 150;
+                $(window).scroll(function(){
+                    yOffset = $(window).scrollTop();
 
-                function s(e, t) {
-                    for (var s in t) t.hasOwnProperty(s) && (e[s] = t[s]);
-                    return e
-                }
-
-                function l(e, t) {
-                    this.el = e, this.options = s({}, this.options), s(this.options, t), this._init()
-                }
-                l.prototype.options = {
-                    newTab: !0,
-                    stickyPlaceholder: !0,
-                    onChange: function() {
-                        return !1
+                    if(yOffset >= triggerPoint){
+                        header.addClass("minimized");
+                    }else{
+                        header.removeClass("minimized");
                     }
-                }, l.prototype._init = function() {
-                    var e = this.el.querySelector("option[selected]");
-                    this.hasDefaultPlaceholder = e && e.disabled, this.selectedOpt = e || this.el.querySelector("option"), this._createSelectEl(), this.selOpts = [].slice.call(this.selEl.querySelectorAll("li[data-option]")), this.selOptsCount = this.selOpts.length, this.current = this.selOpts.indexOf(this.selEl.querySelector("li.cs-selected")) || -1, this.selPlaceholder = this.selEl.querySelector("span.cs-placeholder"), this._initEvents()
-                }, l.prototype._createSelectEl = function() {
-                    var e = "",
-                        t = function(e) {
-                            var t = "",
-                                s = "",
-                                l = "";
-                            return !e.selectedOpt || this.foundSelected || this.hasDefaultPlaceholder || (s += "cs-selected ", this.foundSelected = !0), e.getAttribute("data-class") && (s += e.getAttribute("data-class")), e.getAttribute("data-link") && (l = "data-link=" + e.getAttribute("data-link")), "" !== s && (t = 'class="' + s + '" '), "<li " + t + l + ' data-option data-value="' + e.value + '"><span>' + e.textContent + "</span></li>"
-                        };
-                    [].slice.call(this.el.children).forEach(function(s) {
-                        if (!s.disabled) {
-                            var l = s.tagName.toLowerCase();
-                            "option" === l ? e += t(s) : "optgroup" === l && (e += '<li class="cs-optgroup"><span>' + s.label + "</span><ul>", [].slice.call(s.children).forEach(function(s) {
-                                e += t(s)
-                            }), e += "</ul></li>")
-                        }
-                    });
-                    var s = '<div class="cs-options"><ul>' + e + "</ul></div>";
-                    this.selEl = document.createElement("div"), this.selEl.className = this.el.className, this.selEl.tabIndex = this.el.tabIndex, this.selEl.innerHTML = '<span class="cs-placeholder">' + this.selectedOpt.textContent + "</span>" + s, this.el.parentNode.appendChild(this.selEl), this.selEl.appendChild(this.el)
-                }, l.prototype._initEvents = function() {
-                    var e = this;
-                    this.selPlaceholder.addEventListener("click", function() {
-                        e._toggleSelect()
-                    }), this.selOpts.forEach(function(t, s) {
-                        t.addEventListener("click", function() {
-                            e.current = s, e._changeOption(), e._toggleSelect()
-                        })
-                    }), document.addEventListener("click", function(s) {
-                        var l = s.target;
-                        e._isOpen() && l !== e.selEl && !t(l, e.selEl) && e._toggleSelect()
-                    }), this.selEl.addEventListener("keydown", function(t) {
-                        var s = t.keyCode || t.which;
-                        switch (s) {
-                            case 38:
-                                t.preventDefault(), e._navigateOpts("prev");
-                                break;
-                            case 40:
-                                t.preventDefault(), e._navigateOpts("next");
-                                break;
-                            case 32:
-                                t.preventDefault(), e._isOpen() && "undefined" != typeof e.preSelCurrent && -1 !== e.preSelCurrent && e._changeOption(), e._toggleSelect();
-                                break;
-                            case 13:
-                                t.preventDefault(), e._isOpen() && "undefined" != typeof e.preSelCurrent && -1 !== e.preSelCurrent && (e._changeOption(), e._toggleSelect());
-                                break;
-                            case 27:
-                                t.preventDefault(), e._isOpen() && e._toggleSelect()
-                        }
-                    })
-                }, l.prototype._navigateOpts = function(e) {
-                    this._isOpen() || this._toggleSelect();
-                    var t = "undefined" != typeof this.preSelCurrent && -1 !== this.preSelCurrent ? this.preSelCurrent : this.current;
-                    ("prev" === e && t > 0 || "next" === e && t < this.selOptsCount - 1) && (this.preSelCurrent = "next" === e ? t + 1 : t - 1, this._removeFocus(), classie.add(this.selOpts[this.preSelCurrent], "cs-focus"))
-                }, l.prototype._toggleSelect = function() {
-                    this._removeFocus(), this._isOpen() ? (-1 !== this.current && (this.selPlaceholder.textContent = this.selOpts[this.current].textContent), classie.remove(this.selEl, "cs-active")) : (this.hasDefaultPlaceholder && this.options.stickyPlaceholder && (this.selPlaceholder.textContent = this.selectedOpt.textContent), classie.add(this.selEl, "cs-active"))
-                }, l.prototype._changeOption = function() {
-                    "undefined" != typeof this.preSelCurrent && -1 !== this.preSelCurrent && (this.current = this.preSelCurrent, this.preSelCurrent = -1);
-                    var t = this.selOpts[this.current];
-                    this.selPlaceholder.textContent = t.textContent, this.el.value = t.getAttribute("data-value");
-                    var s = this.selEl.querySelector("li.cs-selected");
-                    s && classie.remove(s, "cs-selected"), classie.add(t, "cs-selected"), t.getAttribute("data-link") && (this.options.newTab ? e.open(t.getAttribute("data-link"), "_blank") : e.location = t.getAttribute("data-link")), this.options.onChange(this.el.value)
-                }, l.prototype._isOpen = function() {
-                    return classie.has(this.selEl, "cs-active")
-                }, l.prototype._removeFocus = function() {
-                    var e = this.selEl.querySelector("li.cs-focus");
-                    e && classie.remove(e, "cs-focus")
-                }, e.SelectFx = l
-            }(window),
-            function() {
-                [].slice.call(document.querySelectorAll("select.cs-select")).forEach(function(e) {
-                    new SelectFx(e)
-                })
-            }();
-    </script>
-    <!--*********************************************************************************************************************************-->
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <script src='http://cdn.tinymce.com/4/tinymce.min.js'></script>
-    <script>
-        tinymce.init({
-            selector: 'textarea',
-            height: 500,
-            plugins: [
-                'advlist autolink lists link image charmap print preview anchor',
-                'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table contextmenu paste code'
-            ],
-            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-            content_css: [
-                '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
-                '//www.tinymce.com/css/codepen.min.css'
-            ]
-        });
-    </script>
-</main>
+                });
+            });
+        </script>
+    </div>
+</div>
 </body>
 </html>

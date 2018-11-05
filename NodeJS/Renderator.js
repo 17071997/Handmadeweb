@@ -1,3 +1,6 @@
+let AWS = require('aws-sdk');
+let config = require('./config.json');
+
 module.exports = {
     PostedRender : function (req,res) {
         let code = "<!DOCTYPE html>\n" +
@@ -2452,8 +2455,9 @@ module.exports = {
             "</body>\n";
         res.send(code);
     },
-    WriterPageRender : function (req,res) {
+    WriterPageRender : function (req,res,email) {
         let code = "\n" +
+            "\n" +
             "<!DOCTYPE html>\n" +
             "<html lang=\"en\"><head>\n" +
             "    <meta charset=\"UTF-8\">\n" +
@@ -2899,7 +2903,7 @@ module.exports = {
             "            height: 400px;\n" +
             "            width: 700px;\n" +
             "            text-align: center;\n" +
-            "            max-width: 500px;\n" +
+            "            max-width: 660px;\n" +
             "            margin: 20px auto auto 50px;\n" +
             "            float: left;\n" +
             "        }\n" +
@@ -3116,25 +3120,25 @@ module.exports = {
             "        var metric = \"us\";\n" +
             "        var days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];\n" +
             "        var icons = {\n" +
-            "            'clear-day': '\uf00d',\n" +
-            "            'clear-night': '\uf02e',\n" +
-            "            'wind': '\uf050',\n" +
-            "            'day-sunny': '\uf00d',\n" +
-            "            'night-clear': '\uf02e',\n" +
-            "            'rain': '\uf019',\n" +
-            "            'snow': '\uf076',\n" +
-            "            'sleet': '\uf0b5',\n" +
-            "            'strong-wind': '\uf050',\n" +
-            "            'fog': '\uf014',\n" +
-            "            'cloudy': '\uf013',\n" +
-            "            'day-cloudy': '\uf002',\n" +
-            "            'night-cloudy': '\uf086',\n" +
-            "            'hail': '\uf015',\n" +
-            "            'thunderstorm': '\uf01e',\n" +
-            "            'tornado': '\uf056',\n" +
-            "            'partly-cloudy-night': '\uf081',\n" +
-            "            'partly-cloudy-day': '\uf002',\n" +
-            "            'n/a': '\uf07b'\n" +
+            "            'clear-day': '',\n" +
+            "            'clear-night': '',\n" +
+            "            'wind': '',\n" +
+            "            'day-sunny': '',\n" +
+            "            'night-clear': '',\n" +
+            "            'rain': '',\n" +
+            "            'snow': '',\n" +
+            "            'sleet': '',\n" +
+            "            'strong-wind': '',\n" +
+            "            'fog': '',\n" +
+            "            'cloudy': '',\n" +
+            "            'day-cloudy': '',\n" +
+            "            'night-cloudy': '',\n" +
+            "            'hail': '',\n" +
+            "            'thunderstorm': '',\n" +
+            "            'tornado': '',\n" +
+            "            'partly-cloudy-night': '',\n" +
+            "            'partly-cloudy-day': '',\n" +
+            "            'n/a': ''\n" +
             "        };\n" +
             "\n" +
             "        function init(){\n" +
@@ -3202,7 +3206,7 @@ module.exports = {
             "\n" +
             "        function toggleMetric(){\n" +
             "            metric = metric === 'us' ? 'si' : 'us';\n" +
-            "            var icon = metric === 'us' ? '\uf045' : '\uf03c';\n" +
+            "            var icon = metric === 'us' ? '' : '';\n" +
             "            $(this).attr('data-icon', icon);\n" +
             "            init();\n" +
             "        }\n" +
@@ -3222,7 +3226,7 @@ module.exports = {
             "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function postedrender() {\n" +
-            "                        window.location.href = \"/postedrender\"\n" +
+            "                        window.location.href = \"/postedrender?email=" + email + "\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -3230,7 +3234,7 @@ module.exports = {
             "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function Commentrender() {\n" +
-            "                        window.location.href = \"/Commentrender\"\n" +
+            "                        window.location.href = \"/Commentrender?email=" + email + "\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -3283,7 +3287,7 @@ module.exports = {
             "<main>\n" +
             "    <div class=\"title\">\n" +
             "        <h2>Viết bài</h2>\n" +
-            "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
+            "        <a href=\"javascript:void(0);\">Hello nigga!</a>\n" +
             "    </div>\n" +
             "    <div class=\"rendered\">\n" +
             "        <div id=\"welcome\">\n" +
@@ -3298,10 +3302,15 @@ module.exports = {
             "                <span>\n" +
             "                WE ARE WAITING FOR YOU\n" +
             "            </span>\n" +
+            "                <br>\n" +
+            "                <br>\n" +
+            "                <span style=\"color:#44D5AC;\">\n" +
+            "                " +email+"\n" +
+            "            </span>\n" +
             "            </div>\n" +
             "        </div>\n" +
             "        <!--Tab setting here-->\n" +
-            "        \n" +
+            "\n" +
             "        <!---->\n" +
             "        <div class=\"wrapper\">\n" +
             "            <div class=\"today\">\n" +
@@ -3415,11 +3424,546 @@ module.exports = {
             "        });\n" +
             "    </script>\n" +
             "</main>\n" +
-            "\n" +
             "</body>\n" +
             "</html>";
         res.send(code);
     },
+
+    MainPageRender : function (req,res){
+        let htmlCode = "<!DOCTYPE html>\n" +
+            "<html lang=\"en\" >\n" +
+            "\n" +
+            "<head>\n" +
+            "    <meta charset=\"UTF-8\">\n" +
+            "    <title>Home Page</title>\n" +
+            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
+            "    <meta name=\"viewport\" content=\"width=device-width\" />\n" +
+            "    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>\n" +
+            "    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700'>\n" +
+            "    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css'>\n" +
+            "    <link rel=\"stylesheet\" href=\"../CSS/style.css\">\n" +
+            "    <link rel=\"Stylesheet\" href='https://fonts.googleapis.com/css?family=Muli' type='text/css'>\n" +
+            "    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,300italic,400italic,600italic,600' rel='stylesheet' type='text/css'>\n" +
+            "    <link rel=\"Stylesheet\" href=\"css/master.css\" type=\"text/css\" />\n" +
+            "    <link rel=\"Stylesheet\" href=\"https://ianlunn.github.io/Hover/css/hover.css\" type=\"text/css\" />\n" +
+            "    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js\"></script>\n" +
+            "    <link href=\"../CSS/slide.css\" rel=\"stylesheet\" type=\"text/css\" />\n" +
+            "    <style type=\"text/css\">\n" +
+            "        *{\n" +
+            "            -webkit-box-sizing: border-box;\n" +
+            "            -moz-box-sizing: border-box;\n" +
+            "            box-sizing: border-box;\n" +
+            "        }\n" +
+            "        a{\n" +
+            "            -webkit-transition: all 0.3s ease;\n" +
+            "            -moz-transition: all 0.3s ease;\n" +
+            "            -o-transition: all 0.3s ease;\n" +
+            "            transition: all 0.3s ease;\n" +
+            "        }\n" +
+            "        .wrapper{\n" +
+            "            width:100%;\n" +
+            "            margin:10px auto 0;\n" +
+            "            background-color:#FFFFFF;\n" +
+            "            -webkit-box-sizing: border-box;\n" +
+            "            -moz-box-sizing: border-box;\n" +
+            "            box-sizing: border-box;\n" +
+            "        }\n" +
+            "\n" +
+            "        header{\n" +
+            "            text-align:right;\n" +
+            "            padding:10px;\n" +
+            "            margin-bottom:10px;\n" +
+            "            background-color:#5DBA9D;\n" +
+            "        }\n" +
+            "\n" +
+            "        header a{\n" +
+            "            font-size:20px;\n" +
+            "            color:#FFFFFF;\n" +
+            "            width:40px;\n" +
+            "            height:40px;\n" +
+            "            line-height:40px;\n" +
+            "            margin-left:10px;\n" +
+            "            text-align:center;\n" +
+            "            display:inline-block;\n" +
+            "        }\n" +
+            "\n" +
+            "        header a:hover, .list-mode header a.hide-list:hover{\n" +
+            "            background-color:#11956c;\n" +
+            "        }\n" +
+            "\n" +
+            "        header a.hide-list{\n" +
+            "            background-color:#11956c;\n" +
+            "        }\n" +
+            "\n" +
+            "        .list-mode header a.hide-list{\n" +
+            "            background-color:#5DBA9D;\n" +
+            "        }\n" +
+            "\n" +
+            "        .list-mode header a.show-list{\n" +
+            "            background-color:#11956c;\n" +
+            "        }\n" +
+            "\n" +
+            "        .container:after{\n" +
+            "            content:\"\";\n" +
+            "            clear:both;\n" +
+            "            display:table;\n" +
+            "        }\n" +
+            "\n" +
+            "        .container{\n" +
+            "            padding:10px 0 10px 10px;\n" +
+            "            height:auto;            min-height: 1000px;\n" +
+            "            width: 1300px;\n" +
+            "        }\n" +
+            "        .wrapper .box{\n" +
+            "            float:left;\n" +
+            "            width:auto;\n" +
+            "            height:auto;\n" +
+            "            margin:0 10px 10px 0;\n" +
+            "            -webkit-transition:all 1.0s ease;\n" +
+            "            -moz-transition:all 1.0s ease;\n" +
+            "            transition:all 1.0s ease;\n" +
+            "            justify-content: center;\n" +
+            "            display: flex;\n" +
+            "            flex-wrap: wrap;\n" +
+            "            padding: 1rem;\n" +
+            "        }\n" +
+            "        .wrapper.list-mode .container{\n" +
+            "            padding-right:10px;\n" +
+            "        }\n" +
+            "\n" +
+            "        .wrapper.list-mode .box{\n" +
+            "            width:100%;\n" +
+            "        }\n" +
+            "    </style>\n" +
+            "    <style>\n" +
+            "        :root {\n" +
+            "            --font-primary: \"Open Sans\", sans-serif;\n" +
+            "            --font-secondary: \"Josefin Sans\", sans-serif;\n" +
+            "            --color-primary: #7c83ff;\n" +
+            "            --color-secondary: #f097a5;\n" +
+            "            --color-text-primary: #000;\n" +
+            "            --color-text-secondary: #666;\n" +
+            "            --bg-body: #eee;\n" +
+            "            --bg-primary: #fff;\n" +
+            "            --bg-secondary: #fcfcfc;\n" +
+            "            --rem-mobile: 10px;\n" +
+            "            --rem-tablet: 12px;\n" +
+            "            --rem-laptop: 13px;\n" +
+            "            --rem-desktop: 14px;\n" +
+            "            --rem-big: 16px;\n" +
+            "            --size-mini: 0.8rem;\n" +
+            "            --size-small: 1.5rem;\n" +
+            "            --size-medium: 2rem;\n" +
+            "            --size-big: 3rem;\n" +
+            "            --size-massive: 4rem;\n" +
+            "        }\n" +
+            "\n" +
+            "        *,\n" +
+            "        *::before,\n" +
+            "        *::after {\n" +
+            "            margin: 0;\n" +
+            "            padding: 0;\n" +
+            "            box-sizing: inherit;\n" +
+            "        }\n" +
+            "\n" +
+            "        html {\n" +
+            "            box-sizing: border-box;\n" +
+            "            font-size: 10px;\n" +
+            "        }\n" +
+            "        @media screen and (min-width: 426px) {\n" +
+            "            html {\n" +
+            "                font-size: 12px;\n" +
+            "            }\n" +
+            "        }\n" +
+            "        @media screen and (min-width: 769px) {\n" +
+            "            html {\n" +
+            "                font-size: 13px;\n" +
+            "            }\n" +
+            "        }\n" +
+            "        @media screen and (min-width: 1025px) {\n" +
+            "            html {\n" +
+            "                font-size: 14px;\n" +
+            "            }\n" +
+            "        }\n" +
+            "        @media screen and (min-width: 1441px) {\n" +
+            "            html {\n" +
+            "                font-size: 16px;\n" +
+            "            }\n" +
+            "        }\n" +
+            "\n" +
+            "        body {\n" +
+            "            font-size: 1.4rem;\n" +
+            "            background-color: #eee;\n" +
+            "            font-family: var(--font-primary);\n" +
+            "        }\n" +
+            "\n" +
+            "        .Icon {\n" +
+            "            transition: all 0.3s;\n" +
+            "        }\n" +
+            "\n" +
+            "        .Icon--colored {\n" +
+            "            fill: #f097a5;\n" +
+            "        }\n" +
+            "\n" +
+            "        .Icon--stroked {\n" +
+            "            fill: none;\n" +
+            "            stroke: var(--color-secondary);\n" +
+            "            stroke-width: 3px;\n" +
+            "        }\n" +
+            "\n" +
+            "        .Icon:hover {\n" +
+            "            opacity: 0.75;\n" +
+            "        }\n" +
+            "\n" +
+            "        .Icon--small {\n" +
+            "            height: 1.5rem;\n" +
+            "            width: 1.5rem;\n" +
+            "        }\n" +
+            "\n" +
+            "        .Icon--medium {\n" +
+            "            height: 2rem;\n" +
+            "            width: 2rem;\n" +
+            "        }\n" +
+            "\n" +
+            "        .Icon--big {\n" +
+            "            height: 3rem;\n" +
+            "            width: 3rem;\n" +
+            "        }\n" +
+            "\n" +
+            "        .Icon--massive {\n" +
+            "            height: 4rem;\n" +
+            "            width: 4rem;\n" +
+            "        }\n" +
+            "\n" +
+            "        .Icon--facebook {\n" +
+            "            fill: #3b5999;\n" +
+            "        }\n" +
+            "\n" +
+            "        .Icon--twitter {\n" +
+            "            fill: #55acee;\n" +
+            "        }\n" +
+            "\n" +
+            "        .SocialLink {\n" +
+            "            text-decoration: none;\n" +
+            "            transition: all 0.3s;\n" +
+            "            padding: 0 .2rem;\n" +
+            "        }\n" +
+            "\n" +
+            "        .IconBtn {\n" +
+            "            padding: 0;\n" +
+            "            border: none;\n" +
+            "            background-color: transparent;\n" +
+            "            cursor: pointer;\n" +
+            "            outline: none;\n" +
+            "        }\n" +
+            "\n" +
+            "        .ProductSet {\n" +
+            "            display: flex;\n" +
+            "            flex-wrap: wrap;\n" +
+            "            padding: 1rem;\n" +
+            "            width : 400px;\n" +
+            "        }\n" +
+            "        .ProductSet--grid {\n" +
+            "            margin-left: 1rem;\n" +
+            "            justify-content: center;\n" +
+            "            height: auto;\n" +
+            "        }\n" +
+            "        .ProductSet--grid > * {\n" +
+            "            margin: 0 1rem 1rem 0;\n" +
+            "        }\n" +
+            "        .ProductSet--list {\n" +
+            "            flex-direction: column;\n" +
+            "        }\n" +
+            "        .ProductSet--list > *:not(:last-child) {\n" +
+            "            margin-bottom: 1rem;\n" +
+            "        }\n" +
+            "\n" +
+            "        .ProductCard {\n" +
+            "            display: flex;\n" +
+            "            text-decoration: none;\n" +
+            "            border-radius: 1rem;\n" +
+            "            overflow: hidden;\n" +
+            "            background-color: #fff;\n" +
+            "            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);\n" +
+            "            transition: all 0.2s;\n" +
+            "            width: 400px;\n" +
+            "        }\n" +
+            "        .ProductCard:hover {\n" +
+            "            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);\n" +
+            "            transform: translateY(-0.5rem);\n" +
+            "        }\n" +
+            "        @media screen and (min-width: 426px) {\n" +
+            "            .ProductCard {\n" +
+            "                font-size: 1.2rem;\n" +
+            "            }\n" +
+            "        }\n" +
+            "        .ProductCard--grid {\n" +
+            "            width: 140rem;\n" +
+            "            flex-direction: column;\n" +
+            "        }\n" +
+            "        .ProductCard--list {\n" +
+            "            max-height: 15rem;\n" +
+            "        }\n" +
+            "        .ProductCard--list .ProductCard__img-wrapper {\n" +
+            "            max-width: 400px;\n" +
+            "            width: 400px;\n" +
+            "            margin: 2rem 0 2rem 2rem;\n" +
+            "            overflow: hidden;\n" +
+            "            display: flex;\n" +
+            "            align-items: center;\n" +
+            "        }\n" +
+            "        @media screen and (min-width: 426px) {\n" +
+            "            .ProductCard--list .ProductCard__img-wrapper {\n" +
+            "                margin: initial;\n" +
+            "                flex: 1 1 auto;\n" +
+            "            }\n" +
+            "        }\n" +
+            "        .ProductCard__img {\n" +
+            "            width: 100%;\n" +
+            "        }\n" +
+            "        .ProductCard--grid .ProductCard__details {\n" +
+            "            padding: 3rem 1.5rem;\n" +
+            "        }\n" +
+            "        .ProductCard--list .ProductCard__details {\n" +
+            "            margin: 2.5rem;\n" +
+            "            width: 60%;\n" +
+            "        }\n" +
+            "        @media screen and (min-width: 426px) {\n" +
+            "            .ProductCard--list .ProductCard__details {\n" +
+            "                width: 0;\n" +
+            "                flex: 1 1 auto;\n" +
+            "            }\n" +
+            "        }\n" +
+            "        .ProductCard__details__header {\n" +
+            "            display: flex;\n" +
+            "            justify-content: space-between;\n" +
+            "        }\n" +
+            "        .ProductCard--grid .ProductCard__details__header {\n" +
+            "            align-items: flex-end;\n" +
+            "        }\n" +
+            "        .ProductCard--list .ProductCard__details__header {\n" +
+            "            margin-bottom: 2rem;\n" +
+            "            align-items: flex-start;\n" +
+            "        }\n" +
+            "        .ProductCard .ProductCard__titles {\n" +
+            "            margin-right: 1rem;\n" +
+            "        }\n" +
+            "        .ProductCard__title {\n" +
+            "            color: #000;\n" +
+            "            margin-bottom: 1rem;\n" +
+            "            text-transform: uppercase;\n" +
+            "            font-family: var(--font-secondary);\n" +
+            "            font-weight: 400;\n" +
+            "        }\n" +
+            "        .ProductCard--list .ProductCard__title {\n" +
+            "            margin-bottom: 1.5rem;\n" +
+            "        }\n" +
+            "        .ProductCard__price {\n" +
+            "            font-size: 1.2rem;\n" +
+            "            color: var(--color-text-secondary);\n" +
+            "            font-weight: 400;\n" +
+            "        }\n" +
+            "        @media screen and (min-width: 426px) {\n" +
+            "            .ProductCard__price {\n" +
+            "                font-size: 1.1rem;\n" +
+            "            }\n" +
+            "        }\n" +
+            "        .ProductCard__description {\n" +
+            "            color: var(--color-text-secondary);\n" +
+            "            display: none;\n" +
+            "        }\n" +
+            "        @media screen and (min-width: 426px) {\n" +
+            "            .ProductCard__description {\n" +
+            "                font-size: 1rem;\n" +
+            "            }\n" +
+            "        }\n" +
+            "        @media screen and (min-width: 426px) {\n" +
+            "            .ProductCard--list .ProductCard__description {\n" +
+            "                overflow: hidden;\n" +
+            "                text-overflow: ellipsis;\n" +
+            "                white-space: nowrap;\n" +
+            "                display: block;\n" +
+            "            }\n" +
+            "        }\n" +
+            "    </style>\n" +
+            "    <!-- Searching engine-->\n" +
+            "\n" +
+            "    <style>\n" +
+            "        #namanyay-search-btn {\n" +
+            "            background:#0099ff;\n" +
+            "            color:white;\n" +
+            "            font: 'trebuchet ms', trebuchet;\n" +
+            "            padding:10px 20px;\n" +
+            "            border-radius:0 5px 5px 0;\n" +
+            "            -moz-border-radius:0 5px 5px 0;\n" +
+            "            -webkit-border-radius:0 5px 5px 0;\n" +
+            "            -o-border-radius:0 5px 5px 0;\n" +
+            "            border:0 none;\n" +
+            "            font-weight:bold;\n" +
+            "        }\n" +
+            "\n" +
+            "        #namanyay-search-box {\n" +
+            "            background: #666666;\n" +
+            "            color: #FFFFFF;\n" +
+            "            padding:10px;\n" +
+            "            border-radius:5px 0 0 5px;\n" +
+            "            -moz-border-radius:5px 0 0 5px;\n" +
+            "            -webkit-border-radius:5px 0 0 5px;\n" +
+            "            -o-border-radius:5px 0 0 5px;\n" +
+            "            border:0 none;\n" +
+            "            width:96%;\n" +
+            "            margin-top: 10px;\n" +
+            "        }\n" +
+            "\n" +
+            "        .SearchEngine{\n" +
+            "            padding-left: 1%;\n" +
+            "            background: whitesmoke;\n" +
+            "        }\n" +
+            "    </style>\n" +
+            "\n" +
+            "    <!--------------------->\n" +
+            "</head>\n" +
+            "<body>\n" +
+            "<div class=\"InnerBackGround\">\n" +
+            "    <nav>\n" +
+            "        <ul>\n" +
+            "            <li><a href=\"/\">Home</a></li>\n" +
+            "            <li><a href=\"/decorate\">Trang trí</a></li>\n" +
+            "            <li><a href=\"/food\">Đồ ăn</a></li>\n" +
+            "            <li><a href=\"/house\">Nhà</a></li>\n" +
+            "            <li><a href=\"/origami\">Origami</a></li>\n" +
+            "            <li class=\"nav-item\"><a href=\"/login\" target=\"_blank\" class=\"btn btn-danger btn-round\">Login</a></li>\n" +
+            "        </ul>\n" +
+            "    </nav>\n" +
+            "</div>\n" +
+            "<div class=\"SearchEngine\">\n" +
+            "    <form id=\"searchthis\" action=\"search\" style=\"display:inline;\" method=\"get\">\n" +
+            "        <input id=\"namanyay-search-box\" name=\"q\" size=\"40\" type=\"text\" placeholder=\"Search\"/>\n" +
+            "        <input id=\"namanyay-search-btn\" value=\"Go\" type=\"submit\"/>\n" +
+            "    </form>\n" +
+            "</div>\n" +
+            "<div class=\"wrapper\">\n" +
+            "    <header>\n" +
+            "        <a href=\"javascript:void(0)\" class=\"show-list\"><i class=\"fa fa-th-list\"></i></a>\n" +
+            "        <a href=\"javascript:void(0)\" class=\"hide-list\"><i class=\"fa fa-th\"></i></a>\n" +
+            "    </header>\n" +
+            "    <div class=\"container\">";
+
+        AWS.config.update({
+            region: "us-east-1",
+            endpoint: "http://dynamodb.us-east-1.amazonaws.com"
+        });
+
+        AWS.config.accessKeyId = config.accesskeyid;
+        AWS.config.secretAccessKey = config.secretkey;
+
+        let docClient = new AWS.DynamoDB.DocumentClient();
+        let params = {
+            TableName: "handmadevideo01",
+            ProjectionExpression:"id,email,HandleName,image,urlVideo,summary,title"
+        };
+        //lỗi ở đây là code không tìm thấy bảng
+        docClient.scan(params, function (err,data) {
+            if (err){
+                htmlCode +="<p>Suka blyat</p>" +
+                    "    </div>\n" +
+                    "</div>\n" +
+                    "<script>\n" +
+                    "    $('.show-list').click(function(){\n" +
+                    "        $('.wrapper').addClass('list-mode');\n" +
+                    "    });\n" +
+                    "\n" +
+                    "    $('.hide-list').click(function(){\n" +
+                    "        $('.wrapper').removeClass('list-mode');\n" +
+                    "    });\n" +
+                    "    $(function(){\n" +
+                    "        var header = $(\"nav\"),\n" +
+                    "            yOffset = 0,\n" +
+                    "            triggerPoint = 150;\n" +
+                    "        $(window).scroll(function(){\n" +
+                    "            yOffset = $(window).scrollTop();\n" +
+                    "\n" +
+                    "            if(yOffset >= triggerPoint){\n" +
+                    "                header.addClass(\"minimized\");\n" +
+                    "            }else{\n" +
+                    "                header.removeClass(\"minimized\");\n" +
+                    "            }\n" +
+                    "        });\n" +
+                    "    });\n" +
+                    "</script>\n" +
+                    "</body>\n" +
+                    "</html>\n";
+                res.send(htmlCode);
+                console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
+            }
+            else {
+                data.Items.forEach(function (clips) {
+                    htmlCode += "<div class=\"box\">\n" +
+                        "            <div class=\"ProductSet ProductSet--grid\">\n" +
+                        "                <!-- Product Card: vertical -->\n" +
+                        "                <a href=\"/watchvideo?id=" +  clips.id + "\" class=\"ProductCard ProductCard--grid\">\n" +
+                        "                    <div class=\"ProductCard__img-wrapper\">\n" +
+                        "                        <img src=\""+clips.image+"\" alt=\"\" class=\"ProductCard__img\">\n" +
+                        "                    </div>\n" +
+                        "                    <div class=\"ProductCard__details\">\n" +
+                        "                        <div class=\"ProductCard__details__header\">\n" +
+                        "                            <div class=\"ProductCard__titles\">\n" +
+                        "                                <h4 class=\"ProductCard__title\">"+clips.summary+"</h4>\n" +
+                        "                                <h5 class=\"ProductCard__price\">"+clips.email+"</h5>\n" +
+                        "                            </div>\n" +
+                        "                            <button class=\"IconBtn\">\n" +
+                        "                                <svg class=\"Icon Icon--medium Icon--colored\">\n" +
+                        "                                    <use xlink:href=\"./src/img/icons/svg-sprite.svg#heart\"></use>\n" +
+                        "                                </svg>\n" +
+                        "                            </button>\n" +
+                        "                        </div>\n" +
+                        "                        <p class=\"ProductCard__description\">\n" +
+                        "                            \n" +
+                        "                        </p>\n" +
+                        "                    </div>\n" +
+                        "                </a>\n" +
+                        "        </div>";
+                });
+                // continue scanning if we have more movies, because
+                // scan can retrieve a maximum of 1MB of data
+                if (typeof data.LastEvaluatedKey !== "undefined") {
+                    htmlCode += "<br/><p>Scanning for more ... </p>";
+                    params.ExclusiveStartKey = data.LastEvaluatedKey;
+                    docClient.scan(params, onScan);
+                }
+                htmlCode +=
+                    "    </div>\n" +
+                    "</div>\n" +
+                    "<script>\n" +
+                    "    $('.show-list').click(function(){\n" +
+                    "        $('.wrapper').addClass('list-mode');\n" +
+                    "    });\n" +
+                    "\n" +
+                    "    $('.hide-list').click(function(){\n" +
+                    "        $('.wrapper').removeClass('list-mode');\n" +
+                    "    });\n" +
+                    "    $(function(){\n" +
+                    "        var header = $(\"nav\"),\n" +
+                    "            yOffset = 0,\n" +
+                    "            triggerPoint = 150;\n" +
+                    "        $(window).scroll(function(){\n" +
+                    "            yOffset = $(window).scrollTop();\n" +
+                    "\n" +
+                    "            if(yOffset >= triggerPoint){\n" +
+                    "                header.addClass(\"minimized\");\n" +
+                    "            }else{\n" +
+                    "                header.removeClass(\"minimized\");\n" +
+                    "            }\n" +
+                    "        });\n" +
+                    "    });\n" +
+                    "</script>\n" +
+                    "</body>\n" +
+                    "</html>\n";
+                res.send(htmlCode);
+            }
+        });
+    },
+
     WatchedRender : function (req,res) {
         let code = "<!DOCTYPE html>\n" +
             "<html lang=\"en\">\n" +

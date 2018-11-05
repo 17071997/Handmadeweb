@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width" />
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700'>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css'>
+    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="Stylesheet" href='https://fonts.googleapis.com/css?family=Muli' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,300italic,400italic,600italic,600' rel='stylesheet' type='text/css'>
+    <link rel="Stylesheet" href="css/master.css" type="text/css" />
+    <link rel="Stylesheet" href="https://ianlunn.github.io/Hover/css/hover.css" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link href="../CSS/slide.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        *{
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        a{
+            -webkit-transition: all 0.3s ease;
+            -moz-transition: all 0.3s ease;
+            -o-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+        }
+        .wrapper{
+            width:100%;
+            margin:30px auto 0;
+            background-color:#FFFFFF;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 100px;
+            min-height: 1300px;
+            height: auto;
+        }
+
+        header{
+            text-align:right;
+            padding:10px;
+            margin-bottom:10px;
+            background-color:#5DBA9D;
+        }
+
+        header a{
+            font-size:20px;
+            color:#FFFFFF;
+            width:40px;
+            height:40px;
+            line-height:40px;
+            margin-left:10px;
+            text-align:center;
+            display:inline-block;
+        }
+
+        header a:hover, .list-mode header a.hide-list:hover{
+            background-color:#11956c;
+        }
+
+        header a.hide-list{
+            background-color:#11956c;
+        }
+
+        .list-mode header a.hide-list{
+            background-color:#5DBA9D;
+        }
+
+        .list-mode header a.show-list{
+            background-color:#11956c;
+        }
+
+        .container{
+            padding:10px 0 10px 10px;
+            height:auto;            min-height: 1000px;
+            width: 400px;
+            float: right;
+        }
+        .wrapper .box{
+            float:left;
+            width:auto;
+            height:auto;
+            margin:0 10px 10px 0;
+            -webkit-transition:all 1.0s ease;
+            -moz-transition:all 1.0s ease;
+            transition:all 1.0s ease;
+            justify-content: center;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 1rem;
+        }
+        .wrapper.list-mode .container{
+            padding-right:10px;
+        }
+
+        .wrapper.list-mode .box{
+            width:100%;
+        }
+
+        .media_content{
+            padding: 5px;
+            float: left;
+            width: 1200px;
+            height: auto;
+            min-height: 1000px;
+        }
+
+        .videoPlayer{
+            width: 1190px;
+            height: 800px;
+            float: left;
+        }
+        
+        .comment{
+            height: auto;
+            min-height: 200px;
+            margin-top: 20px;
+            width: 1190px;
+            float: left;
+        }
+    </style>
+    <style>
+        :root {
+            --font-primary: "Open Sans", sans-serif;
+            --font-secondary: "Josefin Sans", sans-serif;
+            --color-primary: #7c83ff;
+            --color-secondary: #f097a5;
+            --color-text-primary: #000;
+            --color-text-secondary: #666;
+            --bg-body: #eee;
+            --bg-primary: #fff;
+            --bg-secondary: #fcfcfc;
+            --rem-mobile: 10px;
+            --rem-tablet: 12px;
+            --rem-laptop: 13px;
+            --rem-desktop: 14px;
+            --rem-big: 16px;
+            --size-mini: 0.8rem;
+            --size-small: 1.5rem;
+            --size-medium: 2rem;
+            --size-big: 3rem;
+            --size-massive: 4rem;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: inherit;
+        }
+
+        html {
+            box-sizing: border-box;
+            font-size: 10px;
+        }
+        @media screen and (min-width: 426px) {
+            html {
+                font-size: 12px;
+            }
+        }
+        @media screen and (min-width: 769px) {
+            html {
+                font-size: 13px;
+            }
+        }
+        @media screen and (min-width: 1025px) {
+            html {
+                font-size: 14px;
+            }
+        }
+        @media screen and (min-width: 1441px) {
+            html {
+                font-size: 16px;
+            }
+        }
+
+        body {
+            font-size: 1.4rem;
+            background-color: #eee;
+            font-family: var(--font-primary);
+        }
+
+        .Icon {
+            transition: all 0.3s;
+        }
+
+        .Icon--colored {
+            fill: #f097a5;
+        }
+
+        .Icon--stroked {
+            fill: none;
+            stroke: var(--color-secondary);
+            stroke-width: 3px;
+        }
+
+        .Icon:hover {
+            opacity: 0.75;
+        }
+
+        .Icon--small {
+            height: 1.5rem;
+            width: 1.5rem;
+        }
+
+        .Icon--medium {
+            height: 2rem;
+            width: 2rem;
+        }
+
+        .Icon--big {
+            height: 3rem;
+            width: 3rem;
+        }
+
+        .Icon--massive {
+            height: 4rem;
+            width: 4rem;
+        }
+
+        .Icon--facebook {
+            fill: #3b5999;
+        }
+
+        .Icon--twitter {
+            fill: #55acee;
+        }
+
+        .SocialLink {
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 0 .2rem;
+        }
+
+        .IconBtn {
+            padding: 0;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .ProductSet {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 1rem;
+            width : 400px;
+        }
+        .ProductSet--grid {
+            margin-left: 1rem;
+            justify-content: center;
+            height: auto;
+        }
+        .ProductSet--grid > * {
+            margin: 0 1rem 1rem 0;
+        }
+        .ProductSet--list {
+            flex-direction: column;
+        }
+        .ProductSet--list > *:not(:last-child) {
+            margin-bottom: 1rem;
+        }
+
+        .ProductCard {
+            display: flex;
+            text-decoration: none;
+            border-radius: 1rem;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s;
+            width: 400px;
+        }
+        .ProductCard:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-0.5rem);
+        }
+        @media screen and (min-width: 426px) {
+            .ProductCard {
+                font-size: 1.2rem;
+            }
+        }
+        .ProductCard--grid {
+            width: 140rem;
+            flex-direction: column;
+        }
+        .ProductCard--list {
+            max-height: 15rem;
+        }
+        .ProductCard--list .ProductCard__img-wrapper {
+            max-width: 400px;
+            width: 400px;
+            margin: 2rem 0 2rem 2rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        @media screen and (min-width: 426px) {
+            .ProductCard--list .ProductCard__img-wrapper {
+                margin: initial;
+                flex: 1 1 auto;
+            }
+        }
+        .ProductCard__img {
+            width: 100%;
+        }
+        .ProductCard--grid .ProductCard__details {
+            padding: 3rem 1.5rem;
+        }
+        .ProductCard--list .ProductCard__details {
+            margin: 2.5rem;
+            width: 60%;
+        }
+        @media screen and (min-width: 426px) {
+            .ProductCard--list .ProductCard__details {
+                width: 0;
+                flex: 1 1 auto;
+            }
+        }
+        .ProductCard__details__header {
+            display: flex;
+            justify-content: space-between;
+        }
+        .ProductCard--grid .ProductCard__details__header {
+            align-items: flex-end;
+        }
+        .ProductCard--list .ProductCard__details__header {
+            margin-bottom: 2rem;
+            align-items: flex-start;
+        }
+        .ProductCard .ProductCard__titles {
+            margin-right: 1rem;
+        }
+        .ProductCard__title {
+            color: #000;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-family: var(--font-secondary);
+            font-weight: 400;
+        }
+        .ProductCard--list .ProductCard__title {
+            margin-bottom: 1.5rem;
+        }
+        .ProductCard__price {
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            font-weight: 400;
+        }
+        @media screen and (min-width: 426px) {
+            .ProductCard__price {
+                font-size: 1.1rem;
+            }
+        }
+        .ProductCard__description {
+            color: var(--color-text-secondary);
+            display: none;
+        }
+        @media screen and (min-width: 426px) {
+            .ProductCard__description {
+                font-size: 1rem;
+            }
+        }
+        @media screen and (min-width: 426px) {
+            .ProductCard--list .ProductCard__description {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                display: block;
+            }
+        }
+    </style>
+    <!-- Searching engine-->
+
+    <style>
+        #namanyay-search-btn {
+            background:#0099ff;
+            color:white;
+            font: 'trebuchet ms', trebuchet;
+            padding:10px 20px;
+            border-radius:0 5px 5px 0;
+            -moz-border-radius:0 5px 5px 0;
+            -webkit-border-radius:0 5px 5px 0;
+            -o-border-radius:0 5px 5px 0;
+            border:0 none;
+            font-weight:bold;
+        }
+
+        #namanyay-search-box {
+            background: #666666;
+            color: #FFFFFF;
+            padding:10px;
+            border-radius:5px 0 0 5px;
+            -moz-border-radius:5px 0 0 5px;
+            -webkit-border-radius:5px 0 0 5px;
+            -o-border-radius:5px 0 0 5px;
+            border:0 none;
+            width:80%;
+        }
+
+        .SearchEngine{
+            padding-left: 19%;
+            background: whitesmoke;
+        }
+    </style>
+
+    <!--------------------->
+</head>
+<body>
+<div class="InnerBackGround">
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/decorate">Trang trí</a></li>
+            <li><a href="/food">Đồ ăn</a></li>
+            <li><a href="/house">Nhà</a></li>
+            <li><a href="/origami">Origami</a></li>
+            <li class="nav-item"><a href="/login" target="_blank" class="btn btn-danger btn-round">Login</a></li>
+        </ul>
+    </nav>
+</div>
+<div class="SearchEngine">
+    <form id="searchthis" action="search" style="display:inline;" method="get">
+        <input id="namanyay-search-box" name="q" size="40" type="text" placeholder="Search"/>
+        <input id="namanyay-search-btn" value="Go" type="submit"/>
+    </form>
+</div>
+<div class="wrapper">
+    <div class="media_content">
+        <div class="videoPlayer">
+            <video width="1190" height="800" controls>
+                <source src="" type="video/mp4">
+                Your browser doesn't support the video tag
+            </video>
+        </div>
+        <div class="comment"></div>
+    </div>
+    <div class="container">
+        <div class="box">
+            <div class="ProductSet ProductSet--grid">
+                <!-- Product Card: vertical -->
+                <a href="#" class="ProductCard ProductCard--grid">
+                    <div class="ProductCard__img-wrapper">
+                        <img src="http://handmadevideos001.s3.amazonaws.com/images/aaaa_04.png" alt="" class="ProductCard__img">
+                    </div>
+                    <div class="ProductCard__details">
+                        <div class="ProductCard__details__header">
+                            <div class="ProductCard__titles">
+                                <h4 class="ProductCard__title">Cách trang trí lọ cũ</h4>
+                                <h5 class="ProductCard__price">dotuananh.fit.iuh@gmail.com</h5>
+                            </div>
+                            <button class="IconBtn">
+                                <svg class="Icon Icon--medium Icon--colored">
+                                    <use xlink:href="./src/img/icons/svg-sprite.svg#heart"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="ProductCard__description">
+
+                        </p>
+                    </div>
+                </a>
+            </div><div class="box">
+            <div class="ProductSet ProductSet--grid">
+                <!-- Product Card: vertical -->
+                <a href="#" class="ProductCard ProductCard--grid">
+                    <div class="ProductCard__img-wrapper">
+                        <img src="https://s3.amazonaws.com/handmadevideos001/images/1540796103544aaaa_03.png" alt="" class="ProductCard__img">
+                    </div>
+                    <div class="ProductCard__details">
+                        <div class="ProductCard__details__header">
+                            <div class="ProductCard__titles">
+                                <h4 class="ProductCard__title">Cách làm quà tặng giáng sinh độc đáo</h4>
+                                <h5 class="ProductCard__price">tranthevu.iuh@gmail.com</h5>
+                            </div>
+                            <button class="IconBtn">
+                                <svg class="Icon Icon--medium Icon--colored">
+                                    <use xlink:href="./src/img/icons/svg-sprite.svg#heart"></use>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="ProductCard__description">
+
+                        </p>
+                    </div>
+                </a>
+            </div>    </div>
+        </div>
+        <script>
+            $('.show-list').click(function(){
+                $('.wrapper').addClass('list-mode');
+            });
+
+            $('.hide-list').click(function(){
+                $('.wrapper').removeClass('list-mode');
+            });
+            $(function(){
+                let header = $("nav"),
+                    yOffset = 0,
+                    triggerPoint = 150;
+                $(window).scroll(function(){
+                    yOffset = $(window).scrollTop();
+
+                    if(yOffset >= triggerPoint){
+                        header.addClass("minimized");
+                    }else{
+                        header.removeClass("minimized");
+                    }
+                });
+            });
+        </script>
+    </div>
+</div>
+</body>
+</html>
