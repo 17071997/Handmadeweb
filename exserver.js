@@ -12,6 +12,9 @@ let Renderator = require('./NodeJS/Renderator');
 let AWSDynamoRetrieve = require('./NodeJS/RetrieveAWSData');
 let authenticate = require('./NodeJS/LoginModule');
 let urlencodedParser = bodyParser.urlencoded({ extended : true });
+let OptionalFunction = require('./NodeJS/OptionalFunctions');
+let session = require('express-session');
+let AWSDynamoPost = require('./NodeJS/PostToAWS');
 
 app.use(express.static('public'));
 //app.use(morgan('dev'));
@@ -28,6 +31,8 @@ app.use(function (req,res,next) {
         next();
     }
 });
+
+OptionalFunction.createSession(app);
 
 const handleError = (err, res) => {
     res
@@ -55,10 +60,12 @@ app.get('/', function (req, res) {
 
 app.get('/watchvideo', (req,res) => {
     let query = url.parse(req.url,true).query;
+    let urlvideo = query.ip;
     let id = query.id;
     try {
-        AWSDynamoRetrieve.GetVideoByID(id,res);
+        AWSDynamoRetrieve.GetVideoByID(urlvideo,id,res);
     } catch (e) {
+        console.log(e);
         res.redirect("/");
     }
 });
@@ -79,8 +86,12 @@ app.get('/register', function(req,res){
     res.sendFile(__dirname + "/public/view/" + 'register.html');
 });
 
+let sess;
+
 app.get('/login',function (req,res) {
-    res.sendFile(__dirname + "/public/view/" + 'login.html');
+    sess = req.session;
+    console.log(sess);
+    sess.email ? Renderator.WriterPageRender(req,res,email) : res.sendFile(__dirname + "/public/view/" + 'login.html');
 });
 
 app.get('/lost',function (req,res) {
@@ -203,6 +214,15 @@ app.post("/Dangbai", urlencodedParser, upload.any(), function (req,res,next) {
     });
 
 });
+
+app.post('/postcomment', urlencodedParser, (req,res)=> {
+    let email = req.body.email;
+    let content = req.body.content;
+    let id = req.body.idvideo;
+    AWSDynamoPost.PostComment(id,email,content);
+    window.history.back(); // ve trang truoc trong lich su
+});
+
 app.get('/postedrender', (req,res) => {
     //res.sendFile(__dirname+ "/public/view/partials/" + 'Posted.html');
     let query = url.parse(req.url,true).query;
@@ -228,7 +248,7 @@ app.post('/authenticate',urlencodedParser,function (req,res,next) {
     //parameter 'next' used for jwt, but i'll add it later
     let email = req.body.email.toString();
     let password = req.body.password.toString();
-    authenticate.sign_in(email,password,req,res);
+    authenticate.sign_in(email,password,req,res,app);
 });
 
 let server = app.listen(8000, function () {

@@ -2,6 +2,7 @@ let jwt = require('jsonwebtoken');
 let AWS = require('aws-sdk');
 let config = require('./config.json');
 let Renderator = require('./Renderator');
+let OptionFunction = require('./OptionalFunctions');
 
 exports.register = function (email,pass,res){
     let EMAIL = email.toString();
@@ -31,7 +32,7 @@ exports.register = function (email,pass,res){
     res.redirect("/login");
 };
 
-exports.sign_in = function (email,pass,req,res){
+exports.sign_in = function (email,pass,req,res,app){
 
     let token = "";
     let EMAIL = email.toString();

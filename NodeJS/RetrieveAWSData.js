@@ -1,7 +1,608 @@
 let aws = require('aws-sdk');
 let config = require('./config.json');
+
 //PostedHTML_start _ line 31
-exports.GetVideoByID = function (id,res){
+exports.GetVideoByID = function (urlVideo,id,res){
+    let videoViewer_start = "<!DOCTYPE html>\n" +
+        "<html lang=\"en\" >\n" +
+        "\n" +
+        "<head>\n" +
+        "    <meta charset=\"UTF-8\">\n" +
+        "    <title>Home Page</title>\n" +
+        "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
+        "    <meta name=\"viewport\" content=\"width=device-width\" />\n" +
+        "    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>\n" +
+        "    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700'>\n" +
+        "    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css'>\n" +
+        "    <link rel=\"stylesheet\" href=\"../CSS/style.css\">\n" +
+        "    <link rel=\"Stylesheet\" href='https://fonts.googleapis.com/css?family=Muli' type='text/css'>\n" +
+        "    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,300italic,400italic,600italic,600' rel='stylesheet' type='text/css'>\n" +
+        "    <link rel=\"Stylesheet\" href=\"css/master.css\" type=\"text/css\" />\n" +
+        "    <link rel=\"Stylesheet\" href=\"https://ianlunn.github.io/Hover/css/hover.css\" type=\"text/css\" />\n" +
+        "    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js\"></script>\n" +
+        "    <link href=\"../CSS/slide.css\" rel=\"stylesheet\" type=\"text/css\" />\n" +
+        "    <style type=\"text/css\">\n" +
+        "        *{\n" +
+        "            -webkit-box-sizing: border-box;\n" +
+        "            -moz-box-sizing: border-box;\n" +
+        "            box-sizing: border-box;\n" +
+        "        }\n" +
+        "        a{\n" +
+        "            -webkit-transition: all 0.3s ease;\n" +
+        "            -moz-transition: all 0.3s ease;\n" +
+        "            -o-transition: all 0.3s ease;\n" +
+        "            transition: all 0.3s ease;\n" +
+        "        }\n" +
+        "        .wrapper{\n" +
+        "            width:100%;\n" +
+        "            margin:30px auto 0;\n" +
+        "            background-color:#FFFFFF;\n" +
+        "            -webkit-box-sizing: border-box;\n" +
+        "            -moz-box-sizing: border-box;\n" +
+        "            box-sizing: border-box;\n" +
+        "            padding: 100px;\n" +
+        "            min-height: 1600px;\n" +
+        "            height: auto;\n" +
+        "        }\n" +
+        "\n" +
+        "        header{\n" +
+        "            text-align:right;\n" +
+        "            padding:10px;\n" +
+        "            margin-bottom:10px;\n" +
+        "            background-color:#5DBA9D;\n" +
+        "        }\n" +
+        "\n" +
+        "        header a{\n" +
+        "            font-size:20px;\n" +
+        "            color:#FFFFFF;\n" +
+        "            width:40px;\n" +
+        "            height:40px;\n" +
+        "            line-height:40px;\n" +
+        "            margin-left:10px;\n" +
+        "            text-align:center;\n" +
+        "            display:inline-block;\n" +
+        "        }\n" +
+        "\n" +
+        "        header a:hover, .list-mode header a.hide-list:hover{\n" +
+        "            background-color:#11956c;\n" +
+        "        }\n" +
+        "\n" +
+        "        header a.hide-list{\n" +
+        "            background-color:#11956c;\n" +
+        "        }\n" +
+        "\n" +
+        "        .list-mode header a.hide-list{\n" +
+        "            background-color:#5DBA9D;\n" +
+        "        }\n" +
+        "\n" +
+        "        .list-mode header a.show-list{\n" +
+        "            background-color:#11956c;\n" +
+        "        }\n" +
+        "\n" +
+        "        .container{\n" +
+        "            padding:10px 0 10px 0;\n" +
+        "            height:auto;            min-height: 1000px;\n" +
+        "            width: 400px;\n" +
+        "            float: right;\n" +
+        "        }\n" +
+        "        .wrapper .box{\n" +
+        "            float:left;\n" +
+        "            width:auto;\n" +
+        "            height:auto;\n" +
+        "            margin:0 10px 10px 0;\n" +
+        "            -webkit-transition:all 1.0s ease;\n" +
+        "            -moz-transition:all 1.0s ease;\n" +
+        "            transition:all 1.0s ease;\n" +
+        "            justify-content: center;\n" +
+        "            display: flex;\n" +
+        "            flex-wrap: wrap;\n" +
+        "            padding: 1rem;\n" +
+        "        }\n" +
+        "        .wrapper.list-mode .container{\n" +
+        "            padding-right:10px;\n" +
+        "        }\n" +
+        "\n" +
+        "        .wrapper.list-mode .box{\n" +
+        "            width:100%;\n" +
+        "        }\n" +
+        "\n" +
+        "        .media_content{\n" +
+        "            padding: 5px;\n" +
+        "            float: left;\n" +
+        "            width: 1190px;\n" +
+        "            height: auto;\n" +
+        "            min-height: 1000px;\n" +
+        "        }\n" +
+        "\n" +
+        "        .videoPlayer{\n" +
+        "            width: 1190px;\n" +
+        "            height: 800px;\n" +
+        "            float: left;\n" +
+        "        }\n" +
+        "        \n" +
+        "        .comment{\n" +
+        "            height: auto;\n" +
+        "            min-height: 200px;\n" +
+        "            margin-top: 20px;\n" +
+        "            width: 1190px;\n" +
+        "            float: left;\n" +
+        "        }\n" +
+        "    </style>\n" +
+        "    <style>\n" +
+        "        :root {\n" +
+        "            --font-primary: \"Open Sans\", sans-serif;\n" +
+        "            --font-secondary: \"Josefin Sans\", sans-serif;\n" +
+        "            --color-primary: #7c83ff;\n" +
+        "            --color-secondary: #f097a5;\n" +
+        "            --color-text-primary: #000;\n" +
+        "            --color-text-secondary: #666;\n" +
+        "            --bg-body: #eee;\n" +
+        "            --bg-primary: #fff;\n" +
+        "            --bg-secondary: #fcfcfc;\n" +
+        "            --rem-mobile: 10px;\n" +
+        "            --rem-tablet: 12px;\n" +
+        "            --rem-laptop: 13px;\n" +
+        "            --rem-desktop: 14px;\n" +
+        "            --rem-big: 16px;\n" +
+        "            --size-mini: 0.8rem;\n" +
+        "            --size-small: 1.5rem;\n" +
+        "            --size-medium: 2rem;\n" +
+        "            --size-big: 3rem;\n" +
+        "            --size-massive: 4rem;\n" +
+        "        }\n" +
+        "\n" +
+        "        *,\n" +
+        "        *::before,\n" +
+        "        *::after {\n" +
+        "            margin: 0;\n" +
+        "            padding: 0;\n" +
+        "            box-sizing: inherit;\n" +
+        "        }\n" +
+        "\n" +
+        "        html {\n" +
+        "            box-sizing: border-box;\n" +
+        "            font-size: 10px;\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 426px) {\n" +
+        "            html {\n" +
+        "                font-size: 12px;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 769px) {\n" +
+        "            html {\n" +
+        "                font-size: 13px;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 1025px) {\n" +
+        "            html {\n" +
+        "                font-size: 14px;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 1441px) {\n" +
+        "            html {\n" +
+        "                font-size: 16px;\n" +
+        "            }\n" +
+        "        }\n" +
+        "\n" +
+        "        body {\n" +
+        "            font-size: 1.4rem;\n" +
+        "            background-color: #eee;\n" +
+        "            font-family: var(--font-primary);\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon {\n" +
+        "            transition: all 0.3s;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--colored {\n" +
+        "            fill: #f097a5;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--stroked {\n" +
+        "            fill: none;\n" +
+        "            stroke: var(--color-secondary);\n" +
+        "            stroke-width: 3px;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon:hover {\n" +
+        "            opacity: 0.75;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--small {\n" +
+        "            height: 1.5rem;\n" +
+        "            width: 1.5rem;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--medium {\n" +
+        "            height: 2rem;\n" +
+        "            width: 2rem;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--big {\n" +
+        "            height: 3rem;\n" +
+        "            width: 3rem;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--massive {\n" +
+        "            height: 4rem;\n" +
+        "            width: 4rem;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--facebook {\n" +
+        "            fill: #3b5999;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--twitter {\n" +
+        "            fill: #55acee;\n" +
+        "        }\n" +
+        "\n" +
+        "        .SocialLink {\n" +
+        "            text-decoration: none;\n" +
+        "            transition: all 0.3s;\n" +
+        "            padding: 0 .2rem;\n" +
+        "        }\n" +
+        "\n" +
+        "        .IconBtn {\n" +
+        "            padding: 0;\n" +
+        "            border: none;\n" +
+        "            background-color: transparent;\n" +
+        "            cursor: pointer;\n" +
+        "            outline: none;\n" +
+        "        }\n" +
+        "\n" +
+        "        .ProductSet {\n" +
+        "            display: flex;\n" +
+        "            flex-wrap: wrap;\n" +
+        "            padding: 1rem;\n" +
+        "            width : 400px;\n" +
+        "        }\n" +
+        "        .ProductSet--grid {\n" +
+        "            margin-left: 1rem;\n" +
+        "            justify-content: center;\n" +
+        "            height: auto;\n" +
+        "        }\n" +
+        "        .ProductSet--grid > * {\n" +
+        "            margin: 0 1rem 1rem 0;\n" +
+        "        }\n" +
+        "        .ProductSet--list {\n" +
+        "            flex-direction: column;\n" +
+        "        }\n" +
+        "        .ProductSet--list > *:not(:last-child) {\n" +
+        "            margin-bottom: 1rem;\n" +
+        "        }\n" +
+        "\n" +
+        "        .ProductCard {\n" +
+        "            display: flex;\n" +
+        "            text-decoration: none;\n" +
+        "            border-radius: 1rem;\n" +
+        "            overflow: hidden;\n" +
+        "            background-color: #fff;\n" +
+        "            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);\n" +
+        "            transition: all 0.2s;\n" +
+        "            width: 400px;\n" +
+        "        }\n" +
+        "        .ProductCard:hover {\n" +
+        "            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);\n" +
+        "            transform: translateY(-0.5rem);\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 426px) {\n" +
+        "            .ProductCard {\n" +
+        "                font-size: 1.2rem;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        .ProductCard--grid {\n" +
+        "            width: 140rem;\n" +
+        "            flex-direction: column;\n" +
+        "        }\n" +
+        "        .ProductCard--list {\n" +
+        "            max-height: 15rem;\n" +
+        "        }\n" +
+        "        .ProductCard--list .ProductCard__img-wrapper {\n" +
+        "            max-width: 400px;\n" +
+        "            width: 400px;\n" +
+        "            margin: 2rem 0 2rem 2rem;\n" +
+        "            overflow: hidden;\n" +
+        "            display: flex;\n" +
+        "            align-items: center;\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 426px) {\n" +
+        "            .ProductCard--list .ProductCard__img-wrapper {\n" +
+        "                margin: initial;\n" +
+        "                flex: 1 1 auto;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        .ProductCard__img {\n" +
+        "            width: 100%;\n" +
+        "        }\n" +
+        "        .ProductCard--grid .ProductCard__details {\n" +
+        "            padding: 3rem 1.5rem;\n" +
+        "        }\n" +
+        "        .ProductCard--list .ProductCard__details {\n" +
+        "            margin: 2.5rem;\n" +
+        "            width: 60%;\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 426px) {\n" +
+        "            .ProductCard--list .ProductCard__details {\n" +
+        "                width: 0;\n" +
+        "                flex: 1 1 auto;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        .ProductCard__details__header {\n" +
+        "            display: flex;\n" +
+        "            justify-content: space-between;\n" +
+        "        }\n" +
+        "        .ProductCard--grid .ProductCard__details__header {\n" +
+        "            align-items: flex-end;\n" +
+        "        }\n" +
+        "        .ProductCard--list .ProductCard__details__header {\n" +
+        "            margin-bottom: 2rem;\n" +
+        "            align-items: flex-start;\n" +
+        "        }\n" +
+        "        .ProductCard .ProductCard__titles {\n" +
+        "            margin-right: 1rem;\n" +
+        "        }\n" +
+        "        .ProductCard__title {\n" +
+        "            color: #000;\n" +
+        "            margin-bottom: 1rem;\n" +
+        "            text-transform: uppercase;\n" +
+        "            font-family: var(--font-secondary);\n" +
+        "            font-weight: 400;\n" +
+        "        }\n" +
+        "        .ProductCard--list .ProductCard__title {\n" +
+        "            margin-bottom: 1.5rem;\n" +
+        "        }\n" +
+        "        .ProductCard__price {\n" +
+        "            font-size: 1.2rem;\n" +
+        "            color: var(--color-text-secondary);\n" +
+        "            font-weight: 400;\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 426px) {\n" +
+        "            .ProductCard__price {\n" +
+        "                font-size: 1.1rem;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        .ProductCard__description {\n" +
+        "            color: var(--color-text-secondary);\n" +
+        "            display: none;\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 426px) {\n" +
+        "            .ProductCard__description {\n" +
+        "                font-size: 1rem;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 426px) {\n" +
+        "            .ProductCard--list .ProductCard__description {\n" +
+        "                overflow: hidden;\n" +
+        "                text-overflow: ellipsis;\n" +
+        "                white-space: nowrap;\n" +
+        "                display: block;\n" +
+        "            }\n" +
+        "        }\n" +
+        "    </style>\n" +
+        "    <!-- Searching engine-->\n" +
+        "\n" +
+        "    <style>\n" +
+        "        #namanyay-search-btn {\n" +
+        "            background:#0099ff;\n" +
+        "            color:white;\n" +
+        "            font: 'trebuchet ms', trebuchet;\n" +
+        "            padding:10px 20px;\n" +
+        "            border-radius:0 5px 5px 0;\n" +
+        "            -moz-border-radius:0 5px 5px 0;\n" +
+        "            -webkit-border-radius:0 5px 5px 0;\n" +
+        "            -o-border-radius:0 5px 5px 0;\n" +
+        "            border:0 none;\n" +
+        "            font-weight:bold;\n" +
+        "        }\n" +
+        "\n" +
+        "        #namanyay-search-box {\n" +
+        "            background: #666666;\n" +
+        "            color: #FFFFFF;\n" +
+        "            padding:10px;\n" +
+        "            border-radius:5px 0 0 5px;\n" +
+        "            -moz-border-radius:5px 0 0 5px;\n" +
+        "            -webkit-border-radius:5px 0 0 5px;\n" +
+        "            -o-border-radius:5px 0 0 5px;\n" +
+        "            border:0 none;\n" +
+        "            width:80%;\n" +
+        "        }\n" +
+        "\n" +
+        "        .SearchEngine{\n" +
+        "            padding-left: 19%;\n" +
+        "            background: whitesmoke;\n" +
+        "            margin: 5px;\n" +
+        "        }\n" +
+        "    </style>\n" +
+        "    <!---------Comment field-------------->\n" +
+        "    <style>\n" +
+        "        .comment_area{\n" +
+        "            margin: 5px;\n" +
+        "            width: 1180px;\n" +
+        "            height: auto;\n" +
+        "            min-height: 50px;\n" +
+        "            padding: 10px;\n" +
+        "            font-family: Georgia, sans-serif;\n" +
+        "            color: black;\n" +
+        "        }\n" +
+        "        .comment_post{\n" +
+        "            margin: 20px 10px 10px 10px;\n" +
+        "            width: 1180px;\n" +
+        "            height: auto;\n" +
+        "            min-height: 100px;\n" +
+        "            padding: 5px;\n" +
+        "            font-family: Georgia, sans-serif;\n" +
+        "            background: #3b4148;\n" +
+        "        }\n" +
+        "        @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);\n" +
+        "        #feedback-page {\n" +
+        "            text-align: center;\n" +
+        "        }\n" +
+        "\n" +
+        "        #form-main {\n" +
+        "            width: 100%;\n" +
+        "            float: left;\n" +
+        "            padding-top: 0px;\n" +
+        "        }\n" +
+        "\n" +
+        "        #form-div {\n" +
+        "            background-color: rgba(72, 72, 72, 0.4);\n" +
+        "            padding-left: 35px;\n" +
+        "            padding-right: 35px;\n" +
+        "            padding-top: 35px;\n" +
+        "            padding-bottom: 50px;\n" +
+        "            width: 450px;\n" +
+        "            float: left;\n" +
+        "            left: 50%;\n" +
+        "            position: absolute;\n" +
+        "            margin-top: 30px;\n" +
+        "            margin-left: -260px;\n" +
+        "            -moz-border-radius: 7px;\n" +
+        "            -webkit-border-radius: 7px;\n" +
+        "        }\n" +
+        "\n" +
+        "        .feedback-input {\n" +
+        "            color: #3c3c3c;\n" +
+        "            font-family: Helvetica, Arial, sans-serif;\n" +
+        "            font-weight: 500;\n" +
+        "            font-size: 18px;\n" +
+        "            border-radius: 0;\n" +
+        "            line-height: 22px;\n" +
+        "            background-color: #fbfbfb;\n" +
+        "            padding: 13px 13px 13px 54px;\n" +
+        "            margin-bottom: 10px;\n" +
+        "            width: 100%;\n" +
+        "            -webkit-box-sizing: border-box;\n" +
+        "            -moz-box-sizing: border-box;\n" +
+        "            -ms-box-sizing: border-box;\n" +
+        "            box-sizing: border-box;\n" +
+        "            border: 3px solid rgba(0, 0, 0, 0);\n" +
+        "        }\n" +
+        "\n" +
+        "        .feedback-input:focus {\n" +
+        "            background: #fff;\n" +
+        "            box-shadow: 0;\n" +
+        "            border: 3px solid #3498db;\n" +
+        "            color: #3498db;\n" +
+        "            outline: none;\n" +
+        "            padding: 13px 13px 13px 54px;\n" +
+        "        }\n" +
+        "\n" +
+        "        .focused {\n" +
+        "            color: #30aed6;\n" +
+        "            border: #30aed6 solid 3px;\n" +
+        "        }\n" +
+        "\n" +
+        "        /* Icons ---------------------------------- */\n" +
+        "\n" +
+        "        #email {\n" +
+        "            background-image: url(http://rexkirby.com/kirbyandson/images/email.svg);\n" +
+        "            background-size: 30px 30px;\n" +
+        "            background-position: 11px 8px;\n" +
+        "            background-repeat: no-repeat;\n" +
+        "        }\n" +
+        "\n" +
+        "        #email:focus {\n" +
+        "            background-image: url(http://rexkirby.com/kirbyandson/images/email.svg);\n" +
+        "            background-size: 30px 30px;\n" +
+        "            background-position: 11px 8px;\n" +
+        "            background-repeat: no-repeat;\n" +
+        "        }\n" +
+        "\n" +
+        "        #comment {\n" +
+        "            background-image: url(http://rexkirby.com/kirbyandson/images/comment.svg);\n" +
+        "            background-size: 30px 30px;\n" +
+        "            background-position: 11px 8px;\n" +
+        "            background-repeat: no-repeat;\n" +
+        "        }\n" +
+        "\n" +
+        "        textarea {\n" +
+        "            width: 100%;\n" +
+        "            height: 150px;\n" +
+        "            line-height: 150%;\n" +
+        "            resize: vertical;\n" +
+        "        }\n" +
+        "\n" +
+        "        input:hover, textarea:hover,\n" +
+        "        input:focus, textarea:focus {\n" +
+        "            background-color: white;\n" +
+        "        }\n" +
+        "\n" +
+        "        #button-blue {\n" +
+        "            font-family: 'Montserrat', Arial, Helvetica, sans-serif;\n" +
+        "            float: left;\n" +
+        "            width: 100%;\n" +
+        "            border: #fbfbfb solid 4px;\n" +
+        "            cursor: pointer;\n" +
+        "            background-color: #3498db;\n" +
+        "            color: white;\n" +
+        "            font-size: 24px;\n" +
+        "            padding-top: 22px;\n" +
+        "            padding-bottom: 22px;\n" +
+        "            -webkit-transition: all 0.3s;\n" +
+        "            -moz-transition: all 0.3s;\n" +
+        "            transition: all 0.3s;\n" +
+        "            margin-top: -4px;\n" +
+        "            font-weight: 700;\n" +
+        "        }\n" +
+        "\n" +
+        "        #button-blue:hover {\n" +
+        "            background-color: rgba(0, 0, 0, 0);\n" +
+        "            color: #0493bd;\n" +
+        "        }\n" +
+        "\n" +
+        "        .submit:hover {\n" +
+        "            color: #3498db;\n" +
+        "        }\n" +
+        "\n" +
+        "        .ease {\n" +
+        "            width: 0px;\n" +
+        "            height: 74px;\n" +
+        "            background-color: #fbfbfb;\n" +
+        "            -webkit-transition: .3s ease;\n" +
+        "            -moz-transition: .3s ease;\n" +
+        "            -o-transition: .3s ease;\n" +
+        "            -ms-transition: .3s ease;\n" +
+        "            transition: .3s ease;\n" +
+        "        }\n" +
+        "\n" +
+        "        .submit:hover .ease {\n" +
+        "            width: 100%;\n" +
+        "            background-color: white;\n" +
+        "        }\n" +
+        "\n" +
+        "    </style>\n" +
+        "    <!--------------------->\n" +
+        "</head>\n" +
+        "<body>\n" +
+        "<div class=\"InnerBackGround\">\n" +
+        "    <nav>\n" +
+        "        <ul>\n" +
+        "            <li><a href=\"/\">Home</a></li>\n" +
+        "            <li><a href=\"/decorate\">Trang trí</a></li>\n" +
+        "            <li><a href=\"/food\">Đồ ăn</a></li>\n" +
+        "            <li><a href=\"/house\">Nhà</a></li>\n" +
+        "            <li><a href=\"/origami\">Origami</a></li>\n" +
+        "            <li class=\"nav-item\"><a href=\"/login\" target=\"_blank\" class=\"btn btn-danger btn-round\">Login</a></li>\n" +
+        "        </ul>\n" +
+        "    </nav>\n" +
+        "</div>\n" +
+        "<div class=\"SearchEngine\">\n" +
+        "    <form id=\"searchthis\" action=\"search\" style=\"display:inline;\" method=\"get\">\n" +
+        "        <input id=\"namanyay-search-box\" name=\"q\" size=\"40\" type=\"text\" placeholder=\"Search\"/>\n" +
+        "        <input id=\"namanyay-search-btn\" value=\"Go\" type=\"submit\"/>\n" +
+        "    </form>\n" +
+        "</div>\n" +
+        "<div class=\"wrapper\">\n" +
+        "    <div class=\"media_content\">\n" +
+        "        <div class=\"videoPlayer\">\n" +
+        "            <video width=\"1190\" height=\"800\" controls>\n" +
+        "                <source src=\"" + urlVideo +"\" type=\"video/mp4\">\n" +
+        "                Your browser doesn't support the video tag\n" +
+        "            </video>\n" +
+        "        </div>\n" +
+        "        <div class=\"comment\">";
+
+    let getvideolist = "";
     aws.config.update({
         region: 'us-east-1',
         endpoint: "http://dynamodb.us-east-1.amazonaws.com",
@@ -9,33 +610,149 @@ exports.GetVideoByID = function (id,res){
     });
 
     let docClient = new aws.DynamoDB.DocumentClient();
-
     let params = {
         TableName: "handmadevideo01",
-        KeyConditionExpression: "#id = :y",
-        ExpressionAttributeNames:{
-            "#id" : "id"
-        },
+        FilterExpression: 'id <> :value',
         ExpressionAttributeValues:{
-            ":y" : Number.parseInt(id)
+            ":value" : Number.parseInt(id)
         }
     };
-
-    docClient.query(params, function (err,data) {
-        if (err)
-            console.log("Unable to query the clip.View errors: "+JSON.stringify(err,null,2));
+    docClient.scan(params, function (err,data) {
+        if (err) {
+            console.log(err);
+            getvideolist = "<div class=\"comment_area\">\n" +
+                "            </div>\n" +
+                "            <div class=\"comment_post\">\n" +
+                "                <form class=\"form\" id=\"form1\" method=\"post\" name=\"form1\" action=\"postcomment\">\n" +
+                "                    <h3 style=\"color: #FFFFFF;\">Leave a comment</h3>\n" +
+                "                    <p class=\"email\">\n" +
+                "                        <input name=\"email\" type=\"email\" class=\"validate[required,custom[email]] feedback-input\" id=\"email\" placeholder=\"Email\" />\n" +
+                "                    </p>\n" +
+                "                    <p class=\"text\">\n" +
+                "                        <textarea name=\"text\" class=\"validate[required,length[6,300]] feedback-input\" id=\"comment\" placeholder=\"Comment\"></textarea>\n" +
+                "                    </p>\n" +
+                "                    <div class=\"submit\">\n" +
+                "                        <input type=\"submit\" value=\"SEND\" id=\"button-blue\" />\n" +
+                "                        <div class=\"ease\"></div>\n" +
+                "                    </div>\n" +
+                "                </form>\n" +
+                "            </div>\n" +
+                "        </div>\n" +
+                "    </div>\n" +
+                "    <div class=\"container\">" +
+                "   <script>\n" +
+                "            $('.show-list').click(function(){\n" +
+                "                $('.wrapper').addClass('list-mode');\n" +
+                "            });\n" +
+                "\n" +
+                "            $('.hide-list').click(function(){\n" +
+                "                $('.wrapper').removeClass('list-mode');\n" +
+                "            });\n" +
+                "            $(function(){\n" +
+                "                let header = $(\"nav\"),\n" +
+                "                    yOffset = 0,\n" +
+                "                    triggerPoint = 150;\n" +
+                "                $(window).scroll(function(){\n" +
+                "                    yOffset = $(window).scrollTop();\n" +
+                "\n" +
+                "                    if(yOffset >= triggerPoint){\n" +
+                "                        header.addClass(\"minimized\");\n" +
+                "                    }else{\n" +
+                "                        header.removeClass(\"minimized\");\n" +
+                "                    }\n" +
+                "                });\n" +
+                "            });\n" +
+                "        </script>\n" +
+                "    </div>\n" +
+                "</div>\n" +
+                "</body>\n" +
+                "</html>\n";
+        }
         else {
             data.Items.forEach(function (item) {
-                videoViewer_start += "<video width=\"1180\" controls>\n" +
-                    "  <source src=\""+ item.urlVideo.toString() +"\" type=\"video/mp4\">\n" +
-                    "  Your browser does not support HTML5 video.\n" +
-                    "</video>";
+                getvideolist  = "<div class=\"comment_area\">\n" +
+                    "                <p>From:" + item.guestemail + "</p>\n" +
+                    "                <p>" +item.contents+ "</p>\n" +
+                    "            </div>\n" +
+                    "            <div class=\"comment_post\">\n" +
+                    "                <form class=\"form\" id=\"form1\" method=\"post\" name=\"form1\" action=\"postcomment\">\n" +
+                    "                    <h3 style=\"color: #FFFFFF;\">Leave a comment</h3>\n" +
+                    "                    <input type=\"text\" id=\"idvideo\" value=\"" + id +"\" name=\"idvideo\"/>\n" +
+                    "                    <p class=\"email\">\n" +
+                    "                        <input type=\"email\" class=\"validate[required,custom[email]] feedback-input\" id=\"email\" placeholder=\"Email\" name=\"email\"/>\n" +
+                    "                    </p>\n" +
+                    "                    <p class=\"text\">\n" +
+                    "                        <textarea type=\"text\" class=\"validate[required,length[6,300]] feedback-input\" id=\"comment\" placeholder=\"Comment\" name=\"content\"></textarea>\n" +
+                    "                    </p>\n" +
+                    "                    <div class=\"submit\">\n" +
+                    "                        <input type=\"submit\" value=\"SEND\" id=\"button-blue\" />\n" +
+                    "                        <div class=\"ease\"></div>\n" +
+                    "                    </div>\n" +
+                    "                </form>\n" +
+                    "            </div>\n" +
+                    "        </div>\n" +
+                    "    </div>\n" +
+                    "    <div class=\"container\">\n" +
+                    "       <div class=\"box\">\n" +
+                    "            <div class=\"ProductSet ProductSet--grid\">\n" +
+                    "                <!-- Product Card: vertical -->\n" +
+                    "                <a href=\"#\" class=\"ProductCard ProductCard--grid\">\n" +
+                    "                    <div class=\"ProductCard__img-wrapper\">\n" +
+                    "                        <img src=\"" +  item.image + "\" alt=\"\" class=\"ProductCard__img\">\n" +
+                    "                    </div>\n" +
+                    "                    <div class=\"ProductCard__details\">\n" +
+                    "                        <div class=\"ProductCard__details__header\">\n" +
+                    "                            <div class=\"ProductCard__titles\">\n" +
+                    "                                <h4 class=\"ProductCard__title\">" +  item.title + "</h4>\n" +
+                    "                                <h5 class=\"ProductCard__price\">" +  item.email + "</h5>\n" +
+                    "                            </div>\n" +
+                    "                            <button class=\"IconBtn\">\n" +
+                    "                                <svg class=\"Icon Icon--medium Icon--colored\">\n" +
+                    "                                    <use xlink:href=\"./src/img/icons/svg-sprite.svg#heart\"></use>\n" +
+                    "                                </svg>\n" +
+                    "                            </button>\n" +
+                    "                        </div>\n" +
+                    "                        <p class=\"ProductCard__description\">\n" +
+                    "\n" +
+                    "                        </p>\n" +
+                    "                    </div>\n" +
+                    "                </a>\n" +
+                    "            </div>\n" +
+                    "        </div>" +
+                    "        <script>\n" +
+                    "            $('.show-list').click(function(){\n" +
+                    "                $('.wrapper').addClass('list-mode');\n" +
+                    "            });\n" +
+                    "\n" +
+                    "            $('.hide-list').click(function(){\n" +
+                    "                $('.wrapper').removeClass('list-mode');\n" +
+                    "            });\n" +
+                    "            $(function(){\n" +
+                    "                let header = $(\"nav\"),\n" +
+                    "                    yOffset = 0,\n" +
+                    "                    triggerPoint = 150;\n" +
+                    "                $(window).scroll(function(){\n" +
+                    "                    yOffset = $(window).scrollTop();\n" +
+                    "\n" +
+                    "                    if(yOffset >= triggerPoint){\n" +
+                    "                        header.addClass(\"minimized\");\n" +
+                    "                    }else{\n" +
+                    "                        header.removeClass(\"minimized\");\n" +
+                    "                    }\n" +
+                    "                });\n" +
+                    "            });\n" +
+                    "        </script>\n" +
+                    "    </div>\n" +
+                    "</div>\n" +
+                    "</body>\n" +
+                    "</html>\n";
             });
-            let videoviewer = videoViewer_start + videoViewer_end;
+            let videoviewer = videoViewer_start + getvideolist;
             res.send(videoviewer);
         }
-    });
+    })
 };
+
 exports.GetPostsByEmail = function (email,res) {
     aws.config.update({
         region: 'us-east-1',
@@ -89,6 +806,428 @@ exports.GetPostsByEmail = function (email,res) {
 };
 
 exports.GetPostsByKeyWord = function(keyword,res){
+
+    let MainPageHTML_start = "<!DOCTYPE html>\n" +
+        "<html lang=\"en\" >\n" +
+        "\n" +
+        "<head>\n" +
+        "    <meta charset=\"UTF-8\">\n" +
+        "    <title>Home Page</title>\n" +
+        "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
+        "    <meta name=\"viewport\" content=\"width=device-width\" />\n" +
+        "    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>\n" +
+        "    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700'>\n" +
+        "    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css'>\n" +
+        "    <link rel=\"stylesheet\" href=\"../CSS/style.css\">\n" +
+        "    <link rel=\"Stylesheet\" href='https://fonts.googleapis.com/css?family=Muli' type='text/css'>\n" +
+        "    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,300italic,400italic,600italic,600' rel='stylesheet' type='text/css'>\n" +
+        "    <link rel=\"Stylesheet\" href=\"css/master.css\" type=\"text/css\" />\n" +
+        "    <link rel=\"Stylesheet\" href=\"https://ianlunn.github.io/Hover/css/hover.css\" type=\"text/css\" />\n" +
+        "    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js\"></script>\n" +
+        "    <link href=\"../CSS/slide.css\" rel=\"stylesheet\" type=\"text/css\" />\n" +
+        "    <style type=\"text/css\">\n" +
+        "        *{\n" +
+        "            -webkit-box-sizing: border-box;\n" +
+        "            -moz-box-sizing: border-box;\n" +
+        "            box-sizing: border-box;\n" +
+        "        }\n" +
+        "        a{\n" +
+        "            -webkit-transition: all 0.3s ease;\n" +
+        "            -moz-transition: all 0.3s ease;\n" +
+        "            -o-transition: all 0.3s ease;\n" +
+        "            transition: all 0.3s ease;\n" +
+        "        }\n" +
+        "        .wrapper{\n" +
+        "            width:100%;\n" +
+        "            margin:10px auto 0;\n" +
+        "            background-color:#FFFFFF;\n" +
+        "            -webkit-box-sizing: border-box;\n" +
+        "            -moz-box-sizing: border-box;\n" +
+        "            box-sizing: border-box;\n" +
+        "        }\n" +
+        "\n" +
+        "        header{\n" +
+        "            text-align:right;\n" +
+        "            padding:10px;\n" +
+        "            margin-bottom:10px;\n" +
+        "            background-color:#5DBA9D;\n" +
+        "        }\n" +
+        "\n" +
+        "        header a{\n" +
+        "            font-size:20px;\n" +
+        "            color:#FFFFFF;\n" +
+        "            width:40px;\n" +
+        "            height:40px;\n" +
+        "            line-height:40px;\n" +
+        "            margin-left:10px;\n" +
+        "            text-align:center;\n" +
+        "            display:inline-block;\n" +
+        "        }\n" +
+        "\n" +
+        "        header a:hover, .list-mode header a.hide-list:hover{\n" +
+        "            background-color:#11956c;\n" +
+        "        }\n" +
+        "\n" +
+        "        header a.hide-list{\n" +
+        "            background-color:#11956c;\n" +
+        "        }\n" +
+        "\n" +
+        "        .list-mode header a.hide-list{\n" +
+        "            background-color:#5DBA9D;\n" +
+        "        }\n" +
+        "\n" +
+        "        .list-mode header a.show-list{\n" +
+        "            background-color:#11956c;\n" +
+        "        }\n" +
+        "\n" +
+        "        .container:after{\n" +
+        "            content:\"\";\n" +
+        "            clear:both;\n" +
+        "            display:table;\n" +
+        "        }\n" +
+        "\n" +
+        "        .container{\n" +
+        "            padding:10px 0 10px 10px;\n" +
+        "            height:auto;            min-height: 1000px;\n" +
+        "            width: 1300px;\n" +
+        "        }\n" +
+        "        .wrapper .box{\n" +
+        "            float:left;\n" +
+        "            width:auto;\n" +
+        "            height:auto;\n" +
+        "            margin:0 10px 10px 0;\n" +
+        "            -webkit-transition:all 1.0s ease;\n" +
+        "            -moz-transition:all 1.0s ease;\n" +
+        "            transition:all 1.0s ease;\n" +
+        "            justify-content: center;\n" +
+        "            display: flex;\n" +
+        "            flex-wrap: wrap;\n" +
+        "            padding: 1rem;\n" +
+        "        }\n" +
+        "        .wrapper.list-mode .container{\n" +
+        "            padding-right:10px;\n" +
+        "        }\n" +
+        "\n" +
+        "        .wrapper.list-mode .box{\n" +
+        "            width:100%;\n" +
+        "        }\n" +
+        "    </style>\n" +
+        "    <style>\n" +
+        "        :root {\n" +
+        "            --font-primary: \"Open Sans\", sans-serif;\n" +
+        "            --font-secondary: \"Josefin Sans\", sans-serif;\n" +
+        "            --color-primary: #7c83ff;\n" +
+        "            --color-secondary: #f097a5;\n" +
+        "            --color-text-primary: #000;\n" +
+        "            --color-text-secondary: #666;\n" +
+        "            --bg-body: #eee;\n" +
+        "            --bg-primary: #fff;\n" +
+        "            --bg-secondary: #fcfcfc;\n" +
+        "            --rem-mobile: 10px;\n" +
+        "            --rem-tablet: 12px;\n" +
+        "            --rem-laptop: 13px;\n" +
+        "            --rem-desktop: 14px;\n" +
+        "            --rem-big: 16px;\n" +
+        "            --size-mini: 0.8rem;\n" +
+        "            --size-small: 1.5rem;\n" +
+        "            --size-medium: 2rem;\n" +
+        "            --size-big: 3rem;\n" +
+        "            --size-massive: 4rem;\n" +
+        "        }\n" +
+        "\n" +
+        "        *,\n" +
+        "        *::before,\n" +
+        "        *::after {\n" +
+        "            margin: 0;\n" +
+        "            padding: 0;\n" +
+        "            box-sizing: inherit;\n" +
+        "        }\n" +
+        "\n" +
+        "        html {\n" +
+        "            box-sizing: border-box;\n" +
+        "            font-size: 10px;\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 426px) {\n" +
+        "            html {\n" +
+        "                font-size: 12px;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 769px) {\n" +
+        "            html {\n" +
+        "                font-size: 13px;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 1025px) {\n" +
+        "            html {\n" +
+        "                font-size: 14px;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 1441px) {\n" +
+        "            html {\n" +
+        "                font-size: 16px;\n" +
+        "            }\n" +
+        "        }\n" +
+        "\n" +
+        "        body {\n" +
+        "            font-size: 1.4rem;\n" +
+        "            background-color: #eee;\n" +
+        "            font-family: var(--font-primary);\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon {\n" +
+        "            transition: all 0.3s;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--colored {\n" +
+        "            fill: #f097a5;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--stroked {\n" +
+        "            fill: none;\n" +
+        "            stroke: var(--color-secondary);\n" +
+        "            stroke-width: 3px;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon:hover {\n" +
+        "            opacity: 0.75;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--small {\n" +
+        "            height: 1.5rem;\n" +
+        "            width: 1.5rem;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--medium {\n" +
+        "            height: 2rem;\n" +
+        "            width: 2rem;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--big {\n" +
+        "            height: 3rem;\n" +
+        "            width: 3rem;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--massive {\n" +
+        "            height: 4rem;\n" +
+        "            width: 4rem;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--facebook {\n" +
+        "            fill: #3b5999;\n" +
+        "        }\n" +
+        "\n" +
+        "        .Icon--twitter {\n" +
+        "            fill: #55acee;\n" +
+        "        }\n" +
+        "\n" +
+        "        .SocialLink {\n" +
+        "            text-decoration: none;\n" +
+        "            transition: all 0.3s;\n" +
+        "            padding: 0 .2rem;\n" +
+        "        }\n" +
+        "\n" +
+        "        .IconBtn {\n" +
+        "            padding: 0;\n" +
+        "            border: none;\n" +
+        "            background-color: transparent;\n" +
+        "            cursor: pointer;\n" +
+        "            outline: none;\n" +
+        "        }\n" +
+        "\n" +
+        "        .ProductSet {\n" +
+        "            display: flex;\n" +
+        "            flex-wrap: wrap;\n" +
+        "            padding: 1rem;\n" +
+        "            width : 400px;\n" +
+        "        }\n" +
+        "        .ProductSet--grid {\n" +
+        "            margin-left: 1rem;\n" +
+        "            justify-content: center;\n" +
+        "            height: auto;\n" +
+        "        }\n" +
+        "        .ProductSet--grid > * {\n" +
+        "            margin: 0 1rem 1rem 0;\n" +
+        "        }\n" +
+        "        .ProductSet--list {\n" +
+        "            flex-direction: column;\n" +
+        "        }\n" +
+        "        .ProductSet--list > *:not(:last-child) {\n" +
+        "            margin-bottom: 1rem;\n" +
+        "        }\n" +
+        "\n" +
+        "        .ProductCard {\n" +
+        "            display: flex;\n" +
+        "            text-decoration: none;\n" +
+        "            border-radius: 1rem;\n" +
+        "            overflow: hidden;\n" +
+        "            background-color: #fff;\n" +
+        "            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);\n" +
+        "            transition: all 0.2s;\n" +
+        "            width: 400px;\n" +
+        "        }\n" +
+        "        .ProductCard:hover {\n" +
+        "            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);\n" +
+        "            transform: translateY(-0.5rem);\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 426px) {\n" +
+        "            .ProductCard {\n" +
+        "                font-size: 1.2rem;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        .ProductCard--grid {\n" +
+        "            width: 140rem;\n" +
+        "            flex-direction: column;\n" +
+        "        }\n" +
+        "        .ProductCard--list {\n" +
+        "            max-height: 15rem;\n" +
+        "        }\n" +
+        "        .ProductCard--list .ProductCard__img-wrapper {\n" +
+        "            max-width: 400px;\n" +
+        "            width: 400px;\n" +
+        "            margin: 2rem 0 2rem 2rem;\n" +
+        "            overflow: hidden;\n" +
+        "            display: flex;\n" +
+        "            align-items: center;\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 426px) {\n" +
+        "            .ProductCard--list .ProductCard__img-wrapper {\n" +
+        "                margin: initial;\n" +
+        "                flex: 1 1 auto;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        .ProductCard__img {\n" +
+        "            width: 100%;\n" +
+        "        }\n" +
+        "        .ProductCard--grid .ProductCard__details {\n" +
+        "            padding: 3rem 1.5rem;\n" +
+        "        }\n" +
+        "        .ProductCard--list .ProductCard__details {\n" +
+        "            margin: 2.5rem;\n" +
+        "            width: 60%;\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 426px) {\n" +
+        "            .ProductCard--list .ProductCard__details {\n" +
+        "                width: 0;\n" +
+        "                flex: 1 1 auto;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        .ProductCard__details__header {\n" +
+        "            display: flex;\n" +
+        "            justify-content: space-between;\n" +
+        "        }\n" +
+        "        .ProductCard--grid .ProductCard__details__header {\n" +
+        "            align-items: flex-end;\n" +
+        "        }\n" +
+        "        .ProductCard--list .ProductCard__details__header {\n" +
+        "            margin-bottom: 2rem;\n" +
+        "            align-items: flex-start;\n" +
+        "        }\n" +
+        "        .ProductCard .ProductCard__titles {\n" +
+        "            margin-right: 1rem;\n" +
+        "        }\n" +
+        "        .ProductCard__title {\n" +
+        "            color: #000;\n" +
+        "            margin-bottom: 1rem;\n" +
+        "            text-transform: uppercase;\n" +
+        "            font-family: var(--font-secondary);\n" +
+        "            font-weight: 400;\n" +
+        "        }\n" +
+        "        .ProductCard--list .ProductCard__title {\n" +
+        "            margin-bottom: 1.5rem;\n" +
+        "        }\n" +
+        "        .ProductCard__price {\n" +
+        "            font-size: 1.2rem;\n" +
+        "            color: var(--color-text-secondary);\n" +
+        "            font-weight: 400;\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 426px) {\n" +
+        "            .ProductCard__price {\n" +
+        "                font-size: 1.1rem;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        .ProductCard__description {\n" +
+        "            color: var(--color-text-secondary);\n" +
+        "            display: none;\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 426px) {\n" +
+        "            .ProductCard__description {\n" +
+        "                font-size: 1rem;\n" +
+        "            }\n" +
+        "        }\n" +
+        "        @media screen and (min-width: 426px) {\n" +
+        "            .ProductCard--list .ProductCard__description {\n" +
+        "                overflow: hidden;\n" +
+        "                text-overflow: ellipsis;\n" +
+        "                white-space: nowrap;\n" +
+        "                display: block;\n" +
+        "            }\n" +
+        "        }\n" +
+        "    </style>\n" +
+        "    <!-- Searching engine-->\n" +
+        "\n" +
+        "    <style>\n" +
+        "        #namanyay-search-btn {\n" +
+        "            background:#0099ff;\n" +
+        "            color:white;\n" +
+        "            font: 'trebuchet ms', trebuchet;\n" +
+        "            padding:10px 20px;\n" +
+        "            border-radius:0 5px 5px 0;\n" +
+        "            -moz-border-radius:0 5px 5px 0;\n" +
+        "            -webkit-border-radius:0 5px 5px 0;\n" +
+        "            -o-border-radius:0 5px 5px 0;\n" +
+        "            border:0 none;\n" +
+        "            font-weight:bold;\n" +
+        "        }\n" +
+        "\n" +
+        "        #namanyay-search-box {\n" +
+        "            background: #666666;\n" +
+        "            color: #FFFFFF;\n" +
+        "            padding:10px;\n" +
+        "            border-radius:5px 0 0 5px;\n" +
+        "            -moz-border-radius:5px 0 0 5px;\n" +
+        "            -webkit-border-radius:5px 0 0 5px;\n" +
+        "            -o-border-radius:5px 0 0 5px;\n" +
+        "            border:0 none;\n" +
+        "            width:96%;\n" +
+        "            margin-top: 10px;\n" +
+        "        }\n" +
+        "\n" +
+        "        .SearchEngine{\n" +
+        "            padding-left: 1%;\n" +
+        "            background: whitesmoke;\n" +
+        "        }\n" +
+        "    </style>\n" +
+        "\n" +
+        "    <!--------------------->\n" +
+        "</head>\n" +
+        "<body>\n" +
+        "<div class=\"InnerBackGround\">\n" +
+        "    <nav>\n" +
+        "        <ul>\n" +
+        "            <li><a href=\"/\">Home</a></li>\n" +
+        "            <li><a href=\"/decorate\">Trang trí</a></li>\n" +
+        "            <li><a href=\"/food\">Đồ ăn</a></li>\n" +
+        "            <li><a href=\"/house\">Nhà</a></li>\n" +
+        "            <li><a href=\"/origami\">Origami</a></li>\n" +
+        "            <li class=\"nav-item\"><a href=\"/login\" target=\"_blank\" class=\"btn btn-danger btn-round\">Login</a></li>\n" +
+        "        </ul>\n" +
+        "    </nav>\n" +
+        "</div>\n" +
+        "<div class=\"SearchEngine\">\n" +
+        "    <form id=\"searchthis\" action=\"search\" style=\"display:inline;\" method=\"get\">\n" +
+        "        <input id=\"namanyay-search-box\" name=\"q\" size=\"40\" type=\"text\" placeholder=\"Search\"/>\n" +
+        "        <input id=\"namanyay-search-btn\" value=\"Go\" type=\"submit\"/>\n" +
+        "    </form>\n" +
+        "</div>\n" +
+        "<div class=\"wrapper\">\n" +
+        "    <header>\n" +
+        "        <a href=\"javascript:void(0)\" class=\"show-list\"><i class=\"fa fa-th-list\"></i></a>\n" +
+        "        <a href=\"javascript:void(0)\" class=\"hide-list\"><i class=\"fa fa-th\"></i></a>\n" +
+        "    </header>\n" +
+        "    <div class=\"container\">";
+
+    let GotList = "";
+
     aws.config.update({
         region: 'us-east-1',
         endpoint: "http://dynamodb.us-east-1.amazonaws.com",
@@ -112,10 +1251,10 @@ exports.GetPostsByKeyWord = function(keyword,res){
         else {
             console.log("User queried for Handmade video table ");
             data.Items.forEach(function (item) {
-                MainPageHTML_start += "<div class=\"box\">\n" +
+                GotList = "<div class=\"box\">\n" +
                     "            <div class=\"ProductSet ProductSet--grid\">\n" +
                     "                <!-- Product Card: vertical -->\n" +
-                    "                <a href=\"#\" class=\"ProductCard ProductCard--grid\">\n" +
+                    "                <a href=\"/watchvideo?id=" + item.id + "&&ip=" +  item.urlVideo + "\" class=\"ProductCard ProductCard--grid\">\n" +
                     "                    <div class=\"ProductCard__img-wrapper\">\n" +
                     "                        <img src=\"" + item.image + "\" alt=\"\" class=\"ProductCard__img\">\n" +
                     "                    </div>\n" +
@@ -136,975 +1275,39 @@ exports.GetPostsByKeyWord = function(keyword,res){
                     "                        </p>\n" +
                     "                    </div>\n" +
                     "                </a>\n" +
-                    "        </div>";
+                    "        </div>" +
+                    "</div>\n" +
+                    "<script>\n" +
+                    "    $('.show-list').click(function(){\n" +
+                    "        $('.wrapper').addClass('list-mode');\n" +
+                    "    });\n" +
+                    "\n" +
+                    "    $('.hide-list').click(function(){\n" +
+                    "        $('.wrapper').removeClass('list-mode');\n" +
+                    "    });\n" +
+                    "    $(function(){\n" +
+                    "        var header = $(\"nav\"),\n" +
+                    "            yOffset = 0,\n" +
+                    "            triggerPoint = 150;\n" +
+                    "        $(window).scroll(function(){\n" +
+                    "            yOffset = $(window).scrollTop();\n" +
+                    "\n" +
+                    "            if(yOffset >= triggerPoint){\n" +
+                    "                header.addClass(\"minimized\");\n" +
+                    "            }else{\n" +
+                    "                header.removeClass(\"minimized\");\n" +
+                    "            }\n" +
+                    "        });\n" +
+                    "    });\n" +
+                    "</script>\n" +
+                    "</body>\n" +
+                    "</html>";
             });
-            let MainPageHTML = MainPageHTML_start + MainPageHTML_end;
+            let MainPageHTML = MainPageHTML_start + GotList;
             res.send(MainPageHTML);
         }
     })
 };
-
-let videoViewer_start = "<!DOCTYPE html>\n" +
-    "<html lang=\"en\" >\n" +
-    "\n" +
-    "<head>\n" +
-    "    <meta charset=\"UTF-8\">\n" +
-    "    <title>Home Page</title>\n" +
-    "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
-    "    <meta name=\"viewport\" content=\"width=device-width\" />\n" +
-    "    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>\n" +
-    "    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700'>\n" +
-    "    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css'>\n" +
-    "    <link rel=\"stylesheet\" href=\"../CSS/style.css\">\n" +
-    "    <link rel=\"Stylesheet\" href='https://fonts.googleapis.com/css?family=Muli' type='text/css'>\n" +
-    "    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,300italic,400italic,600italic,600' rel='stylesheet' type='text/css'>\n" +
-    "    <link rel=\"Stylesheet\" href=\"css/master.css\" type=\"text/css\" />\n" +
-    "    <link rel=\"Stylesheet\" href=\"https://ianlunn.github.io/Hover/css/hover.css\" type=\"text/css\" />\n" +
-    "    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js\"></script>\n" +
-    "    <link href=\"../CSS/slide.css\" rel=\"stylesheet\" type=\"text/css\" />\n" +
-    "    <style type=\"text/css\">\n" +
-    "        *{\n" +
-    "            -webkit-box-sizing: border-box;\n" +
-    "            -moz-box-sizing: border-box;\n" +
-    "            box-sizing: border-box;\n" +
-    "        }\n" +
-    "        a{\n" +
-    "            -webkit-transition: all 0.3s ease;\n" +
-    "            -moz-transition: all 0.3s ease;\n" +
-    "            -o-transition: all 0.3s ease;\n" +
-    "            transition: all 0.3s ease;\n" +
-    "        }\n" +
-    "        .wrapper{\n" +
-    "            width:100%;\n" +
-    "            margin:10px auto 0;\n" +
-    "            background-color:#FFFFFF;\n" +
-    "            -webkit-box-sizing: border-box;\n" +
-    "            -moz-box-sizing: border-box;\n" +
-    "            box-sizing: border-box;\n" +
-    "            padding: 50px;\n" +
-    "            min-height: 1300px;\n" +
-    "            height: auto;\n" +
-    "        }\n" +
-    "\n" +
-    "        header{\n" +
-    "            text-align:right;\n" +
-    "            padding:10px;\n" +
-    "            margin-bottom:10px;\n" +
-    "            background-color:#5DBA9D;\n" +
-    "        }\n" +
-    "\n" +
-    "        header a{\n" +
-    "            font-size:20px;\n" +
-    "            color:#FFFFFF;\n" +
-    "            width:40px;\n" +
-    "            height:40px;\n" +
-    "            line-height:40px;\n" +
-    "            margin-left:10px;\n" +
-    "            text-align:center;\n" +
-    "            display:inline-block;\n" +
-    "        }\n" +
-    "\n" +
-    "        header a:hover, .list-mode header a.hide-list:hover{\n" +
-    "            background-color:#11956c;\n" +
-    "        }\n" +
-    "\n" +
-    "        header a.hide-list{\n" +
-    "            background-color:#11956c;\n" +
-    "        }\n" +
-    "\n" +
-    "        .list-mode header a.hide-list{\n" +
-    "            background-color:#5DBA9D;\n" +
-    "        }\n" +
-    "\n" +
-    "        .list-mode header a.show-list{\n" +
-    "            background-color:#11956c;\n" +
-    "        }\n" +
-    "\n" +
-    "        .container{\n" +
-    "            padding:10px 0 10px 10px;\n" +
-    "            height:auto;            min-height: 1000px;\n" +
-    "            width: 400px;\n" +
-    "            float: right;\n" +
-    "        }\n" +
-    "        .wrapper .box{\n" +
-    "            float:left;\n" +
-    "            width:auto;\n" +
-    "            height:auto;\n" +
-    "            margin:0 10px 10px 0;\n" +
-    "            -webkit-transition:all 1.0s ease;\n" +
-    "            -moz-transition:all 1.0s ease;\n" +
-    "            transition:all 1.0s ease;\n" +
-    "            justify-content: center;\n" +
-    "            display: flex;\n" +
-    "            flex-wrap: wrap;\n" +
-    "            padding: 1rem;\n" +
-    "        }\n" +
-    "        .wrapper.list-mode .container{\n" +
-    "            padding-right:10px;\n" +
-    "        }\n" +
-    "\n" +
-    "        .wrapper.list-mode .box{\n" +
-    "            width:100%;\n" +
-    "        }\n" +
-    "\n" +
-    "        .media_content{\n" +
-    "            padding: 5px;\n" +
-    "            float: left;\n" +
-    "            width: 1200px;\n" +
-    "            height: auto;\n" +
-    "            min-height: 1000px;\n" +
-    "        }\n" +
-    "\n" +
-    "        .videoPlayer{\n" +
-    "            width: 1180px;\n" +
-    "            height: 800px;\n" +
-    "            float: left;\n" +
-    "        }\n" +
-    "        \n" +
-    "        .comment{\n" +
-    "            height: auto;\n" +
-    "            min-height: 200px;\n" +
-    "            margin-top: 20px;\n" +
-    "            width: 1190px;\n" +
-    "            float: left;\n" +
-    "        }\n" +
-    "    </style>\n" +
-    "    <style>\n" +
-    "        :root {\n" +
-    "            --font-primary: \"Open Sans\", sans-serif;\n" +
-    "            --font-secondary: \"Josefin Sans\", sans-serif;\n" +
-    "            --color-primary: #7c83ff;\n" +
-    "            --color-secondary: #f097a5;\n" +
-    "            --color-text-primary: #000;\n" +
-    "            --color-text-secondary: #666;\n" +
-    "            --bg-body: #eee;\n" +
-    "            --bg-primary: #fff;\n" +
-    "            --bg-secondary: #fcfcfc;\n" +
-    "            --rem-mobile: 10px;\n" +
-    "            --rem-tablet: 12px;\n" +
-    "            --rem-laptop: 13px;\n" +
-    "            --rem-desktop: 14px;\n" +
-    "            --rem-big: 16px;\n" +
-    "            --size-mini: 0.8rem;\n" +
-    "            --size-small: 1.5rem;\n" +
-    "            --size-medium: 2rem;\n" +
-    "            --size-big: 3rem;\n" +
-    "            --size-massive: 4rem;\n" +
-    "        }\n" +
-    "\n" +
-    "        *,\n" +
-    "        *::before,\n" +
-    "        *::after {\n" +
-    "            margin: 0;\n" +
-    "            padding: 0;\n" +
-    "            box-sizing: inherit;\n" +
-    "        }\n" +
-    "\n" +
-    "        html {\n" +
-    "            box-sizing: border-box;\n" +
-    "            font-size: 10px;\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 426px) {\n" +
-    "            html {\n" +
-    "                font-size: 12px;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 769px) {\n" +
-    "            html {\n" +
-    "                font-size: 13px;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 1025px) {\n" +
-    "            html {\n" +
-    "                font-size: 14px;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 1441px) {\n" +
-    "            html {\n" +
-    "                font-size: 16px;\n" +
-    "            }\n" +
-    "        }\n" +
-    "\n" +
-    "        body {\n" +
-    "            font-size: 1.4rem;\n" +
-    "            background-color: #eee;\n" +
-    "            font-family: var(--font-primary);\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon {\n" +
-    "            transition: all 0.3s;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--colored {\n" +
-    "            fill: #f097a5;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--stroked {\n" +
-    "            fill: none;\n" +
-    "            stroke: var(--color-secondary);\n" +
-    "            stroke-width: 3px;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon:hover {\n" +
-    "            opacity: 0.75;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--small {\n" +
-    "            height: 1.5rem;\n" +
-    "            width: 1.5rem;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--medium {\n" +
-    "            height: 2rem;\n" +
-    "            width: 2rem;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--big {\n" +
-    "            height: 3rem;\n" +
-    "            width: 3rem;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--massive {\n" +
-    "            height: 4rem;\n" +
-    "            width: 4rem;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--facebook {\n" +
-    "            fill: #3b5999;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--twitter {\n" +
-    "            fill: #55acee;\n" +
-    "        }\n" +
-    "\n" +
-    "        .SocialLink {\n" +
-    "            text-decoration: none;\n" +
-    "            transition: all 0.3s;\n" +
-    "            padding: 0 .2rem;\n" +
-    "        }\n" +
-    "\n" +
-    "        .IconBtn {\n" +
-    "            padding: 0;\n" +
-    "            border: none;\n" +
-    "            background-color: transparent;\n" +
-    "            cursor: pointer;\n" +
-    "            outline: none;\n" +
-    "        }\n" +
-    "\n" +
-    "        .ProductSet {\n" +
-    "            display: flex;\n" +
-    "            flex-wrap: wrap;\n" +
-    "            padding: 1rem;\n" +
-    "            width : 400px;\n" +
-    "        }\n" +
-    "        .ProductSet--grid {\n" +
-    "            margin-left: 1rem;\n" +
-    "            justify-content: center;\n" +
-    "            height: auto;\n" +
-    "        }\n" +
-    "        .ProductSet--grid > * {\n" +
-    "            margin: 0 1rem 1rem 0;\n" +
-    "        }\n" +
-    "        .ProductSet--list {\n" +
-    "            flex-direction: column;\n" +
-    "        }\n" +
-    "        .ProductSet--list > *:not(:last-child) {\n" +
-    "            margin-bottom: 1rem;\n" +
-    "        }\n" +
-    "\n" +
-    "        .ProductCard {\n" +
-    "            display: flex;\n" +
-    "            text-decoration: none;\n" +
-    "            border-radius: 1rem;\n" +
-    "            overflow: hidden;\n" +
-    "            background-color: #fff;\n" +
-    "            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);\n" +
-    "            transition: all 0.2s;\n" +
-    "            width: 400px;\n" +
-    "        }\n" +
-    "        .ProductCard:hover {\n" +
-    "            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);\n" +
-    "            transform: translateY(-0.5rem);\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 426px) {\n" +
-    "            .ProductCard {\n" +
-    "                font-size: 1.2rem;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        .ProductCard--grid {\n" +
-    "            width: 140rem;\n" +
-    "            flex-direction: column;\n" +
-    "        }\n" +
-    "        .ProductCard--list {\n" +
-    "            max-height: 15rem;\n" +
-    "        }\n" +
-    "        .ProductCard--list .ProductCard__img-wrapper {\n" +
-    "            max-width: 400px;\n" +
-    "            width: 400px;\n" +
-    "            margin: 2rem 0 2rem 2rem;\n" +
-    "            overflow: hidden;\n" +
-    "            display: flex;\n" +
-    "            align-items: center;\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 426px) {\n" +
-    "            .ProductCard--list .ProductCard__img-wrapper {\n" +
-    "                margin: initial;\n" +
-    "                flex: 1 1 auto;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        .ProductCard__img {\n" +
-    "            width: 100%;\n" +
-    "        }\n" +
-    "        .ProductCard--grid .ProductCard__details {\n" +
-    "            padding: 3rem 1.5rem;\n" +
-    "        }\n" +
-    "        .ProductCard--list .ProductCard__details {\n" +
-    "            margin: 2.5rem;\n" +
-    "            width: 60%;\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 426px) {\n" +
-    "            .ProductCard--list .ProductCard__details {\n" +
-    "                width: 0;\n" +
-    "                flex: 1 1 auto;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        .ProductCard__details__header {\n" +
-    "            display: flex;\n" +
-    "            justify-content: space-between;\n" +
-    "        }\n" +
-    "        .ProductCard--grid .ProductCard__details__header {\n" +
-    "            align-items: flex-end;\n" +
-    "        }\n" +
-    "        .ProductCard--list .ProductCard__details__header {\n" +
-    "            margin-bottom: 2rem;\n" +
-    "            align-items: flex-start;\n" +
-    "        }\n" +
-    "        .ProductCard .ProductCard__titles {\n" +
-    "            margin-right: 1rem;\n" +
-    "        }\n" +
-    "        .ProductCard__title {\n" +
-    "            color: #000;\n" +
-    "            margin-bottom: 1rem;\n" +
-    "            text-transform: uppercase;\n" +
-    "            font-family: var(--font-secondary);\n" +
-    "            font-weight: 400;\n" +
-    "        }\n" +
-    "        .ProductCard--list .ProductCard__title {\n" +
-    "            margin-bottom: 1.5rem;\n" +
-    "        }\n" +
-    "        .ProductCard__price {\n" +
-    "            font-size: 1.2rem;\n" +
-    "            color: var(--color-text-secondary);\n" +
-    "            font-weight: 400;\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 426px) {\n" +
-    "            .ProductCard__price {\n" +
-    "                font-size: 1.1rem;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        .ProductCard__description {\n" +
-    "            color: var(--color-text-secondary);\n" +
-    "            display: none;\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 426px) {\n" +
-    "            .ProductCard__description {\n" +
-    "                font-size: 1rem;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 426px) {\n" +
-    "            .ProductCard--list .ProductCard__description {\n" +
-    "                overflow: hidden;\n" +
-    "                text-overflow: ellipsis;\n" +
-    "                white-space: nowrap;\n" +
-    "                display: block;\n" +
-    "            }\n" +
-    "        }\n" +
-    "    </style>\n" +
-    "    <!-- Searching engine-->\n" +
-    "\n" +
-    "    <style>\n" +
-    "        #namanyay-search-btn {\n" +
-    "            background:#0099ff;\n" +
-    "            color:white;\n" +
-    "            font: 'trebuchet ms', trebuchet;\n" +
-    "            padding:10px 20px;\n" +
-    "            border-radius:0 5px 5px 0;\n" +
-    "            -moz-border-radius:0 5px 5px 0;\n" +
-    "            -webkit-border-radius:0 5px 5px 0;\n" +
-    "            -o-border-radius:0 5px 5px 0;\n" +
-    "            border:0 none;\n" +
-    "            font-weight:bold;\n" +
-    "        }\n" +
-    "\n" +
-    "        #namanyay-search-box {\n" +
-    "            background: #666666;\n" +
-    "            color: #FFFFFF;\n" +
-    "            padding:10px;\n" +
-    "            border-radius:5px 0 0 5px;\n" +
-    "            -moz-border-radius:5px 0 0 5px;\n" +
-    "            -webkit-border-radius:5px 0 0 5px;\n" +
-    "            -o-border-radius:5px 0 0 5px;\n" +
-    "            border:0 none;\n" +
-    "            width:80%;\n" +
-    "            margin: 10px;\n" +
-    "        }\n" +
-    "\n" +
-    "        .SearchEngine{\n" +
-    "            padding-left: 19%;\n" +
-    "            background: whitesmoke;\n" +
-    "        }\n" +
-    "    </style>\n" +
-    "\n" +
-    "    <!--------------------->\n" +
-    "</head>\n" +
-    "<body>\n" +
-    "<div class=\"InnerBackGround\">\n" +
-    "    <nav>\n" +
-    "        <ul>\n" +
-    "            <li><a href=\"/\">Home</a></li>\n" +
-    "            <li><a href=\"/decorate\">Trang trí</a></li>\n" +
-    "            <li><a href=\"/food\">Đồ ăn</a></li>\n" +
-    "            <li><a href=\"/house\">Nhà</a></li>\n" +
-    "            <li><a href=\"/origami\">Origami</a></li>\n" +
-    "            <li class=\"nav-item\"><a href=\"/login\" target=\"_blank\" class=\"btn btn-danger btn-round\">Login</a></li>\n" +
-    "        </ul>\n" +
-    "    </nav>\n" +
-    "</div>\n" +
-    "<div class=\"SearchEngine\">\n" +
-    "    <form id=\"searchthis\" action=\"search\" style=\"display:inline;\" method=\"get\">\n" +
-    "        <input id=\"namanyay-search-box\" name=\"q\" size=\"40\" type=\"text\" placeholder=\"Search\"/>\n" +
-    "        <input id=\"namanyay-search-btn\" value=\"Go\" type=\"submit\"/>\n" +
-    "    </form>\n" +
-    "</div>\n" +
-    "<div class=\"wrapper\">\n" +
-    "    <div class=\"media_content\">\n" +
-    "        <div class=\"videoPlayer\">\n";
-let videoViewer_end =
-    "        </div>\n" +
-    "        <div class=\"comment\"></div>\n" +
-    "    </div>\n" +
-    "    <div class=\"container\">\n" +
-    "        <div class=\"box\">\n" +
-    "            <div class=\"ProductSet ProductSet--grid\">\n" +
-    "                <!-- Product Card: vertical -->\n" +
-    "                <a href=\"#\" class=\"ProductCard ProductCard--grid\">\n" +
-    "                    <div class=\"ProductCard__img-wrapper\">\n" +
-    "                        <img src=\"http://handmadevideos001.s3.amazonaws.com/images/aaaa_04.png\" alt=\"\" class=\"ProductCard__img\">\n" +
-    "                    </div>\n" +
-    "                    <div class=\"ProductCard__details\">\n" +
-    "                        <div class=\"ProductCard__details__header\">\n" +
-    "                            <div class=\"ProductCard__titles\">\n" +
-    "                                <h4 class=\"ProductCard__title\">Cách trang trí lọ cũ</h4>\n" +
-    "                                <h5 class=\"ProductCard__price\">dotuananh.fit.iuh@gmail.com</h5>\n" +
-    "                            </div>\n" +
-    "                            <button class=\"IconBtn\">\n" +
-    "                                <svg class=\"Icon Icon--medium Icon--colored\">\n" +
-    "                                    <use xlink:href=\"./src/img/icons/svg-sprite.svg#heart\"></use>\n" +
-    "                                </svg>\n" +
-    "                            </button>\n" +
-    "                        </div>\n" +
-    "                        <p class=\"ProductCard__description\">\n" +
-    "\n" +
-    "                        </p>\n" +
-    "                    </div>\n" +
-    "                </a>\n" +
-    "            </div><div class=\"box\">\n" +
-    "            <div class=\"ProductSet ProductSet--grid\">\n" +
-    "                <!-- Product Card: vertical -->\n" +
-    "                <a href=\"#\" class=\"ProductCard ProductCard--grid\">\n" +
-    "                    <div class=\"ProductCard__img-wrapper\">\n" +
-    "                        <img src=\"https://s3.amazonaws.com/handmadevideos001/images/1540796103544aaaa_03.png\" alt=\"\" class=\"ProductCard__img\">\n" +
-    "                    </div>\n" +
-    "                    <div class=\"ProductCard__details\">\n" +
-    "                        <div class=\"ProductCard__details__header\">\n" +
-    "                            <div class=\"ProductCard__titles\">\n" +
-    "                                <h4 class=\"ProductCard__title\">Cách làm quà tặng giáng sinh độc đáo</h4>\n" +
-    "                                <h5 class=\"ProductCard__price\">tranthevu.iuh@gmail.com</h5>\n" +
-    "                            </div>\n" +
-    "                            <button class=\"IconBtn\">\n" +
-    "                                <svg class=\"Icon Icon--medium Icon--colored\">\n" +
-    "                                    <use xlink:href=\"./src/img/icons/svg-sprite.svg#heart\"></use>\n" +
-    "                                </svg>\n" +
-    "                            </button>\n" +
-    "                        </div>\n" +
-    "                        <p class=\"ProductCard__description\">\n" +
-    "\n" +
-    "                        </p>\n" +
-    "                    </div>\n" +
-    "                </a>\n" +
-    "            </div>    </div>\n" +
-    "        </div>\n" +
-    "        <script>\n" +
-    "            $('.show-list').click(function(){\n" +
-    "                $('.wrapper').addClass('list-mode');\n" +
-    "            });\n" +
-    "\n" +
-    "            $('.hide-list').click(function(){\n" +
-    "                $('.wrapper').removeClass('list-mode');\n" +
-    "            });\n" +
-    "            $(function(){\n" +
-    "                let header = $(\"nav\"),\n" +
-    "                    yOffset = 0,\n" +
-    "                    triggerPoint = 150;\n" +
-    "                $(window).scroll(function(){\n" +
-    "                    yOffset = $(window).scrollTop();\n" +
-    "\n" +
-    "                    if(yOffset >= triggerPoint){\n" +
-    "                        header.addClass(\"minimized\");\n" +
-    "                    }else{\n" +
-    "                        header.removeClass(\"minimized\");\n" +
-    "                    }\n" +
-    "                });\n" +
-    "            });\n" +
-    "        </script>\n" +
-    "    </div>\n" +
-    "</div>\n" +
-    "</body>\n" +
-    "</html>\n";
-let MainPageHTML_end = "</div>\n" +
-    "<script>\n" +
-    "    $('.show-list').click(function(){\n" +
-    "        $('.wrapper').addClass('list-mode');\n" +
-    "    });\n" +
-    "\n" +
-    "    $('.hide-list').click(function(){\n" +
-    "        $('.wrapper').removeClass('list-mode');\n" +
-    "    });\n" +
-    "    $(function(){\n" +
-    "        var header = $(\"nav\"),\n" +
-    "            yOffset = 0,\n" +
-    "            triggerPoint = 150;\n" +
-    "        $(window).scroll(function(){\n" +
-    "            yOffset = $(window).scrollTop();\n" +
-    "\n" +
-    "            if(yOffset >= triggerPoint){\n" +
-    "                header.addClass(\"minimized\");\n" +
-    "            }else{\n" +
-    "                header.removeClass(\"minimized\");\n" +
-    "            }\n" +
-    "        });\n" +
-    "    });\n" +
-    "</script>\n" +
-    "</body>\n" +
-    "</html>";
-let MainPageHTML_start = "<!DOCTYPE html>\n" +
-    "<html lang=\"en\" >\n" +
-    "\n" +
-    "<head>\n" +
-    "    <meta charset=\"UTF-8\">\n" +
-    "    <title>Home Page</title>\n" +
-    "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
-    "    <meta name=\"viewport\" content=\"width=device-width\" />\n" +
-    "    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>\n" +
-    "    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat:400,300,700'>\n" +
-    "    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css'>\n" +
-    "    <link rel=\"stylesheet\" href=\"../CSS/style.css\">\n" +
-    "    <link rel=\"Stylesheet\" href='https://fonts.googleapis.com/css?family=Muli' type='text/css'>\n" +
-    "    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,300italic,400italic,600italic,600' rel='stylesheet' type='text/css'>\n" +
-    "    <link rel=\"Stylesheet\" href=\"css/master.css\" type=\"text/css\" />\n" +
-    "    <link rel=\"Stylesheet\" href=\"https://ianlunn.github.io/Hover/css/hover.css\" type=\"text/css\" />\n" +
-    "    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js\"></script>\n" +
-    "    <link href=\"../CSS/slide.css\" rel=\"stylesheet\" type=\"text/css\" />\n" +
-    "    <style type=\"text/css\">\n" +
-    "        *{\n" +
-    "            -webkit-box-sizing: border-box;\n" +
-    "            -moz-box-sizing: border-box;\n" +
-    "            box-sizing: border-box;\n" +
-    "        }\n" +
-    "        a{\n" +
-    "            -webkit-transition: all 0.3s ease;\n" +
-    "            -moz-transition: all 0.3s ease;\n" +
-    "            -o-transition: all 0.3s ease;\n" +
-    "            transition: all 0.3s ease;\n" +
-    "        }\n" +
-    "        .wrapper{\n" +
-    "            width:100%;\n" +
-    "            margin:10px auto 0;\n" +
-    "            background-color:#FFFFFF;\n" +
-    "            -webkit-box-sizing: border-box;\n" +
-    "            -moz-box-sizing: border-box;\n" +
-    "            box-sizing: border-box;\n" +
-    "        }\n" +
-    "\n" +
-    "        header{\n" +
-    "            text-align:right;\n" +
-    "            padding:10px;\n" +
-    "            margin-bottom:10px;\n" +
-    "            background-color:#5DBA9D;\n" +
-    "        }\n" +
-    "\n" +
-    "        header a{\n" +
-    "            font-size:20px;\n" +
-    "            color:#FFFFFF;\n" +
-    "            width:40px;\n" +
-    "            height:40px;\n" +
-    "            line-height:40px;\n" +
-    "            margin-left:10px;\n" +
-    "            text-align:center;\n" +
-    "            display:inline-block;\n" +
-    "        }\n" +
-    "\n" +
-    "        header a:hover, .list-mode header a.hide-list:hover{\n" +
-    "            background-color:#11956c;\n" +
-    "        }\n" +
-    "\n" +
-    "        header a.hide-list{\n" +
-    "            background-color:#11956c;\n" +
-    "        }\n" +
-    "\n" +
-    "        .list-mode header a.hide-list{\n" +
-    "            background-color:#5DBA9D;\n" +
-    "        }\n" +
-    "\n" +
-    "        .list-mode header a.show-list{\n" +
-    "            background-color:#11956c;\n" +
-    "        }\n" +
-    "\n" +
-    "        .container:after{\n" +
-    "            content:\"\";\n" +
-    "            clear:both;\n" +
-    "            display:table;\n" +
-    "        }\n" +
-    "\n" +
-    "        .container{\n" +
-    "            padding:10px 0 10px 10px;\n" +
-    "            height:auto;            min-height: 1000px;\n" +
-    "            width: 1300px;\n" +
-    "        }\n" +
-    "        .wrapper .box{\n" +
-    "            float:left;\n" +
-    "            width:auto;\n" +
-    "            height:auto;\n" +
-    "            margin:0 10px 10px 0;\n" +
-    "            -webkit-transition:all 1.0s ease;\n" +
-    "            -moz-transition:all 1.0s ease;\n" +
-    "            transition:all 1.0s ease;\n" +
-    "            justify-content: center;\n" +
-    "            display: flex;\n" +
-    "            flex-wrap: wrap;\n" +
-    "            padding: 1rem;\n" +
-    "        }\n" +
-    "        .wrapper.list-mode .container{\n" +
-    "            padding-right:10px;\n" +
-    "        }\n" +
-    "\n" +
-    "        .wrapper.list-mode .box{\n" +
-    "            width:100%;\n" +
-    "        }\n" +
-    "    </style>\n" +
-    "    <style>\n" +
-    "        :root {\n" +
-    "            --font-primary: \"Open Sans\", sans-serif;\n" +
-    "            --font-secondary: \"Josefin Sans\", sans-serif;\n" +
-    "            --color-primary: #7c83ff;\n" +
-    "            --color-secondary: #f097a5;\n" +
-    "            --color-text-primary: #000;\n" +
-    "            --color-text-secondary: #666;\n" +
-    "            --bg-body: #eee;\n" +
-    "            --bg-primary: #fff;\n" +
-    "            --bg-secondary: #fcfcfc;\n" +
-    "            --rem-mobile: 10px;\n" +
-    "            --rem-tablet: 12px;\n" +
-    "            --rem-laptop: 13px;\n" +
-    "            --rem-desktop: 14px;\n" +
-    "            --rem-big: 16px;\n" +
-    "            --size-mini: 0.8rem;\n" +
-    "            --size-small: 1.5rem;\n" +
-    "            --size-medium: 2rem;\n" +
-    "            --size-big: 3rem;\n" +
-    "            --size-massive: 4rem;\n" +
-    "        }\n" +
-    "\n" +
-    "        *,\n" +
-    "        *::before,\n" +
-    "        *::after {\n" +
-    "            margin: 0;\n" +
-    "            padding: 0;\n" +
-    "            box-sizing: inherit;\n" +
-    "        }\n" +
-    "\n" +
-    "        html {\n" +
-    "            box-sizing: border-box;\n" +
-    "            font-size: 10px;\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 426px) {\n" +
-    "            html {\n" +
-    "                font-size: 12px;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 769px) {\n" +
-    "            html {\n" +
-    "                font-size: 13px;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 1025px) {\n" +
-    "            html {\n" +
-    "                font-size: 14px;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 1441px) {\n" +
-    "            html {\n" +
-    "                font-size: 16px;\n" +
-    "            }\n" +
-    "        }\n" +
-    "\n" +
-    "        body {\n" +
-    "            font-size: 1.4rem;\n" +
-    "            background-color: #eee;\n" +
-    "            font-family: var(--font-primary);\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon {\n" +
-    "            transition: all 0.3s;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--colored {\n" +
-    "            fill: #f097a5;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--stroked {\n" +
-    "            fill: none;\n" +
-    "            stroke: var(--color-secondary);\n" +
-    "            stroke-width: 3px;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon:hover {\n" +
-    "            opacity: 0.75;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--small {\n" +
-    "            height: 1.5rem;\n" +
-    "            width: 1.5rem;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--medium {\n" +
-    "            height: 2rem;\n" +
-    "            width: 2rem;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--big {\n" +
-    "            height: 3rem;\n" +
-    "            width: 3rem;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--massive {\n" +
-    "            height: 4rem;\n" +
-    "            width: 4rem;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--facebook {\n" +
-    "            fill: #3b5999;\n" +
-    "        }\n" +
-    "\n" +
-    "        .Icon--twitter {\n" +
-    "            fill: #55acee;\n" +
-    "        }\n" +
-    "\n" +
-    "        .SocialLink {\n" +
-    "            text-decoration: none;\n" +
-    "            transition: all 0.3s;\n" +
-    "            padding: 0 .2rem;\n" +
-    "        }\n" +
-    "\n" +
-    "        .IconBtn {\n" +
-    "            padding: 0;\n" +
-    "            border: none;\n" +
-    "            background-color: transparent;\n" +
-    "            cursor: pointer;\n" +
-    "            outline: none;\n" +
-    "        }\n" +
-    "\n" +
-    "        .ProductSet {\n" +
-    "            display: flex;\n" +
-    "            flex-wrap: wrap;\n" +
-    "            padding: 1rem;\n" +
-    "            width : 400px;\n" +
-    "        }\n" +
-    "        .ProductSet--grid {\n" +
-    "            margin-left: 1rem;\n" +
-    "            justify-content: center;\n" +
-    "            height: auto;\n" +
-    "        }\n" +
-    "        .ProductSet--grid > * {\n" +
-    "            margin: 0 1rem 1rem 0;\n" +
-    "        }\n" +
-    "        .ProductSet--list {\n" +
-    "            flex-direction: column;\n" +
-    "        }\n" +
-    "        .ProductSet--list > *:not(:last-child) {\n" +
-    "            margin-bottom: 1rem;\n" +
-    "        }\n" +
-    "\n" +
-    "        .ProductCard {\n" +
-    "            display: flex;\n" +
-    "            text-decoration: none;\n" +
-    "            border-radius: 1rem;\n" +
-    "            overflow: hidden;\n" +
-    "            background-color: #fff;\n" +
-    "            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);\n" +
-    "            transition: all 0.2s;\n" +
-    "            width: 400px;\n" +
-    "        }\n" +
-    "        .ProductCard:hover {\n" +
-    "            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);\n" +
-    "            transform: translateY(-0.5rem);\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 426px) {\n" +
-    "            .ProductCard {\n" +
-    "                font-size: 1.2rem;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        .ProductCard--grid {\n" +
-    "            width: 140rem;\n" +
-    "            flex-direction: column;\n" +
-    "        }\n" +
-    "        .ProductCard--list {\n" +
-    "            max-height: 15rem;\n" +
-    "        }\n" +
-    "        .ProductCard--list .ProductCard__img-wrapper {\n" +
-    "            max-width: 400px;\n" +
-    "            width: 400px;\n" +
-    "            margin: 2rem 0 2rem 2rem;\n" +
-    "            overflow: hidden;\n" +
-    "            display: flex;\n" +
-    "            align-items: center;\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 426px) {\n" +
-    "            .ProductCard--list .ProductCard__img-wrapper {\n" +
-    "                margin: initial;\n" +
-    "                flex: 1 1 auto;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        .ProductCard__img {\n" +
-    "            width: 100%;\n" +
-    "        }\n" +
-    "        .ProductCard--grid .ProductCard__details {\n" +
-    "            padding: 3rem 1.5rem;\n" +
-    "        }\n" +
-    "        .ProductCard--list .ProductCard__details {\n" +
-    "            margin: 2.5rem;\n" +
-    "            width: 60%;\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 426px) {\n" +
-    "            .ProductCard--list .ProductCard__details {\n" +
-    "                width: 0;\n" +
-    "                flex: 1 1 auto;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        .ProductCard__details__header {\n" +
-    "            display: flex;\n" +
-    "            justify-content: space-between;\n" +
-    "        }\n" +
-    "        .ProductCard--grid .ProductCard__details__header {\n" +
-    "            align-items: flex-end;\n" +
-    "        }\n" +
-    "        .ProductCard--list .ProductCard__details__header {\n" +
-    "            margin-bottom: 2rem;\n" +
-    "            align-items: flex-start;\n" +
-    "        }\n" +
-    "        .ProductCard .ProductCard__titles {\n" +
-    "            margin-right: 1rem;\n" +
-    "        }\n" +
-    "        .ProductCard__title {\n" +
-    "            color: #000;\n" +
-    "            margin-bottom: 1rem;\n" +
-    "            text-transform: uppercase;\n" +
-    "            font-family: var(--font-secondary);\n" +
-    "            font-weight: 400;\n" +
-    "        }\n" +
-    "        .ProductCard--list .ProductCard__title {\n" +
-    "            margin-bottom: 1.5rem;\n" +
-    "        }\n" +
-    "        .ProductCard__price {\n" +
-    "            font-size: 1.2rem;\n" +
-    "            color: var(--color-text-secondary);\n" +
-    "            font-weight: 400;\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 426px) {\n" +
-    "            .ProductCard__price {\n" +
-    "                font-size: 1.1rem;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        .ProductCard__description {\n" +
-    "            color: var(--color-text-secondary);\n" +
-    "            display: none;\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 426px) {\n" +
-    "            .ProductCard__description {\n" +
-    "                font-size: 1rem;\n" +
-    "            }\n" +
-    "        }\n" +
-    "        @media screen and (min-width: 426px) {\n" +
-    "            .ProductCard--list .ProductCard__description {\n" +
-    "                overflow: hidden;\n" +
-    "                text-overflow: ellipsis;\n" +
-    "                white-space: nowrap;\n" +
-    "                display: block;\n" +
-    "            }\n" +
-    "        }\n" +
-    "    </style>\n" +
-    "    <!-- Searching engine-->\n" +
-    "\n" +
-    "    <style>\n" +
-    "        #namanyay-search-btn {\n" +
-    "            background:#0099ff;\n" +
-    "            color:white;\n" +
-    "            font: 'trebuchet ms', trebuchet;\n" +
-    "            padding:10px 20px;\n" +
-    "            border-radius:0 5px 5px 0;\n" +
-    "            -moz-border-radius:0 5px 5px 0;\n" +
-    "            -webkit-border-radius:0 5px 5px 0;\n" +
-    "            -o-border-radius:0 5px 5px 0;\n" +
-    "            border:0 none;\n" +
-    "            font-weight:bold;\n" +
-    "        }\n" +
-    "\n" +
-    "        #namanyay-search-box {\n" +
-    "            background: #666666;\n" +
-    "            color: #FFFFFF;\n" +
-    "            padding:10px;\n" +
-    "            border-radius:5px 0 0 5px;\n" +
-    "            -moz-border-radius:5px 0 0 5px;\n" +
-    "            -webkit-border-radius:5px 0 0 5px;\n" +
-    "            -o-border-radius:5px 0 0 5px;\n" +
-    "            border:0 none;\n" +
-    "            width:96%;\n" +
-    "            margin-top: 10px;\n" +
-    "        }\n" +
-    "\n" +
-    "        .SearchEngine{\n" +
-    "            padding-left: 1%;\n" +
-    "            background: whitesmoke;\n" +
-    "        }\n" +
-    "    </style>\n" +
-    "\n" +
-    "    <!--------------------->\n" +
-    "</head>\n" +
-    "<body>\n" +
-    "<div class=\"InnerBackGround\">\n" +
-    "    <nav>\n" +
-    "        <ul>\n" +
-    "            <li><a href=\"/\">Home</a></li>\n" +
-    "            <li><a href=\"/decorate\">Trang trí</a></li>\n" +
-    "            <li><a href=\"/food\">Đồ ăn</a></li>\n" +
-    "            <li><a href=\"/house\">Nhà</a></li>\n" +
-    "            <li><a href=\"/origami\">Origami</a></li>\n" +
-    "            <li class=\"nav-item\"><a href=\"/login\" target=\"_blank\" class=\"btn btn-danger btn-round\">Login</a></li>\n" +
-    "        </ul>\n" +
-    "    </nav>\n" +
-    "</div>\n" +
-    "<div class=\"SearchEngine\">\n" +
-    "    <form id=\"searchthis\" action=\"search\" style=\"display:inline;\" method=\"get\">\n" +
-    "        <input id=\"namanyay-search-box\" name=\"q\" size=\"40\" type=\"text\" placeholder=\"Search\"/>\n" +
-    "        <input id=\"namanyay-search-btn\" value=\"Go\" type=\"submit\"/>\n" +
-    "    </form>\n" +
-    "</div>\n" +
-    "<div class=\"wrapper\">\n" +
-    "    <header>\n" +
-    "        <a href=\"javascript:void(0)\" class=\"show-list\"><i class=\"fa fa-th-list\"></i></a>\n" +
-    "        <a href=\"javascript:void(0)\" class=\"hide-list\"><i class=\"fa fa-th\"></i></a>\n" +
-    "    </header>\n" +
-    "    <div class=\"container\">";
 
 let PostedHTML_start = "\n" +
     "<!DOCTYPE html>\n" +

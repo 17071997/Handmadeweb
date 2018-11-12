@@ -3901,7 +3901,7 @@ module.exports = {
                     htmlCode += "<div class=\"box\">\n" +
                         "            <div class=\"ProductSet ProductSet--grid\">\n" +
                         "                <!-- Product Card: vertical -->\n" +
-                        "                <a href=\"/watchvideo?id=" +  clips.id + "\" class=\"ProductCard ProductCard--grid\">\n" +
+                        "                <a href=\"/watchvideo?id=" + clips.id + "&&ip=" +  clips.urlVideo + "\" class=\"ProductCard ProductCard--grid\">\n" +
                         "                    <div class=\"ProductCard__img-wrapper\">\n" +
                         "                        <img src=\""+clips.image+"\" alt=\"\" class=\"ProductCard__img\">\n" +
                         "                    </div>\n" +
