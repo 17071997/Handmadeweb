@@ -89,9 +89,7 @@ app.get('/register', function(req,res){
 let sess;
 
 app.get('/login',function (req,res) {
-    sess = req.session;
-    console.log(sess);
-    sess.email ? Renderator.WriterPageRender(req,res,email) : res.sendFile(__dirname + "/public/view/" + 'login.html');
+    res.sendFile(__dirname + "/public/view/" + 'login.html');
 });
 
 app.get('/lost',function (req,res) {
@@ -175,25 +173,36 @@ app.post("/Dangbai", urlencodedParser, upload.any(), function (req,res,next) {
                 let title = req.body.video_title;
                 let summary = req.body.video_description;
                 let tags = req.body.video_tags;
-
-                let params = {
-                    TableName : table,
-                    Item:{
-                        "email" : email,
-                        "urlVideo" : urlVideo,
-                        "image" : image,
-                        "title" : title,
-                        "summary" : summary,
-                        "tags" : tags
-                    }
+                let params0 = {
+                    TableName: table,
+                    Select: 'COUNT'
                 };
-                docClient.put(params, function (err, data) {
+                docClient.scan(params0, (err,data) => {
                     if (err)
-                        console.log("Unable to add a new item.Please review some json errors : ",JSON.stringify(err,null,2));
-                    else
-                        console.log("Added item:",JSON.stringify(data,null,2));
+                        console.log("Please view some json errors:" + JSON.stringify(err,null,2));
+                    else {
+                        let params = {
+                            TableName : table,
+                            Item:{
+                                "id" : Number.parseInt(data.Count + 1),
+                                "email" : email,
+                                "urlVideo" : urlVideo,
+                                "image" : image,
+                                "title" : title,
+                                "summary" : summary,
+                                "tags" : tags
+                            }
+
+                        };
+                        docClient.put(params, function (err, data) {
+                            if (err)
+                                console.log("Unable to add a new item.Please review some json errors : ",JSON.stringify(err,null,2));
+                            else
+                                console.log("Added item:",JSON.stringify(data,null,2));
+                        });
+                        res.redirect("/editorrender");
+                    }
                 });
-                res.redirect("/editorrender");
             }
         });
 
@@ -220,7 +229,7 @@ app.post('/postcomment', urlencodedParser, (req,res)=> {
     let content = req.body.content;
     let id = req.body.idvideo;
     AWSDynamoPost.PostComment(id,email,content);
-    window.history.back(); // ve trang truoc trong lich su
+    res.redirect(req.get('referer'));//reload page
 });
 
 app.get('/postedrender', (req,res) => {

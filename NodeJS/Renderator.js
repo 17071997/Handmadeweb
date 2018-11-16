@@ -144,10 +144,10 @@ module.exports = {
             "        header nav ul li:nth-child(6) a:before {\n" +
             "            content: \"\\1f50d\";\n" +
             "        }\n" +
-            "        main {\n" +
-            "            flex: 1;\n" +
-            "            -webkit-flex: 1;\n" +
-            "            -ms-flex: 1;\n" +
+            "        .main {\n" +
+            "            width: 1900px;\n" +
+            "            float: right;\n" +
+            "            margin-left: 221px;" +
             "        }\n" +
             "        .title {\n" +
             "            background-color: #fff;\n" +
@@ -375,17 +375,16 @@ module.exports = {
             "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
             "</head>\n" +
             "<body>\n" +
-            "<span class=\"bckg\"></span>\n" +
-            "<header>\n" +
-            "    <h1>Dashboard</h1>\n" +
+            "<span class=\"bckg\">\n" +
+            "    <header>\n" +
+            "    <a href=\"/writerpage\" id=\"home\">Dashboard</a>\n" +
             "    <nav>\n" +
             "        <ul>\n" +
             "            <li>\n" +
             "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function postedrender() {\n" +
-            "                        window.location.href = \"/postedrender\"\n" +
-            "                        //https://codepen.io/ricardpanades/pen/pjaaLa\n" +
+            "                        window.location.href = \"/postedrender?email=tranthevu.iuh@gmail.com\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -393,7 +392,7 @@ module.exports = {
             "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function Commentrender() {\n" +
-            "                        window.location.href = \"/Commentrender\"\n" +
+            "                        window.location.href = \"/Commentrender?email=tranthevu.iuh@gmail.com\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -443,7 +442,8 @@ module.exports = {
             "        </ul>\n" +
             "    </nav>\n" +
             "</header>\n" +
-            "<main>\n" +
+            "</span>\n" +
+            "<div class=\"main\">\n" +
             "    <div class=\"title\">\n" +
             "        <h2>Viết bài</h2>\n" +
             "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
@@ -508,7 +508,7 @@ module.exports = {
             "            ]\n" +
             "        });\n" +
             "    </script>\n" +
-            "</main>\n" +
+            "</div>\n" +
             "</body>\n" +
             "</html>";
         res.send(code);
@@ -535,6 +535,8 @@ module.exports = {
             "            background-size: cover;\n" +
             "            font-family: Muli, sans-serif;\n" +
             "            color: #444;\n" +
+            "            height:auto;\n" +
+            "            min-height:1300px;\n" +
             "        }\n" +
             "        ul {\n" +
             "            list-style: none;\n" +
@@ -655,11 +657,11 @@ module.exports = {
             "        header nav ul li:nth-child(6) a:before {\n" +
             "            content: \"\\1f50d\";\n" +
             "        }\n" +
-            "        main {\n" +
-            "            flex: 1;\n" +
-            "            -webkit-flex: 1;\n" +
-            "            -ms-flex: 1;\n" +
-            "        }\n" +
+            "        .main {\n" +
+            "            width: 1900px;\n" +
+            "            float: right;\n" +
+            "            margin-left: 221px;" +
+        "        }\n" +
             "        .title {\n" +
             "            background-color: #fff;\n" +
             "            border-bottom: 1px solid #C0C1C0;\n" +
@@ -903,17 +905,16 @@ module.exports = {
             "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
             "</head>\n" +
             "<body>\n" +
-            "<span class=\"bckg\"></span>\n" +
-            "<header>\n" +
-            "    <h1>Dashboard</h1>\n" +
+            "<span class=\"bckg\">\n" +
+            "    <header>\n" +
+            "    <a href=\"/writerpage\" id=\"home\">Dashboard</a>\n" +
             "    <nav>\n" +
             "        <ul>\n" +
             "            <li>\n" +
             "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function postedrender() {\n" +
-            "                        window.location.href = \"/postedrender\"\n" +
-            "                        //https://codepen.io/ricardpanades/pen/pjaaLa\n" +
+            "                        window.location.href = \"/postedrender?email=tranthevu.iuh@gmail.com\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -921,7 +922,7 @@ module.exports = {
             "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function Commentrender() {\n" +
-            "                        window.location.href = \"/Commentrender\"\n" +
+            "                        window.location.href = \"/Commentrender?email=tranthevu.iuh@gmail.com\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -971,7 +972,8 @@ module.exports = {
             "        </ul>\n" +
             "    </nav>\n" +
             "</header>\n" +
-            "<main>\n" +
+            "</span>\n" +
+            "<div class=\"main\">\n" +
             "    <div class=\"title\">\n" +
             "        <h2>Viết bài</h2>\n" +
             "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
@@ -998,7 +1000,7 @@ module.exports = {
             "            ]\n" +
             "        });\n" +
             "    </script>\n" +
-            "</main>\n" +
+            "</div>\n" +
             "</body>\n";
         res.send(code);
     },
@@ -1446,11 +1448,11 @@ module.exports = {
             "        header nav ul li:nth-child(6) a:before {\n" +
             "            content: \"\\1f50d\";\n" +
             "        }\n" +
-            "        main {\n" +
-            "            flex: 1;\n" +
-            "            -webkit-flex: 1;\n" +
-            "            -ms-flex: 1;\n" +
-            "        }\n" +
+            "        .main {\n" +
+            "            width: 1900px;\n" +
+            "            float: right;\n" +
+            "            margin-left: 221px;" +
+        "        }\n" +
             "        .title {\n" +
             "            background-color: #fff;\n" +
             "            border-bottom: 1px solid #C0C1C0;\n" +
@@ -1544,16 +1546,16 @@ module.exports = {
             "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
             "</head>\n" +
             "<body>\n" +
-            "<span class=\"bckg\"></span>\n" +
-            "<header>\n" +
-            "    <h1>Dashboard</h1>\n" +
+            "<span class=\"bckg\">\n" +
+            "    <header>\n" +
+            "    <a href=\"/writerpage\" id=\"home\">Dashboard</a>\n" +
             "    <nav>\n" +
             "        <ul>\n" +
             "            <li>\n" +
             "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function postedrender() {\n" +
-            "                        window.location.href = \"/postedrender\"\n" +
+            "                        window.location.href = \"/postedrender?email=tranthevu.iuh@gmail.com\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -1561,7 +1563,7 @@ module.exports = {
             "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function Commentrender() {\n" +
-            "                        window.location.href = \"/Commentrender\"\n" +
+            "                        window.location.href = \"/Commentrender?email=tranthevu.iuh@gmail.com\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -1611,7 +1613,8 @@ module.exports = {
             "        </ul>\n" +
             "    </nav>\n" +
             "</header>\n" +
-            "<main>\n" +
+            "</span>\n" +
+            "<div class=\"main\">\n" +
             "    <div class=\"title\">\n" +
             "        <h2>Viết bài</h2>\n" +
             "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
@@ -1961,7 +1964,7 @@ module.exports = {
             "            ]\n" +
             "        });\n" +
             "    </script>\n" +
-            "</main>\n" +
+            "</div>\n" +
             "</body>\n" +
             "</html>";
         res.send(code);
@@ -2108,11 +2111,11 @@ module.exports = {
             "        header nav ul li:nth-child(6) a:before {\n" +
             "            content: \"\\1f50d\";\n" +
             "        }\n" +
-            "        main {\n" +
-            "            flex: 1;\n" +
-            "            -webkit-flex: 1;\n" +
-            "            -ms-flex: 1;\n" +
-            "        }\n" +
+            "        .main {\n" +
+            "            width: 1900px;\n" +
+            "            float: right;\n" +
+            "            margin-left: 221px;"
+        "        }\n" +
             "        .title {\n" +
             "            background-color: #fff;\n" +
             "            border-bottom: 1px solid #C0C1C0;\n" +
@@ -2356,17 +2359,16 @@ module.exports = {
             "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
             "</head>\n" +
             "<body>\n" +
-            "<span class=\"bckg\"></span>\n" +
-            "<header>\n" +
-            "    <h1>Dashboard</h1>\n" +
+            "<span class=\"bckg\">\n" +
+            "    <header>\n" +
+            "    <a href=\"/writerpage\" id=\"home\">Dashboard</a>\n" +
             "    <nav>\n" +
             "        <ul>\n" +
             "            <li>\n" +
             "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function postedrender() {\n" +
-            "                        window.location.href = \"/postedrender\"\n" +
-            "                        //https://codepen.io/ricardpanades/pen/pjaaLa\n" +
+            "                        window.location.href = \"/postedrender?email=tranthevu.iuh@gmail.com\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -2374,7 +2376,7 @@ module.exports = {
             "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function Commentrender() {\n" +
-            "                        window.location.href = \"/Commentrender\"\n" +
+            "                        window.location.href = \"/Commentrender?email=tranthevu.iuh@gmail.com\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -2424,7 +2426,8 @@ module.exports = {
             "        </ul>\n" +
             "    </nav>\n" +
             "</header>\n" +
-            "<main>\n" +
+            "</span>\n" +
+            "<div>\n" +
             "    <div class=\"title\">\n" +
             "        <h2>Viết bài</h2>\n" +
             "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
@@ -2451,7 +2454,7 @@ module.exports = {
             "            ]\n" +
             "        });\n" +
             "    </script>\n" +
-            "</main>\n" +
+            "</div>\n" +
             "</body>\n";
         res.send(code);
     },
@@ -2480,8 +2483,10 @@ module.exports = {
             "            padding: 0;\n" +
             "            font-family: Muli, sans-serif;\n" +
             "            color: #444;\n" +
-            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
+            "            background: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
             "            background-size: cover;\n" +
+            "            height: auto;\n" +
+            "            min-height:1300px;\n" +
             "        }\n" +
             "        ul {\n" +
             "            list-style: none;\n" +
@@ -2602,10 +2607,10 @@ module.exports = {
             "        header nav ul li:nth-child(6) a:before {\n" +
             "            content: \"\\1f50d\";\n" +
             "        }\n" +
-            "        main {\n" +
-            "            flex: 1;\n" +
-            "            -webkit-flex: 1;\n" +
-            "            -ms-flex: 1;\n" +
+            "        .main {\n" +
+            "            width: 1900px;\n" +
+            "            float: right;\n" +
+            "            margin-left: 221px;" +
             "        }\n" +
             "        .title {\n" +
             "            background-color: #fff;\n" +
@@ -2737,17 +2742,17 @@ module.exports = {
             "        }\n" +
             "\n" +
             "        #title {\n" +
-            "            position: absolute;\n" +
+            "            position: relative;\n" +
             "            top: 50%;\n" +
             "            left: 0;\n" +
-            "            right: 0;\n" +
+            "            right: 0;\n"
             "            color: #FFF;\n" +
             "            text-align: center;\n" +
             "            font-family: \"lato\", sans-serif;\n" +
             "            font-weight: 300;\n" +
             "            font-size: 50px;\n" +
             "            letter-spacing: 10px;\n" +
-            "            margin-top: -220px;\n" +
+            "            margin-top: -120px;\n" +
             "            padding-left: 10px;\n" +
             "            margin-left: 250px;\n" +
             "        }\n" +
@@ -3217,8 +3222,8 @@ module.exports = {
             "    <link rel=\"stylesheet\" href=\"http://www.tinymce.com/css/codepen.min.css\">\n" +
             "</head>\n" +
             "<body>\n" +
-            "<span class=\"bckg\"></span>\n" +
-            "<header>\n" +
+            "<span class=\"bckg\">\n" +
+            "    <header>\n" +
             "    <a href=\"/writerpage\" id=\"home\">Dashboard</a>\n" +
             "    <nav>\n" +
             "        <ul>\n" +
@@ -3226,7 +3231,7 @@ module.exports = {
             "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function postedrender() {\n" +
-            "                        window.location.href = \"/postedrender?email=" + email + "\"\n" +
+            "                        window.location.href = \"/postedrender?email=tranthevu.iuh@gmail.com\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -3234,7 +3239,7 @@ module.exports = {
             "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function Commentrender() {\n" +
-            "                        window.location.href = \"/Commentrender?email=" + email + "\"\n" +
+            "                        window.location.href = \"/Commentrender?email=tranthevu.iuh@gmail.com\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -3284,7 +3289,8 @@ module.exports = {
             "        </ul>\n" +
             "    </nav>\n" +
             "</header>\n" +
-            "<main>\n" +
+            "</span>\n" +
+            "<div class=\"main\">\n" +
             "    <div class=\"title\">\n" +
             "        <h2>Viết bài</h2>\n" +
             "        <a href=\"javascript:void(0);\">Hello nigga!</a>\n" +
@@ -3423,7 +3429,7 @@ module.exports = {
             "            ]\n" +
             "        });\n" +
             "    </script>\n" +
-            "</main>\n" +
+            "</div>\n" +
             "</body>\n" +
             "</html>";
         res.send(code);
@@ -4106,11 +4112,11 @@ module.exports = {
             "        header nav ul li:nth-child(6) a:before {\n" +
             "            content: \"\\1f50d\";\n" +
             "        }\n" +
-            "        main {\n" +
-            "            flex: 1;\n" +
-            "            -webkit-flex: 1;\n" +
-            "            -ms-flex: 1;\n" +
-            "        }\n" +
+            "        .main {\n" +
+            "            width: 1900px;\n" +
+            "            float: right;\n" +
+            "            margin-left: 221px;"
+        "        }\n" +
             "        .title {\n" +
             "            background-color: #fff;\n" +
             "            border-bottom: 1px solid #C0C1C0;\n" +
@@ -4354,17 +4360,16 @@ module.exports = {
             "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
             "</head>\n" +
             "<body>\n" +
-            "<span class=\"bckg\"></span>\n" +
-            "<header>\n" +
-            "    <h1>Dashboard</h1>\n" +
+            "<span class=\"bckg\">\n" +
+            "    <header>\n" +
+            "    <a href=\"/writerpage\" id=\"home\">Dashboard</a>\n" +
             "    <nav>\n" +
             "        <ul>\n" +
             "            <li>\n" +
             "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function postedrender() {\n" +
-            "                        window.location.href = \"/postedrender\"\n" +
-            "                        //https://codepen.io/ricardpanades/pen/pjaaLa\n" +
+            "                        window.location.href = \"/postedrender?email=tranthevu.iuh@gmail.com\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -4372,7 +4377,7 @@ module.exports = {
             "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function Commentrender() {\n" +
-            "                        window.location.href = \"/Commentrender\"\n" +
+            "                        window.location.href = \"/Commentrender?email=tranthevu.iuh@gmail.com\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -4422,7 +4427,8 @@ module.exports = {
             "        </ul>\n" +
             "    </nav>\n" +
             "</header>\n" +
-            "<main>\n" +
+            "</span>\n" +
+            "<div class=\"main\">\n" +
             "    <div class=\"title\">\n" +
             "        <h2>Viết bài</h2>\n" +
             "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
@@ -4449,7 +4455,7 @@ module.exports = {
             "            ]\n" +
             "        });\n" +
             "    </script>\n" +
-            "</main>\n" +
+            "</div>\n" +
             "</body>\n";
         res.send(code);
     }

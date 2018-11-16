@@ -3,6 +3,7 @@ let AWS = require('aws-sdk');
 let config = require('./config.json');
 let Renderator = require('./Renderator');
 let OptionFunction = require('./OptionalFunctions');
+let sess = require('express-session');
 
 exports.register = function (email,pass,res){
     let EMAIL = email.toString();
@@ -69,6 +70,8 @@ exports.sign_in = function (email,pass,req,res,app){
                if (item.PASS === PASS){
                    token += jwt.sign({ userId:EMAIL, exp: expiresDate}, config.jwtsecretkey).toString();
                     Renderator.WriterPageRender(req,res,email);
+                    sess = req.session;
+                    console.log(sess);
                } else {
                     res.redirect('/login');
                }
