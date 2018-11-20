@@ -3,7 +3,7 @@ let config = require('./config.json');
 
 //PostedHTML_start _ line 31
 
-exports.GetVideoByID = function (urlVideo,id,res){
+exports.GetVideoByID = function (urlVideo,id,owner,res){
 
     let videoViewer_start = "<!DOCTYPE html>\n" +
         "<html lang=\"en\" >\n" +
@@ -647,6 +647,8 @@ exports.GetVideoByID = function (urlVideo,id,res){
                         "            <div class=\"comment_post\">\n" +
                         "                <form class=\"form\" id=\"form1\" method=\"post\" name=\"form1\" action=\"postcomment\">\n" +
                         "                    <h3 style=\"color: #FFFFFF;\">Leave a comment</h3>\n" +
+                        "                    <input type=\"text\" id=\"idvideo\" value=\"" + id +"\" name=\"idvideo\"/>\n" +
+                        "                    <input type=\"text\" id=\"ownername\" value=\"" + owner +"\" name=\"ownername\"/>\n" +
                         "                    <p class=\"email\">\n" +
                         "                        <input name=\"email\" type=\"email\" class=\"validate[required,custom[email]] feedback-input\" id=\"email\" placeholder=\"Email\" />\n" +
                         "                    </p>\n" +
@@ -696,6 +698,7 @@ exports.GetVideoByID = function (urlVideo,id,res){
                             "                <form class=\"form\" id=\"form1\" method=\"post\" name=\"form1\" action=\"postcomment\">\n" +
                             "                    <h3 style=\"color: #FFFFFF;\">Leave a comment</h3>\n" +
                             "                    <input type=\"text\" id=\"idvideo\" value=\"" + id +"\" name=\"idvideo\"/>\n" +
+                            "                    <input type=\"text\" id=\"ownername\" value=\"" + owner +"\" name=\"ownername\"/>\n" +
                             "                    <p class=\"email\">\n" +
                             "                        <input type=\"email\" class=\"validate[required,custom[email]] feedback-input\" id=\"email\" placeholder=\"Email\" name=\"email\"/>\n" +
                             "                    </p>\n" +
@@ -782,6 +785,17 @@ exports.GetPostsByEmail = function (email,res) {
         "    <title>Review</title>\n" +
         "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
         "    <style type=\"text/css\">\n" +
+        "        #home\n" +
+        "        {\n" +
+        "            font-size:45px;\n" +
+        "            padding-right: 10px;\n" +
+        "        }\n" +
+        "       .content{" +
+        "           background-color:#333333;\n" +
+        "           border-radius: 30px;\n" +
+        "           padding: 0.5 em;\n" +
+        "           width: 1500px;\n" +
+        "       }\n" +
         "        @import url(http://weloveiconfonts.com/api/?family=entypo);\n" +
         "        @import url(https://fonts.googleapis.com/css?family=Muli);\n" +
         "        body {\n" +
@@ -792,12 +806,12 @@ exports.GetPostsByEmail = function (email,res) {
         "            display: flex;\n" +
         "            margin: 0;\n" +
         "            padding: 0;\n" +
-        "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
-        "            background-size: cover;\n" +
         "            font-family: Muli, sans-serif;\n" +
         "            color: #444;\n" +
+        "            background: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
+        "            background-size: cover;\n" +
         "            height: auto;\n" +
-        "            min-height: 1300px;\n" +
+        "            min-height:1300px;\n" +
         "        }\n" +
         "        ul {\n" +
         "            list-style: none;\n" +
@@ -813,7 +827,7 @@ exports.GetPostsByEmail = function (email,res) {
         "        .bckg {\n" +
         "            background-color: #383B42;\n" +
         "            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;\n" +
-        "            width: 230px;\n" +
+        "            width: 270px;\n" +
         "            height: 100%;\n" +
         "            position: fixed;\n" +
         "            left: 0;\n" +
@@ -825,7 +839,7 @@ exports.GetPostsByEmail = function (email,res) {
         "            color: #F6F6EF;\n" +
         "            line-height: 60px;\n" +
         "            margin: 0;\n" +
-        "            font-size: 20px;\n" +
+        "            font-size: 15px;\n" +
         "            letter-spacing: 2px;\n" +
         "            background-color: #34363A;\n" +
         "            border-bottom: 1px solid rgba(101,116,134,0.57);\n" +
@@ -932,6 +946,7 @@ exports.GetPostsByEmail = function (email,res) {
         "            display: -ms-flexbox;\n" +
         "            display: -webkit-flex;\n" +
         "            display: flex;\n" +
+        "            margin-left: 30px;\n" +
         "        }\n" +
         "        .title a {\n" +
         "            color: #AAA;\n" +
@@ -986,11 +1001,9 @@ exports.GetPostsByEmail = function (email,res) {
         "            border-left: 1px solid #ccc;\n" +
         "        }\n" +
         "        .rendered{\n" +
-        "            margin-left: 25px;\n" +
+        "            margin-left: 15px;\n" +
         "            height: auto;\n" +
         "            margin-top: 100px;\n" +
-        "            background-color: #333333;\n" +
-        "            padding: 20px;\n" +
         "        }\n" +
         "    </style>\n" +
         "    <style type=\"text/css\">\n" +
@@ -998,6 +1011,7 @@ exports.GetPostsByEmail = function (email,res) {
         "            width: auto;\n" +
         "            max-width: 1300px;" +
         "            height: auto;\n" +
+        "            margin: -15px auto auto 25px;\n" +
         "        }\n" +
         "        .product-grid {\n" +
         "            width: 60em;\n" +
@@ -1160,7 +1174,7 @@ exports.GetPostsByEmail = function (email,res) {
         "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
         "                <script type=\"text/javascript\">\n" +
         "                    function postedrender() {\n" +
-        "                        window.location.href = \"/postedrender?email=tranthevu.iuh@gmail.com\"\n" +
+        "                        window.location.href = \"/postedrender?email=" + email + "\"\n" +
         "                    }\n" +
         "                </script>\n" +
         "            </li>\n" +
@@ -1168,7 +1182,7 @@ exports.GetPostsByEmail = function (email,res) {
         "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
         "                <script type=\"text/javascript\">\n" +
         "                    function Commentrender() {\n" +
-        "                        window.location.href = \"/Commentrender?email=tranthevu.iuh@gmail.com\"\n" +
+        "                        window.location.href = \"/Commentrender?email=" + email + "\"\n" +
         "                    }\n" +
         "                </script>\n" +
         "            </li>\n" +
@@ -1176,7 +1190,7 @@ exports.GetPostsByEmail = function (email,res) {
         "                <a href=\"javascript:void(0);\" data-title=\"Đang theo dõi\" onclick=\"WatchingRender()\">Đang theo dõi</a>\n" +
         "                <script type=\"text/javascript\">\n" +
         "                    function WatchingRender() {\n" +
-        "                        window.location.href = \"/WatchingRender\"\n" +
+        "                        window.location.href = \"/WatchingRender?email=" + email + "\"\n" +
         "                    }\n" +
         "                </script>\n" +
         "            </li>\n" +
@@ -1184,7 +1198,7 @@ exports.GetPostsByEmail = function (email,res) {
         "                <a href=\"javascript:void(0);\" data-title=\"Những người theo dõi\" onclick=\"WatchedRender()\">Những người theo dõi</a>\n" +
         "                <script type=\"text/javascript\">\n" +
         "                    function WatchedRender() {\n" +
-        "                        window.location.href = \"/WatchedRender\"\n" +
+        "                        window.location.href = \"/WatchedRender?email=" + email +"\"\n" +
         "                    }\n" +
         "                </script>\n" +
         "            </li>\n" +
@@ -1192,7 +1206,7 @@ exports.GetPostsByEmail = function (email,res) {
         "                <a href=\"javascript:void(0);\" data-title=\"Viết bài\" onclick=\"editorrender()\">Viết bài</a>\n" +
         "                <script type=\"text/javascript\">\n" +
         "                    function editorrender() {\n" +
-        "                        window.location.href = \"/editorrender\"\n" +
+        "                        window.location.href = \"/editorrender?email=" + email + "\"\n" +
         "                    }\n" +
         "                </script>\n" +
         "            </li>\n" +
@@ -1221,7 +1235,7 @@ exports.GetPostsByEmail = function (email,res) {
         "</span>\n" +
         "<div class=\"main\">\n" +
         "    <div class=\"title\">\n" +
-        "        <h2>Viết bài</h2>\n" +
+        "        <h2>Các bài đăng</h2>\n" +
         "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
         "    </div>\n" +
         "    <div class=\"rendered\">\n" +
@@ -1817,3 +1831,654 @@ exports.GetPostsByKeyWord = function(keyword,res){
         }
     })
 };
+
+let deduplicate = function (ArrVideoID){
+    let isExist = (ArrVideoID, x) => {
+        for (let i=0; i< ArrVideoID.length; i++){
+            if (ArrVideoID[i] === x ) return true;
+        }
+        return false;
+    };
+
+    let ans = [];
+    ArrVideoID.forEach (element => {
+        if (!isExist(ans, element)) ans.push(element);
+    });
+    return ans;
+};
+exports.GetCommentOnVideoByEmail = function (req,res,email) {
+    let body = "<body>\n" +
+        "<span class=\"bckg\">\n" +
+        "    <header>\n" +
+        "    <a href=\"/writerpage\" id=\"home\">Dashboard</a>\n" +
+        "    <nav>\n" +
+        "        <ul>\n" +
+        "            <li>\n" +
+        "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
+        "                <script type=\"text/javascript\">\n" +
+        "                    function postedrender() {\n" +
+        "                        window.location.href = \"/postedrender?email=" + email + "\"\n" +
+        "                    }\n" +
+        "                </script>\n" +
+        "            </li>\n" +
+        "            <li>\n" +
+        "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
+        "                <script type=\"text/javascript\">\n" +
+        "                    function Commentrender() {\n" +
+        "                        window.location.href = \"/Commentrender?email=" + email + "\"\n" +
+        "                    }\n" +
+        "                </script>\n" +
+        "            </li>\n" +
+        "            <li>\n" +
+        "                <a href=\"javascript:void(0);\" data-title=\"Đang theo dõi\" onclick=\"WatchingRender()\">Đang theo dõi</a>\n" +
+        "                <script type=\"text/javascript\">\n" +
+        "                    function WatchingRender() {\n" +
+        "                        window.location.href = \"/WatchingRender?email=" + email + "\"\n" +
+        "                    }\n" +
+        "                </script>\n" +
+        "            </li>\n" +
+        "            <li>\n" +
+        "                <a href=\"javascript:void(0);\" data-title=\"Những người theo dõi\" onclick=\"WatchedRender()\">Những người theo dõi</a>\n" +
+        "                <script type=\"text/javascript\">\n" +
+        "                    function WatchedRender() {\n" +
+        "                        window.location.href = \"/WatchedRender?email=" + email + "\"\n" +
+        "                    }\n" +
+        "                </script>\n" +
+        "            </li>\n" +
+        "            <li>\n" +
+        "                <a href=\"javascript:void(0);\" data-title=\"Viết bài\" onclick=\"editorrender()\">Viết bài</a>\n" +
+        "                <script type=\"text/javascript\">\n" +
+        "                    function editorrender() {\n" +
+        "                        window.location.href = \"/editorrender?email=" + email +"\"\n" +
+        "                    }\n" +
+        "                </script>\n" +
+        "            </li>\n" +
+        "            <li>\n" +
+        "                <a href=\"javascript:void(0);\" data-title=\"Tìm kiếm\" onclick=\"FindingRender()\">Tìm kiếm</a>\n" +
+        "                <script type=\"text/javascript\"></script>\n" +
+        "            </li>\n" +
+        "            <li>\n" +
+        "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
+        "                <script type=\"text/javascript\">\n" +
+        "\n" +
+        "                </script>\n" +
+        "            </li>\n" +
+        "            <li>\n" +
+        "                <span style=\"color: red; margin-left: -5px;\">Dangerous place !</span>\n" +
+        "            </li>\n" +
+        "            <li>\n" +
+        "                <a href=\"javascript:void(0);\" data-title=\"Xóa bài đăng\" onclick=\"RemovePost()\">Xóa bài đăng</a>\n" +
+        "                <script type=\"text/javascript\">\n" +
+        "\n" +
+        "                </script>\n" +
+        "            </li>\n" +
+        "        </ul>\n" +
+        "    </nav>\n" +
+        "</header>\n" +
+        "</span>\n" +
+        "<div class=\"main\">\n" +
+        "    <div class=\"title\">\n" +
+        "        <h2>Các bình luận</h2>\n" +
+        "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
+        "    </div>\n" +
+        "    <div class=\"rendered\">\n";
+    let end = "</div>\n" +
+        "</div>\n" +
+        "    </div>\n" +
+        "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+        "    <script src='http://cdn.tinymce.com/4/tinymce.min.js'></script>\n" +
+        "    <script>\n" +
+        "        tinymce.init({\n" +
+        "            selector: 'textarea',\n" +
+        "            height: 500,\n" +
+        "            plugins: [\n" +
+        "                'advlist autolink lists link image charmap print preview anchor',\n" +
+        "                'searchreplace visualblocks code fullscreen',\n" +
+        "                'insertdatetime media table contextmenu paste code'\n" +
+        "            ],\n" +
+        "            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',\n" +
+        "            content_css: [\n" +
+        "                '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',\n" +
+        "                '//www.tinymce.com/css/codepen.min.css'\n" +
+        "            ]\n" +
+        "        });\n" +
+        "    </script>\n" +
+        "</div>\n" +
+        "</body>\n";
+    let arr = [];
+    aws.config.update({
+        region:'us-east-1',
+        endpoint:'http://dynamodb.us-east-1.amazonaws.com',
+        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+    });
+    let docClient = new aws.DynamoDB.DocumentClient();
+    let params0 = {
+        TableName: "Comments",
+        FilterExpression: "contains(writer,:letter1)",
+        ExpressionAttributeValues: {
+            ":letter1": email
+        }
+    };
+    docClient.scan(params0, (err,data) => {
+        if (err) {
+            console.log(JSON.stringify(err,null,2));
+            body += "<h3>Chưa có video nào của bạn được bình luận.</h3>\n" +
+                "    </div>\n" +
+                "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+                "    <script src='http://cdn.tinymce.com/4/tinymce.min.js'></script>\n" +
+                "    <script>\n" +
+                "        tinymce.init({\n" +
+                "            selector: 'textarea',\n" +
+                "            height: 500,\n" +
+                "            plugins: [\n" +
+                "                'advlist autolink lists link image charmap print preview anchor',\n" +
+                "                'searchreplace visualblocks code fullscreen',\n" +
+                "                'insertdatetime media table contextmenu paste code'\n" +
+                "            ],\n" +
+                "            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',\n" +
+                "            content_css: [\n" +
+                "                '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',\n" +
+                "                '//www.tinymce.com/css/codepen.min.css'\n" +
+                "            ]\n" +
+                "        });\n" +
+                "    </script>\n" +
+                "</div>\n" +
+                "</body>\n";
+        } else {
+            data.Items.forEach((item)=>{
+                arr.push(item.idvideo);
+            });
+            let new_arr = deduplicate(arr);
+            new_arr.forEach((item)=>{
+                RenderContent(item,body,end,res);
+            });
+        }
+    });
+};
+function RenderContent (id,body,end,res){
+    aws.config.update({
+        region:'us-east-1',
+        endpoint:'http://dynamodb.us-east-1.amazonaws.com',
+        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+    });
+    let docClient = new aws.DynamoDB.DocumentClient();
+    let params0 = {
+        TableName: "handmadevideo01",
+        FilterExpression: "id = :num",
+        ExpressionAttributeValues: {
+            ":num" : Number.parseInt(id)
+        }
+    };
+    let image = "";
+    docClient.scan(params0, (err,data) => {
+        if (err)
+            console.log(JSON.stringify(err,null,2));
+        else {
+            data.Items.forEach((item) => {
+                image = "        <div class=\"topic\">" +
+                    "             <div class=\"left\">" +
+                    "                  <img src=\"" + item.image + "\" width=\"300\" height=\"300\" >" +
+                    "             </div>" +
+                    "             <div class=\"right\">" ;
+            });
+            body += image;
+            RenderComment(id,body,end,res);
+        }
+    });
+}
+function RenderComment (id,body,end,res){
+    let comment = "";
+    aws.config.update({
+        region:'us-east-1',
+        endpoint:'http://dynamodb.us-east-1.amazonaws.com',
+        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+    });
+    let docClient = new aws.DynamoDB.DocumentClient();
+
+    let params2 = {
+        TableName: "Comments",
+        FilterExpression: "idvideo = :num",
+        ExpressionAttributeValues: {
+            ":num" : id
+        }
+    };
+    docClient.scan(params2, (err,data) => {
+        if (err)
+            console.log(JSON.stringify(err,null,2));
+        else {
+            data.Items.forEach((item) => {
+                comment += "<h3 style=\"margin: 10px;\"><span style=\"background: #DA7151;color: #FFFFFF;padding: 10px;\">From:" + item.guestemail + "</span> - <span style=\"background: #44D5AC;color: #FFFFFF;padding:10px;\">" + item.content + "</span></h3>" ;
+                body += comment;
+            });
+            let final = head + body + end;
+            res.send(final);
+        }
+    });
+}
+/*
+Author : Tran The Vu
++
+* Note : solution :
+* * The first scan with param is writer and table comment, you should get all video id and put it into an array
+* Then you will eliminate same contents and sorting it
+* After have an array of video id (non-same content), you can start a loop in which you can set source into <image> tag in html code
+* (above use GetImageSource() function below) and with each video id you can get its comment in second scan with id\video parameter
+*/
+/*"        <div class=\"topic\">" +
+                    "     <div class=\"left\">" +
+                    "         <img src=\"" + GetImageSource(item.idvideo) + "\">" +
+                    "     </div>";*/
+let head = "<!DOCTYPE html>\n" +
+    "<html lang=\"en\">\n" +
+    "<head>\n" +
+    "    <meta charset=\"UTF-8\">\n" +
+    "    <title>Comments</title>\n" +
+    "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
+    "    <style type=\"text/css\">\n" +
+    "        @import url(http://weloveiconfonts.com/api/?family=entypo);\n" +
+    "        @import url(https://fonts.googleapis.com/css?family=Muli);\n" +
+    "        body {\n" +
+    "            display: -webkit-box;\n" +
+    "            display: -moz-box;\n" +
+    "            display: -ms-flexbox;\n" +
+    "            display: -webkit-flex;\n" +
+    "            display: flex;\n" +
+    "            margin: 0;\n" +
+    "            padding: 0;\n" +
+    "            font-family: Muli, sans-serif;\n" +
+    "            color: #444;\n" +
+    "            background: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
+    "            background-size: cover;\n" +
+    "            height: auto;\n" +
+    "            min-height:1300px;\n" +
+    "        }\n" +
+    "        #home\n" +
+    "        {\n" +
+    "            font-size:45px;\n" +
+    "            padding-right: 10px;\n" +
+    "        }\n" +
+    "        ul {\n" +
+    "            list-style: none;\n" +
+    "            margin-top: 0;\n" +
+    "            padding: 0;\n" +
+    "        }\n" +
+    "        a {\n" +
+    "            cursor: pointer;\n" +
+    "            display: block;\n" +
+    "            color: #b3b3b3;\n" +
+    "            text-decoration: none;\n" +
+    "        }\n" +
+    "        .bckg {\n" +
+    "            background-color: #383B42;\n" +
+    "            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;\n" +
+    "            width: 270px;\n" +
+    "            height: 100%;\n" +
+    "            position: fixed;\n" +
+    "            left: 0;\n" +
+    "            top: 0;\n" +
+    "        }\n" +
+    "        h1 {\n" +
+    "            text-align: center;\n" +
+    "            font-weight: normal;\n" +
+    "            color: #F6F6EF;\n" +
+    "            line-height: 60px;\n" +
+    "            margin: 0;\n" +
+    "            font-size: 15px;\n" +
+    "            letter-spacing: 2px;\n" +
+    "            background-color: #34363A;\n" +
+    "            border-bottom: 1px solid rgba(101,116,134,0.57);\n" +
+    "        }\n" +
+    "        h2 {\n" +
+    "            font-size: 20px;\n" +
+    "            text-transform: uppercase;\n" +
+    "            margin: 0;\n" +
+    "            letter-spacing: 3px;\n" +
+    "            color: #919191;\n" +
+    "            font-weight: normal;\n" +
+    "            padding-left: 40px;\n" +
+    "            line-height: 60px;\n" +
+    "            text-shadow: 1px 1px 2px #fff;\n" +
+    "            position: relative;\n" +
+    "            flex: 1;\n" +
+    "            -webkit-flex: 1;\n" +
+    "            -ms-flex: 1;\n" +
+    "        }\n" +
+    "        h2:before {\n" +
+    "            content: '';\n" +
+    "            width: 36px;\n" +
+    "            height: 36px;\n" +
+    "            position: absolute;\n" +
+    "            left: -19px;\n" +
+    "            top: 12px;\n" +
+    "            background-color: #34363A;\n" +
+    "            -webkit-transform: rotate(45deg);\n" +
+    "            -moz-transform: rotate(45deg);\n" +
+    "            transform: rotate(45deg);\n" +
+    "        }\n" +
+    "        h3 {\n" +
+    "            font-size: 17px;\n" +
+    "            margin: 0;\n" +
+    "            line-height: 40px;\n" +
+    "            color: #555;\n" +
+    "            cursor: pointer;\n" +
+    "            position: relative;\n" +
+    "        }\n" +
+    "        header {\n" +
+    "            width: 200px;\n" +
+    "            height: 100%;\n" +
+    "            float: left;\n" +
+    "            position: relative;\n" +
+    "            z-index: 99;\n" +
+    "        }\n" +
+    "        header nav ul li {\n" +
+    "            border-bottom: 1px solid #42454D;\n" +
+    "            padding-left: 48px;\n" +
+    "            transition: all 0.6s;\n" +
+    "            border-top: 1px solid #2E3036;\n" +
+    "        }\n" +
+    "        header nav ul li:hover {\n" +
+    "            background-color: #454952;\n" +
+    "            transition: all 0.6s;\n" +
+    "            border-bottom: 1px solid #797979;\n" +
+    "        }\n" +
+    "        header nav ul li:hover a {\n" +
+    "            color: #fff;\n" +
+    "            transition: all 0.6s;\n" +
+    "        }\n" +
+    "        header nav ul li a {\n" +
+    "            line-height: 55px;\n" +
+    "            font-size: 18px;\n" +
+    "            position: relative;\n" +
+    "            letter-spacing: 1px;\n" +
+    "            transition: all 0.6s;\n" +
+    "        }\n" +
+    "        header nav ul li a:before {\n" +
+    "            font-family: 'entypo', sans-serif;\n" +
+    "            font-size: 20px;\n" +
+    "            position: absolute;\n" +
+    "            left: -32px;\n" +
+    "        }\n" +
+    "        header nav ul li:first-child a:before {\n" +
+    "            content: \"\\268f\";\n" +
+    "        }\n" +
+    "        header nav ul li:nth-child(2) a:before {\n" +
+    "            content: \"\\e771\";\n" +
+    "        }\n" +
+    "        header nav ul li:nth-child(3) a:before {\n" +
+    "            content: \"\\1f4c5\";\n" +
+    "        }\n" +
+    "        header nav ul li:nth-child(4) a:before {\n" +
+    "            content: \"\\1f465\";\n" +
+    "        }\n" +
+    "        header nav ul li:nth-child(5) a:before {\n" +
+    "            content: \"\\2699\";\n" +
+    "        }\n" +
+    "        header nav ul li:nth-child(6) a:before {\n" +
+    "            content: \"\\1f50d\";\n" +
+    "        }\n" +
+    "        .main {\n" +
+    "            width: 1900px;\n" +
+    "            float: right;\n" +
+    "            margin-left: 221px;" +
+    "        }\n" +
+    "        .title {\n" +
+    "            background-color: #fff;\n" +
+    "            border-bottom: 1px solid #C0C1C0;\n" +
+    "            height: 60px;\n" +
+    "            display: -webkit-box;\n" +
+    "            display: -moz-box;\n" +
+    "            display: -ms-flexbox;\n" +
+    "            display: -webkit-flex;\n" +
+    "            display: flex;\n" +
+    "            margin-left: 30px;\n" +
+    "        }\n" +
+    "        .title a {\n" +
+    "            color: #AAA;\n" +
+    "            width: auto;\n" +
+    "            margin: 0 20px;\n" +
+    "            float: right;\n" +
+    "            line-height: 62px;\n" +
+    "            position: relative;\n" +
+    "            text-decoration: none;\n" +
+    "            transition: all .5s;\n" +
+    "        }\n" +
+    "        .title a:before {\n" +
+    "            content: \"\\1f464\";\n" +
+    "            font-size: 38px;\n" +
+    "            position: absolute;\n" +
+    "            left: -50px;\n" +
+    "            font-family: 'entypo';\n" +
+    "        }\n" +
+    "        a:hover {\n" +
+    "            color: #33526B;\n" +
+    "            transition: all .5s;\n" +
+    "        }\n" +
+    "        .larg {\n" +
+    "            width: auto;\n" +
+    "            margin: 30px auto;\n" +
+    "            padding: 0 30px;\n" +
+    "        }\n" +
+    "        .larg div {\n" +
+    "            background-color: #F7F7F7;\n" +
+    "            border: 1px solid #E2E2E2;\n" +
+    "            padding: 0 20px;\n" +
+    "            margin: 15px 0;\n" +
+    "        }\n" +
+    "        .larg div:hover {\n" +
+    "            background-color: #fafafa;\n" +
+    "        }\n" +
+    "        .larg div h3 span {\n" +
+    "            font-family: 'entypo';\n" +
+    "            font-size: 19px;\n" +
+    "            position: absolute;\n" +
+    "            right: 0;\n" +
+    "            transition: all .6s;\n" +
+    "        }\n" +
+    "        .larg div h3 span.close {\n" +
+    "            -webkit-transform: rotate(180deg);\n" +
+    "            transition: all .5s;\n" +
+    "        }\n" +
+    "        .larg div p {\n" +
+    "            display: none;\n" +
+    "            margin-left: 10px;\n" +
+    "            padding: 0 15px;\n" +
+    "            border-left: 1px solid #ccc;\n" +
+    "        }\n" +
+    "        .rendered{\n" +
+    "            margin-left: 15px;\n" +
+    "            height: auto;\n" +
+    "            margin-top: 100px;\n" +
+    "           padding: 1em;\n" +
+    "        }\n" +
+    "    </style>\n" +
+    "    <style type=\"text/css\">\n" +
+    "        .wrapper {\n" +
+    "            width: 600px;\n" +
+    "        }\n" +
+    "        .product-grid {\n" +
+    "            width: 60em;\n" +
+    "            margin: 2% auto;\n" +
+    "        }\n" +
+    "        .product-grid.product-grid--flexbox .product-grid__wrapper {\n" +
+    "            display: flex;\n" +
+    "            flex-wrap: wrap;\n" +
+    "        }\n" +
+    "        .product-grid.product-grid--flexbox .product-grid__title {\n" +
+    "            height: auto;\n" +
+    "        }\n" +
+    "        .product-grid.product-grid--flexbox .product-grid__title:after {\n" +
+    "            display: none;\n" +
+    "        }\n" +
+    "        .product-grid__wrapper {\n" +
+    "            margin-left: -1rem;\n" +
+    "            margin-right: -1rem;\n" +
+    "        }\n" +
+    "        .product-grid__product-wrapper {\n" +
+    "            padding: 1rem;\n" +
+    "            float: left;\n" +
+    "            width: 33.33333%;\n" +
+    "        }\n" +
+    "        .product-grid__product {\n" +
+    "            padding: 1rem;\n" +
+    "            position: relative;\n" +
+    "            cursor: pointer;\n" +
+    "            background: #fff;\n" +
+    "            border-radius: 4px;\n" +
+    "        }\n" +
+    "        .product-grid__product:hover {\n" +
+    "            box-shadow: 0px 0px 0px 1px #eee;\n" +
+    "            z-index: 50;\n" +
+    "        }\n" +
+    "        .product-grid__product:hover .product-grid__extend {\n" +
+    "            display: block;\n" +
+    "        }\n" +
+    "        .product-grid__img-wrapper {\n" +
+    "            width: 100%;\n" +
+    "            text-align: center;\n" +
+    "            padding-top: 1rem;\n" +
+    "            padding-bottom: 1rem;\n" +
+    "            height: 150px;\n" +
+    "        }\n" +
+    "        .product-grid__img {\n" +
+    "            max-width: 100%;\n" +
+    "            height: auto;\n" +
+    "            max-height: 100%;\n" +
+    "        }\n" +
+    "        .product-grid__title {\n" +
+    "            margin-top: 0.875rem;\n" +
+    "            display: block;\n" +
+    "            font-size: 1.125em;\n" +
+    "            color: #222;\n" +
+    "            height: 3em;\n" +
+    "            overflow: hidden;\n" +
+    "            position: relative;\n" +
+    "        }\n" +
+    "        .product-grid__title:after {\n" +
+    "            content: \"\";\n" +
+    "            display: block;\n" +
+    "            position: absolute;\n" +
+    "            bottom: 0;\n" +
+    "            right: 0;\n" +
+    "            width: 2.4em;\n" +
+    "            height: 1.5em;\n" +
+    "            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);\n" +
+    "        }\n" +
+    "        .product-grid__price {\n" +
+    "            color: #e91e63;\n" +
+    "            font-weight: bold;\n" +
+    "            letter-spacing: 0.4px;\n" +
+    "        }\n" +
+    "        .product-grid__extend-wrapper {\n" +
+    "            position: relative;\n" +
+    "        }\n" +
+    "        .product-grid__extend {\n" +
+    "            display: none;\n" +
+    "            position: absolute;\n" +
+    "            padding: 0 1rem 1rem 1rem;\n" +
+    "            margin: 0.4375rem -1rem 0;\n" +
+    "            box-shadow: 0px 0px 0px 1px #eee;\n" +
+    "            background: #fff;\n" +
+    "            border-radius: 0 0 4px 4px;\n" +
+    "        }\n" +
+    "        .product-grid__extend:before {\n" +
+    "            content: \"\";\n" +
+    "            height: 0.875rem;\n" +
+    "            width: 100%;\n" +
+    "            position: absolute;\n" +
+    "            top: -0.4375rem;\n" +
+    "            left: 0;\n" +
+    "            background: #fff;\n" +
+    "        }\n" +
+    "        .product-grid__description {\n" +
+    "            font-size: 0.875em;\n" +
+    "            margin-top: 0.4375rem;\n" +
+    "            margin-bottom: 0;\n" +
+    "        }\n" +
+    "        .product-grid__btn {\n" +
+    "            display: inline-block;\n" +
+    "            font-size: 0.875em;\n" +
+    "            color: #777;\n" +
+    "            background: #eee;\n" +
+    "            padding: 0.5em 0.625em;\n" +
+    "            margin-top: 0.875rem;\n" +
+    "            margin-right: 0.625rem;\n" +
+    "            cursor: pointer;\n" +
+    "            border-radius: 4px;\n" +
+    "        }\n" +
+    "        .product-grid__btn i.fa {\n" +
+    "            margin-right: 0.3125rem;\n" +
+    "        }\n" +
+    "        .product-grid__add-to-cart {\n" +
+    "            color: #fff;\n" +
+    "            background: #e91e63;\n" +
+    "        }\n" +
+    "        .product-grid__add-to-cart:hover {\n" +
+    "            background: #ee4c83;\n" +
+    "        }\n" +
+    "        .product-grid__view {\n" +
+    "            color: #777;\n" +
+    "            background: #eee;\n" +
+    "        }\n" +
+    "        .product-grid__view:hover {\n" +
+    "            background: #fff;\n" +
+    "        }\n" +
+    "        .topic{\n" +
+    "            min-width: 1300px;\n" +
+    "            width: auto;\n" +
+    "            min-height: 300px;\n" +
+    "            height: auto;\n" +
+    "            background: #FFFFFF;\n" +
+    "            -webkit-border-radius: 30px;\n" +
+    "            -moz-border-radius: 30px;\n" +
+    "            border-radius: 30px;\n" +
+    "            float: left;\n" +
+    "            margin: 20px;\n" +
+    "        }\n" +
+    "        .left{\n" +
+    "            min-width: 300px;\n" +
+    "            width: auto;\n" +
+    "            height: auto;\n" +
+    "            float:left;\n" +
+    "            padding: 0.5em;" +
+    "         }\n" +
+    "       .right{\n" +
+    "            margin: 1em;\n" +
+    "            min-width: 1000px;\n" +
+    "            width: auto;\n" +
+    "            height: auto;\n" +
+    "            font-family: Georgia, sans-serif;\n" +
+    "            font-size: 20px;\n" +
+    "            padding: 0.5em;\n" +
+    "            float: right;\n" +
+    "        }" +
+    "    </style>\n" +
+    "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+    "    <script>\n" +
+    "        $(document).ready( function() {\n" +
+    "            $('body').on(\"click\", \".larg div h3\", function(){\n" +
+    "                if ($(this).children('span').hasClass('close')) {\n" +
+    "                    $(this).children('span').removeClass('close');\n" +
+    "                }\n" +
+    "                else {\n" +
+    "                    $(this).children('span').addClass('close');\n" +
+    "                }\n" +
+    "                $(this).parent().children('p').slideToggle(250);\n" +
+    "            });\n" +
+    "\n" +
+    "            $('body').on(\"click\", \"nav ul li a\", function(){\n" +
+    "                let title = $(this).data('title');\n" +
+    "                $('.title').children('h2').html(title);\n" +
+    "\n" +
+    "            });\n" +
+    "        });\n" +
+    "\n" +
+    "        /**\n" +
+    "         * @return {number}\n" +
+    "         */\n" +
+    "        function RandDomNumber(max) {\n" +
+    "            let boundary = Number.parseInt(max);\n" +
+    "            return Math.floor(Math.random()*boundary);\n" +
+    "        }\n" +
+    "    </script>\n" +
+    "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
+    "</head>\n";

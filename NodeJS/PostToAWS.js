@@ -6,7 +6,7 @@ function wait(ms){
 }
 */
 
-exports.PostComment = function (VideoID, email, content){
+exports.PostComment = function (VideoID, email, content, owner){
     let counting = 0;
     aws.config.update({
       region : "us-east-1",
@@ -30,7 +30,8 @@ exports.PostComment = function (VideoID, email, content){
                     "IDcontent" : Number.parseInt(data.Count + 1) ,
                     "guestemail" : email,
                     "content" : content,
-                    "idvideo" : VideoID
+                    "idvideo" : VideoID,
+                    "writer" : owner
                 }
             };
 

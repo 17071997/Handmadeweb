@@ -2,1008 +2,6 @@ let AWS = require('aws-sdk');
 let config = require('./config.json');
 
 module.exports = {
-    PostedRender : function (req,res) {
-        let code = "<!DOCTYPE html>\n" +
-            "<html lang=\"en\">\n" +
-            "<head>\n" +
-            "    <meta charset=\"UTF-8\">\n" +
-            "    <title>Review</title>\n" +
-            "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
-            "    <style type=\"text/css\">\n" +
-            "        @import url(http://weloveiconfonts.com/api/?family=entypo);\n" +
-            "        @import url(https://fonts.googleapis.com/css?family=Muli);\n" +
-            "        body {\n" +
-            "            display: -webkit-box;\n" +
-            "            display: -moz-box;\n" +
-            "            display: -ms-flexbox;\n" +
-            "            display: -webkit-flex;\n" +
-            "            display: flex;\n" +
-            "            margin: 0;\n" +
-            "            padding: 0;\n" +
-            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
-            "            background-size: cover;\n" +
-            "            font-family: Muli, sans-serif;\n" +
-            "            color: #444;\n" +
-            "        }\n" +
-            "        ul {\n" +
-            "            list-style: none;\n" +
-            "            margin-top: 0;\n" +
-            "            padding: 0;\n" +
-            "        }\n" +
-            "        a {\n" +
-            "            cursor: pointer;\n" +
-            "            display: block;\n" +
-            "            color: #b3b3b3;\n" +
-            "            text-decoration: none;\n" +
-            "        }\n" +
-            "        .bckg {\n" +
-            "            background-color: #383B42;\n" +
-            "            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;\n" +
-            "            width: 230px;\n" +
-            "            height: 100%;\n" +
-            "            position: fixed;\n" +
-            "            left: 0;\n" +
-            "            top: 0;\n" +
-            "        }\n" +
-            "        h1 {\n" +
-            "            text-align: center;\n" +
-            "            font-weight: normal;\n" +
-            "            color: #F6F6EF;\n" +
-            "            line-height: 60px;\n" +
-            "            margin: 0;\n" +
-            "            font-size: 20px;\n" +
-            "            letter-spacing: 2px;\n" +
-            "            background-color: #34363A;\n" +
-            "            border-bottom: 1px solid rgba(101,116,134,0.57);\n" +
-            "        }\n" +
-            "        h2 {\n" +
-            "            font-size: 20px;\n" +
-            "            text-transform: uppercase;\n" +
-            "            margin: 0;\n" +
-            "            letter-spacing: 3px;\n" +
-            "            color: #919191;\n" +
-            "            font-weight: normal;\n" +
-            "            padding-left: 40px;\n" +
-            "            line-height: 60px;\n" +
-            "            text-shadow: 1px 1px 2px #fff;\n" +
-            "            position: relative;\n" +
-            "            flex: 1;\n" +
-            "            -webkit-flex: 1;\n" +
-            "            -ms-flex: 1;\n" +
-            "        }\n" +
-            "        h2:before {\n" +
-            "            content: '';\n" +
-            "            width: 36px;\n" +
-            "            height: 36px;\n" +
-            "            position: absolute;\n" +
-            "            left: -19px;\n" +
-            "            top: 12px;\n" +
-            "            background-color: #34363A;\n" +
-            "            -webkit-transform: rotate(45deg);\n" +
-            "            -moz-transform: rotate(45deg);\n" +
-            "            transform: rotate(45deg);\n" +
-            "        }\n" +
-            "        h3 {\n" +
-            "            font-size: 17px;\n" +
-            "            margin: 0;\n" +
-            "            line-height: 40px;\n" +
-            "            color: #555;\n" +
-            "            cursor: pointer;\n" +
-            "            position: relative;\n" +
-            "        }\n" +
-            "        header {\n" +
-            "            width: 200px;\n" +
-            "            height: 100%;\n" +
-            "            float: left;\n" +
-            "            position: relative;\n" +
-            "            z-index: 99;\n" +
-            "        }\n" +
-            "        header nav ul li {\n" +
-            "            border-bottom: 1px solid #42454D;\n" +
-            "            padding-left: 48px;\n" +
-            "            transition: all 0.6s;\n" +
-            "            border-top: 1px solid #2E3036;\n" +
-            "        }\n" +
-            "        header nav ul li:hover {\n" +
-            "            background-color: #454952;\n" +
-            "            transition: all 0.6s;\n" +
-            "            border-bottom: 1px solid #797979;\n" +
-            "        }\n" +
-            "        header nav ul li:hover a {\n" +
-            "            color: #fff;\n" +
-            "            transition: all 0.6s;\n" +
-            "        }\n" +
-            "        header nav ul li a {\n" +
-            "            line-height: 55px;\n" +
-            "            font-size: 18px;\n" +
-            "            position: relative;\n" +
-            "            letter-spacing: 1px;\n" +
-            "            transition: all 0.6s;\n" +
-            "        }\n" +
-            "        header nav ul li a:before {\n" +
-            "            font-family: 'entypo', sans-serif;\n" +
-            "            font-size: 20px;\n" +
-            "            position: absolute;\n" +
-            "            left: -32px;\n" +
-            "        }\n" +
-            "        header nav ul li:first-child a:before {\n" +
-            "            content: \"\\268f\";\n" +
-            "        }\n" +
-            "        header nav ul li:nth-child(2) a:before {\n" +
-            "            content: \"\\e771\";\n" +
-            "        }\n" +
-            "        header nav ul li:nth-child(3) a:before {\n" +
-            "            content: \"\\1f4c5\";\n" +
-            "        }\n" +
-            "        header nav ul li:nth-child(4) a:before {\n" +
-            "            content: \"\\1f465\";\n" +
-            "        }\n" +
-            "        header nav ul li:nth-child(5) a:before {\n" +
-            "            content: \"\\2699\";\n" +
-            "        }\n" +
-            "        header nav ul li:nth-child(6) a:before {\n" +
-            "            content: \"\\1f50d\";\n" +
-            "        }\n" +
-            "        .main {\n" +
-            "            width: 1900px;\n" +
-            "            float: right;\n" +
-            "            margin-left: 221px;" +
-            "        }\n" +
-            "        .title {\n" +
-            "            background-color: #fff;\n" +
-            "            border-bottom: 1px solid #C0C1C0;\n" +
-            "            height: 60px;\n" +
-            "            display: -webkit-box;\n" +
-            "            display: -moz-box;\n" +
-            "            display: -ms-flexbox;\n" +
-            "            display: -webkit-flex;\n" +
-            "            display: flex;\n" +
-            "        }\n" +
-            "        .title a {\n" +
-            "            color: #AAA;\n" +
-            "            width: auto;\n" +
-            "            margin: 0 20px;\n" +
-            "            float: right;\n" +
-            "            line-height: 62px;\n" +
-            "            position: relative;\n" +
-            "            text-decoration: none;\n" +
-            "            transition: all .5s;\n" +
-            "        }\n" +
-            "        .title a:before {\n" +
-            "            content: \"\\1f464\";\n" +
-            "            font-size: 38px;\n" +
-            "            position: absolute;\n" +
-            "            left: -50px;\n" +
-            "            font-family: 'entypo';\n" +
-            "        }\n" +
-            "        a:hover {\n" +
-            "            color: #33526B;\n" +
-            "            transition: all .5s;\n" +
-            "        }\n" +
-            "        .larg {\n" +
-            "            width: auto;\n" +
-            "            margin: 30px auto;\n" +
-            "            padding: 0 30px;\n" +
-            "        }\n" +
-            "        .larg div {\n" +
-            "            background-color: #F7F7F7;\n" +
-            "            border: 1px solid #E2E2E2;\n" +
-            "            padding: 0 20px;\n" +
-            "            margin: 15px 0;\n" +
-            "        }\n" +
-            "        .larg div:hover {\n" +
-            "            background-color: #fafafa;\n" +
-            "        }\n" +
-            "        .larg div h3 span {\n" +
-            "            font-family: 'entypo';\n" +
-            "            font-size: 19px;\n" +
-            "            position: absolute;\n" +
-            "            right: 0;\n" +
-            "            transition: all .6s;\n" +
-            "        }\n" +
-            "        .larg div h3 span.close {\n" +
-            "            -webkit-transform: rotate(180deg);\n" +
-            "            transition: all .5s;\n" +
-            "        }\n" +
-            "        .larg div p {\n" +
-            "            display: none;\n" +
-            "            margin-left: 10px;\n" +
-            "            padding: 0 15px;\n" +
-            "            border-left: 1px solid #ccc;\n" +
-            "        }\n" +
-            "        .rendered{\n" +
-            "            margin-left: 25px;\n" +
-            "            height: auto;\n" +
-            "            margin-top: 100px;\n" +
-            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
-            "            background-size: cover;\n" +
-            "        }\n" +
-            "    </style>\n" +
-            "    <style type=\"text/css\">\n" +
-            "        .wrapper {\n" +
-            "            width: 600px;\n" +
-            "        }\n" +
-            "        .product-grid {\n" +
-            "            width: 60em;\n" +
-            "            margin: 2% auto;\n" +
-            "        }\n" +
-            "        .product-grid.product-grid--flexbox .product-grid__wrapper {\n" +
-            "            display: flex;\n" +
-            "            flex-wrap: wrap;\n" +
-            "        }\n" +
-            "        .product-grid.product-grid--flexbox .product-grid__title {\n" +
-            "            height: auto;\n" +
-            "        }\n" +
-            "        .product-grid.product-grid--flexbox .product-grid__title:after {\n" +
-            "            display: none;\n" +
-            "        }\n" +
-            "        .product-grid__wrapper {\n" +
-            "            margin-left: -1rem;\n" +
-            "            margin-right: -1rem;\n" +
-            "        }\n" +
-            "        .product-grid__product-wrapper {\n" +
-            "            padding: 1rem;\n" +
-            "            float: left;\n" +
-            "            width: 33.33333%;\n" +
-            "        }\n" +
-            "        .product-grid__product {\n" +
-            "            padding: 1rem;\n" +
-            "            position: relative;\n" +
-            "            cursor: pointer;\n" +
-            "            background: #fff;\n" +
-            "            border-radius: 4px;\n" +
-            "        }\n" +
-            "        .product-grid__product:hover {\n" +
-            "            box-shadow: 0px 0px 0px 1px #eee;\n" +
-            "            z-index: 50;\n" +
-            "        }\n" +
-            "        .product-grid__product:hover .product-grid__extend {\n" +
-            "            display: block;\n" +
-            "        }\n" +
-            "        .product-grid__img-wrapper {\n" +
-            "            width: 100%;\n" +
-            "            text-align: center;\n" +
-            "            padding-top: 1rem;\n" +
-            "            padding-bottom: 1rem;\n" +
-            "            height: 150px;\n" +
-            "        }\n" +
-            "        .product-grid__img {\n" +
-            "            max-width: 100%;\n" +
-            "            height: auto;\n" +
-            "            max-height: 100%;\n" +
-            "        }\n" +
-            "        .product-grid__title {\n" +
-            "            margin-top: 0.875rem;\n" +
-            "            display: block;\n" +
-            "            font-size: 1.125em;\n" +
-            "            color: #222;\n" +
-            "            height: 3em;\n" +
-            "            overflow: hidden;\n" +
-            "            position: relative;\n" +
-            "        }\n" +
-            "        .product-grid__title:after {\n" +
-            "            content: \"\";\n" +
-            "            display: block;\n" +
-            "            position: absolute;\n" +
-            "            bottom: 0;\n" +
-            "            right: 0;\n" +
-            "            width: 2.4em;\n" +
-            "            height: 1.5em;\n" +
-            "            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);\n" +
-            "        }\n" +
-            "        .product-grid__price {\n" +
-            "            color: #e91e63;\n" +
-            "            font-weight: bold;\n" +
-            "            letter-spacing: 0.4px;\n" +
-            "        }\n" +
-            "        .product-grid__extend-wrapper {\n" +
-            "            position: relative;\n" +
-            "        }\n" +
-            "        .product-grid__extend {\n" +
-            "            display: none;\n" +
-            "            position: absolute;\n" +
-            "            padding: 0 1rem 1rem 1rem;\n" +
-            "            margin: 0.4375rem -1rem 0;\n" +
-            "            box-shadow: 0px 0px 0px 1px #eee;\n" +
-            "            background: #fff;\n" +
-            "            border-radius: 0 0 4px 4px;\n" +
-            "        }\n" +
-            "        .product-grid__extend:before {\n" +
-            "            content: \"\";\n" +
-            "            height: 0.875rem;\n" +
-            "            width: 100%;\n" +
-            "            position: absolute;\n" +
-            "            top: -0.4375rem;\n" +
-            "            left: 0;\n" +
-            "            background: #fff;\n" +
-            "        }\n" +
-            "        .product-grid__description {\n" +
-            "            font-size: 0.875em;\n" +
-            "            margin-top: 0.4375rem;\n" +
-            "            margin-bottom: 0;\n" +
-            "        }\n" +
-            "        .product-grid__btn {\n" +
-            "            display: inline-block;\n" +
-            "            font-size: 0.875em;\n" +
-            "            color: #777;\n" +
-            "            background: #eee;\n" +
-            "            padding: 0.5em 0.625em;\n" +
-            "            margin-top: 0.875rem;\n" +
-            "            margin-right: 0.625rem;\n" +
-            "            cursor: pointer;\n" +
-            "            border-radius: 4px;\n" +
-            "        }\n" +
-            "        .product-grid__btn i.fa {\n" +
-            "            margin-right: 0.3125rem;\n" +
-            "        }\n" +
-            "        .product-grid__add-to-cart {\n" +
-            "            color: #fff;\n" +
-            "            background: #e91e63;\n" +
-            "        }\n" +
-            "        .product-grid__add-to-cart:hover {\n" +
-            "            background: #ee4c83;\n" +
-            "        }\n" +
-            "        .product-grid__view {\n" +
-            "            color: #777;\n" +
-            "            background: #eee;\n" +
-            "        }\n" +
-            "        .product-grid__view:hover {\n" +
-            "            background: #fff;\n" +
-            "        }\n" +
-            "\n" +
-            "    </style>\n" +
-            "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
-            "    <script>\n" +
-            "        $(document).ready( function() {\n" +
-            "            $('body').on(\"click\", \".larg div h3\", function(){\n" +
-            "                if ($(this).children('span').hasClass('close')) {\n" +
-            "                    $(this).children('span').removeClass('close');\n" +
-            "                }\n" +
-            "                else {\n" +
-            "                    $(this).children('span').addClass('close');\n" +
-            "                }\n" +
-            "                $(this).parent().children('p').slideToggle(250);\n" +
-            "            });\n" +
-            "\n" +
-            "            $('body').on(\"click\", \"nav ul li a\", function(){\n" +
-            "                let title = $(this).data('title');\n" +
-            "                $('.title').children('h2').html(title);\n" +
-            "\n" +
-            "            });\n" +
-            "        });\n" +
-            "    </script>\n" +
-            "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
-            "</head>\n" +
-            "<body>\n" +
-            "<span class=\"bckg\">\n" +
-            "    <header>\n" +
-            "    <a href=\"/writerpage\" id=\"home\">Dashboard</a>\n" +
-            "    <nav>\n" +
-            "        <ul>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "                    function postedrender() {\n" +
-            "                        window.location.href = \"/postedrender?email=tranthevu.iuh@gmail.com\"\n" +
-            "                    }\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "                    function Commentrender() {\n" +
-            "                        window.location.href = \"/Commentrender?email=tranthevu.iuh@gmail.com\"\n" +
-            "                    }\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Đang theo dõi\" onclick=\"WatchingRender()\">Đang theo dõi</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "                    function WatchingRender() {\n" +
-            "                        window.location.href = \"/WatchingRender\"\n" +
-            "                    }\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Những người theo dõi\" onclick=\"WatchedRender()\">Những người theo dõi</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "                    function WatchedRender() {\n" +
-            "                        window.location.href = \"/WatchedRender\"\n" +
-            "                    }\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Viết bài\" onclick=\"editorrender()\">Viết bài</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "                    function editorrender() {\n" +
-            "                        window.location.href = \"/editorrender\"\n" +
-            "                    }\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Tìm kiếm\" onclick=\"FindingRender()\">Tìm kiếm</a>\n" +
-            "                <script type=\"text/javascript\"></script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <span style=\"color: red; margin-left: -5px;\">Dangerous place !</span>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Xóa bài đăng\" onclick=\"RemovePost()\">Xóa bài đăng</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "        </ul>\n" +
-            "    </nav>\n" +
-            "</header>\n" +
-            "</span>\n" +
-            "<div class=\"main\">\n" +
-            "    <div class=\"title\">\n" +
-            "        <h2>Viết bài</h2>\n" +
-            "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
-            "    </div>\n" +
-            "    <div class=\"rendered\">\n" +
-            "        <!-- views/partials/editor.ejs -->\n" +
-            "        <div class=\"wrapper\">\n" +
-            "            <div class=\"desc\">\n" +
-            "                <h1>Tất cả những bài đã đăng </h1>\n" +
-            "                <br/>\n" +
-            "                <div class=\"todo\">\n" +
-            "                    <ul>\n" +
-            "                        <li style=\"color: #FFFFFF;font-size: 22px;\"> Let review it .. </li>\n" +
-            "                    </ul>\n" +
-            "                </div>\n" +
-            "            </div>\n" +
-            "\n" +
-            "            <div class=\"content\">\n" +
-            "                <!-- content here -->\n" +
-            "                <div class=\"product-grid product-grid--flexbox\">\n" +
-            "                    <div class=\"product-grid__wrapper\">\n" +
-            "                        <!-- Product list start here -->\n" +
-            "\n" +
-            "                        <!-- Single product -->\n" +
-            "                        <div class=\"product-grid__product-wrapper\">\n" +
-            "                            <div class=\"product-grid__product\">\n" +
-            "                                <div class=\"product-grid__img-wrapper\">\n" +
-            "                                    <img src=\"\" alt=\"Img\" class=\"product-grid__img\" />\n" +
-            "                                </div>\n" +
-            "                                <span class=\"product-grid__title\">...</span>\n" +
-            "                                <span class=\"product-grid__price\">...</span>\n" +
-            "                                <div class=\"product-grid__extend-wrapper\">\n" +
-            "                                    <div class=\"product-grid__extend\">\n" +
-            "                                        <p class=\"product-grid__description\"></p>\n" +
-            "                                        <span class=\"product-grid__btn product-grid__add-to-cart\"><i class=\"fa fa-cart-arrow-down\"></i> Watch it </span>\n" +
-            "                                        <span class=\"product-grid__btn product-grid__view\"><i class=\"fa fa-eye\"></i>...</span>\n" +
-            "                                    </div>\n" +
-            "                                </div>\n" +
-            "                            </div>\n" +
-            "                        </div>\n" +
-            "                        <!-- end Single product -->\n" +
-            "                    </div>\n" +
-            "                </div>\n" +
-            "            </div>\n" +
-            "        </div>\n" +
-            "    </div>\n" +
-            "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
-            "    <script src='http://cdn.tinymce.com/4/tinymce.min.js'></script>\n" +
-            "    <script>\n" +
-            "        tinymce.init({\n" +
-            "            selector: 'textarea',\n" +
-            "            height: 500,\n" +
-            "            plugins: [\n" +
-            "                'advlist autolink lists link image charmap print preview anchor',\n" +
-            "                'searchreplace visualblocks code fullscreen',\n" +
-            "                'insertdatetime media table contextmenu paste code'\n" +
-            "            ],\n" +
-            "            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',\n" +
-            "            content_css: [\n" +
-            "                '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',\n" +
-            "                '//www.tinymce.com/css/codepen.min.css'\n" +
-            "            ]\n" +
-            "        });\n" +
-            "    </script>\n" +
-            "</div>\n" +
-            "</body>\n" +
-            "</html>";
-        res.send(code);
-    },
-    CommentRender : function (req,res) {
-        let code = "<!DOCTYPE html>\n" +
-            "<html lang=\"en\">\n" +
-            "<head>\n" +
-            "    <meta charset=\"UTF-8\">\n" +
-            "    <title>Comments</title>\n" +
-            "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
-            "    <style type=\"text/css\">\n" +
-            "        @import url(http://weloveiconfonts.com/api/?family=entypo);\n" +
-            "        @import url(https://fonts.googleapis.com/css?family=Muli);\n" +
-            "        body {\n" +
-            "            display: -webkit-box;\n" +
-            "            display: -moz-box;\n" +
-            "            display: -ms-flexbox;\n" +
-            "            display: -webkit-flex;\n" +
-            "            display: flex;\n" +
-            "            margin: 0;\n" +
-            "            padding: 0;\n" +
-            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
-            "            background-size: cover;\n" +
-            "            font-family: Muli, sans-serif;\n" +
-            "            color: #444;\n" +
-            "            height:auto;\n" +
-            "            min-height:1300px;\n" +
-            "        }\n" +
-            "        ul {\n" +
-            "            list-style: none;\n" +
-            "            margin-top: 0;\n" +
-            "            padding: 0;\n" +
-            "        }\n" +
-            "        a {\n" +
-            "            cursor: pointer;\n" +
-            "            display: block;\n" +
-            "            color: #b3b3b3;\n" +
-            "            text-decoration: none;\n" +
-            "        }\n" +
-            "        .bckg {\n" +
-            "            background-color: #383B42;\n" +
-            "            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;\n" +
-            "            width: 230px;\n" +
-            "            height: 100%;\n" +
-            "            position: fixed;\n" +
-            "            left: 0;\n" +
-            "            top: 0;\n" +
-            "        }\n" +
-            "        h1 {\n" +
-            "            text-align: center;\n" +
-            "            font-weight: normal;\n" +
-            "            color: #F6F6EF;\n" +
-            "            line-height: 60px;\n" +
-            "            margin: 0;\n" +
-            "            font-size: 20px;\n" +
-            "            letter-spacing: 2px;\n" +
-            "            background-color: #34363A;\n" +
-            "            border-bottom: 1px solid rgba(101,116,134,0.57);\n" +
-            "        }\n" +
-            "        h2 {\n" +
-            "            font-size: 20px;\n" +
-            "            text-transform: uppercase;\n" +
-            "            margin: 0;\n" +
-            "            letter-spacing: 3px;\n" +
-            "            color: #919191;\n" +
-            "            font-weight: normal;\n" +
-            "            padding-left: 40px;\n" +
-            "            line-height: 60px;\n" +
-            "            text-shadow: 1px 1px 2px #fff;\n" +
-            "            position: relative;\n" +
-            "            flex: 1;\n" +
-            "            -webkit-flex: 1;\n" +
-            "            -ms-flex: 1;\n" +
-            "        }\n" +
-            "        h2:before {\n" +
-            "            content: '';\n" +
-            "            width: 36px;\n" +
-            "            height: 36px;\n" +
-            "            position: absolute;\n" +
-            "            left: -19px;\n" +
-            "            top: 12px;\n" +
-            "            background-color: #34363A;\n" +
-            "            -webkit-transform: rotate(45deg);\n" +
-            "            -moz-transform: rotate(45deg);\n" +
-            "            transform: rotate(45deg);\n" +
-            "        }\n" +
-            "        h3 {\n" +
-            "            font-size: 17px;\n" +
-            "            margin: 0;\n" +
-            "            line-height: 40px;\n" +
-            "            color: #555;\n" +
-            "            cursor: pointer;\n" +
-            "            position: relative;\n" +
-            "        }\n" +
-            "        header {\n" +
-            "            width: 200px;\n" +
-            "            height: 100%;\n" +
-            "            float: left;\n" +
-            "            position: relative;\n" +
-            "            z-index: 99;\n" +
-            "        }\n" +
-            "        header nav ul li {\n" +
-            "            border-bottom: 1px solid #42454D;\n" +
-            "            padding-left: 48px;\n" +
-            "            transition: all 0.6s;\n" +
-            "            border-top: 1px solid #2E3036;\n" +
-            "        }\n" +
-            "        header nav ul li:hover {\n" +
-            "            background-color: #454952;\n" +
-            "            transition: all 0.6s;\n" +
-            "            border-bottom: 1px solid #797979;\n" +
-            "        }\n" +
-            "        header nav ul li:hover a {\n" +
-            "            color: #fff;\n" +
-            "            transition: all 0.6s;\n" +
-            "        }\n" +
-            "        header nav ul li a {\n" +
-            "            line-height: 55px;\n" +
-            "            font-size: 18px;\n" +
-            "            position: relative;\n" +
-            "            letter-spacing: 1px;\n" +
-            "            transition: all 0.6s;\n" +
-            "        }\n" +
-            "        header nav ul li a:before {\n" +
-            "            font-family: 'entypo', sans-serif;\n" +
-            "            font-size: 20px;\n" +
-            "            position: absolute;\n" +
-            "            left: -32px;\n" +
-            "        }\n" +
-            "        header nav ul li:first-child a:before {\n" +
-            "            content: \"\\268f\";\n" +
-            "        }\n" +
-            "        header nav ul li:nth-child(2) a:before {\n" +
-            "            content: \"\\e771\";\n" +
-            "        }\n" +
-            "        header nav ul li:nth-child(3) a:before {\n" +
-            "            content: \"\\1f4c5\";\n" +
-            "        }\n" +
-            "        header nav ul li:nth-child(4) a:before {\n" +
-            "            content: \"\\1f465\";\n" +
-            "        }\n" +
-            "        header nav ul li:nth-child(5) a:before {\n" +
-            "            content: \"\\2699\";\n" +
-            "        }\n" +
-            "        header nav ul li:nth-child(6) a:before {\n" +
-            "            content: \"\\1f50d\";\n" +
-            "        }\n" +
-            "        .main {\n" +
-            "            width: 1900px;\n" +
-            "            float: right;\n" +
-            "            margin-left: 221px;" +
-        "        }\n" +
-            "        .title {\n" +
-            "            background-color: #fff;\n" +
-            "            border-bottom: 1px solid #C0C1C0;\n" +
-            "            height: 60px;\n" +
-            "            display: -webkit-box;\n" +
-            "            display: -moz-box;\n" +
-            "            display: -ms-flexbox;\n" +
-            "            display: -webkit-flex;\n" +
-            "            display: flex;\n" +
-            "        }\n" +
-            "        .title a {\n" +
-            "            color: #AAA;\n" +
-            "            width: auto;\n" +
-            "            margin: 0 20px;\n" +
-            "            float: right;\n" +
-            "            line-height: 62px;\n" +
-            "            position: relative;\n" +
-            "            text-decoration: none;\n" +
-            "            transition: all .5s;\n" +
-            "        }\n" +
-            "        .title a:before {\n" +
-            "            content: \"\\1f464\";\n" +
-            "            font-size: 38px;\n" +
-            "            position: absolute;\n" +
-            "            left: -50px;\n" +
-            "            font-family: 'entypo';\n" +
-            "        }\n" +
-            "        a:hover {\n" +
-            "            color: #33526B;\n" +
-            "            transition: all .5s;\n" +
-            "        }\n" +
-            "        .larg {\n" +
-            "            width: auto;\n" +
-            "            margin: 30px auto;\n" +
-            "            padding: 0 30px;\n" +
-            "        }\n" +
-            "        .larg div {\n" +
-            "            background-color: #F7F7F7;\n" +
-            "            border: 1px solid #E2E2E2;\n" +
-            "            padding: 0 20px;\n" +
-            "            margin: 15px 0;\n" +
-            "        }\n" +
-            "        .larg div:hover {\n" +
-            "            background-color: #fafafa;\n" +
-            "        }\n" +
-            "        .larg div h3 span {\n" +
-            "            font-family: 'entypo';\n" +
-            "            font-size: 19px;\n" +
-            "            position: absolute;\n" +
-            "            right: 0;\n" +
-            "            transition: all .6s;\n" +
-            "        }\n" +
-            "        .larg div h3 span.close {\n" +
-            "            -webkit-transform: rotate(180deg);\n" +
-            "            transition: all .5s;\n" +
-            "        }\n" +
-            "        .larg div p {\n" +
-            "            display: none;\n" +
-            "            margin-left: 10px;\n" +
-            "            padding: 0 15px;\n" +
-            "            border-left: 1px solid #ccc;\n" +
-            "        }\n" +
-            "        .rendered{\n" +
-            "            margin-left: 25px;\n" +
-            "            height: auto;\n" +
-            "            margin-top: 100px;\n" +
-            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
-            "            background-size: cover;\n" +
-            "        }\n" +
-            "    </style>\n" +
-            "    <style type=\"text/css\">\n" +
-            "        .wrapper {\n" +
-            "            width: 600px;\n" +
-            "        }\n" +
-            "        .product-grid {\n" +
-            "            width: 60em;\n" +
-            "            margin: 2% auto;\n" +
-            "        }\n" +
-            "        .product-grid.product-grid--flexbox .product-grid__wrapper {\n" +
-            "            display: flex;\n" +
-            "            flex-wrap: wrap;\n" +
-            "        }\n" +
-            "        .product-grid.product-grid--flexbox .product-grid__title {\n" +
-            "            height: auto;\n" +
-            "        }\n" +
-            "        .product-grid.product-grid--flexbox .product-grid__title:after {\n" +
-            "            display: none;\n" +
-            "        }\n" +
-            "        .product-grid__wrapper {\n" +
-            "            margin-left: -1rem;\n" +
-            "            margin-right: -1rem;\n" +
-            "        }\n" +
-            "        .product-grid__product-wrapper {\n" +
-            "            padding: 1rem;\n" +
-            "            float: left;\n" +
-            "            width: 33.33333%;\n" +
-            "        }\n" +
-            "        .product-grid__product {\n" +
-            "            padding: 1rem;\n" +
-            "            position: relative;\n" +
-            "            cursor: pointer;\n" +
-            "            background: #fff;\n" +
-            "            border-radius: 4px;\n" +
-            "        }\n" +
-            "        .product-grid__product:hover {\n" +
-            "            box-shadow: 0px 0px 0px 1px #eee;\n" +
-            "            z-index: 50;\n" +
-            "        }\n" +
-            "        .product-grid__product:hover .product-grid__extend {\n" +
-            "            display: block;\n" +
-            "        }\n" +
-            "        .product-grid__img-wrapper {\n" +
-            "            width: 100%;\n" +
-            "            text-align: center;\n" +
-            "            padding-top: 1rem;\n" +
-            "            padding-bottom: 1rem;\n" +
-            "            height: 150px;\n" +
-            "        }\n" +
-            "        .product-grid__img {\n" +
-            "            max-width: 100%;\n" +
-            "            height: auto;\n" +
-            "            max-height: 100%;\n" +
-            "        }\n" +
-            "        .product-grid__title {\n" +
-            "            margin-top: 0.875rem;\n" +
-            "            display: block;\n" +
-            "            font-size: 1.125em;\n" +
-            "            color: #222;\n" +
-            "            height: 3em;\n" +
-            "            overflow: hidden;\n" +
-            "            position: relative;\n" +
-            "        }\n" +
-            "        .product-grid__title:after {\n" +
-            "            content: \"\";\n" +
-            "            display: block;\n" +
-            "            position: absolute;\n" +
-            "            bottom: 0;\n" +
-            "            right: 0;\n" +
-            "            width: 2.4em;\n" +
-            "            height: 1.5em;\n" +
-            "            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);\n" +
-            "        }\n" +
-            "        .product-grid__price {\n" +
-            "            color: #e91e63;\n" +
-            "            font-weight: bold;\n" +
-            "            letter-spacing: 0.4px;\n" +
-            "        }\n" +
-            "        .product-grid__extend-wrapper {\n" +
-            "            position: relative;\n" +
-            "        }\n" +
-            "        .product-grid__extend {\n" +
-            "            display: none;\n" +
-            "            position: absolute;\n" +
-            "            padding: 0 1rem 1rem 1rem;\n" +
-            "            margin: 0.4375rem -1rem 0;\n" +
-            "            box-shadow: 0px 0px 0px 1px #eee;\n" +
-            "            background: #fff;\n" +
-            "            border-radius: 0 0 4px 4px;\n" +
-            "        }\n" +
-            "        .product-grid__extend:before {\n" +
-            "            content: \"\";\n" +
-            "            height: 0.875rem;\n" +
-            "            width: 100%;\n" +
-            "            position: absolute;\n" +
-            "            top: -0.4375rem;\n" +
-            "            left: 0;\n" +
-            "            background: #fff;\n" +
-            "        }\n" +
-            "        .product-grid__description {\n" +
-            "            font-size: 0.875em;\n" +
-            "            margin-top: 0.4375rem;\n" +
-            "            margin-bottom: 0;\n" +
-            "        }\n" +
-            "        .product-grid__btn {\n" +
-            "            display: inline-block;\n" +
-            "            font-size: 0.875em;\n" +
-            "            color: #777;\n" +
-            "            background: #eee;\n" +
-            "            padding: 0.5em 0.625em;\n" +
-            "            margin-top: 0.875rem;\n" +
-            "            margin-right: 0.625rem;\n" +
-            "            cursor: pointer;\n" +
-            "            border-radius: 4px;\n" +
-            "        }\n" +
-            "        .product-grid__btn i.fa {\n" +
-            "            margin-right: 0.3125rem;\n" +
-            "        }\n" +
-            "        .product-grid__add-to-cart {\n" +
-            "            color: #fff;\n" +
-            "            background: #e91e63;\n" +
-            "        }\n" +
-            "        .product-grid__add-to-cart:hover {\n" +
-            "            background: #ee4c83;\n" +
-            "        }\n" +
-            "        .product-grid__view {\n" +
-            "            color: #777;\n" +
-            "            background: #eee;\n" +
-            "        }\n" +
-            "        .product-grid__view:hover {\n" +
-            "            background: #fff;\n" +
-            "        }\n" +
-            "        .topic{\n" +
-            "            width: 200px;\n" +
-            "            height: 300px;\n" +
-            "            background: #FFFFFF;\n" +
-            "            -webkit-border-radius: 30px;\n" +
-            "            -moz-border-radius: 30px;\n" +
-            "            border-radius: 30px;\n" +
-            "            float: left;\n" +
-            "            margin: 20px;\n" +
-            "        }\n" +
-            "    </style>\n" +
-            "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
-            "    <script>\n" +
-            "        $(document).ready( function() {\n" +
-            "            $('body').on(\"click\", \".larg div h3\", function(){\n" +
-            "                if ($(this).children('span').hasClass('close')) {\n" +
-            "                    $(this).children('span').removeClass('close');\n" +
-            "                }\n" +
-            "                else {\n" +
-            "                    $(this).children('span').addClass('close');\n" +
-            "                }\n" +
-            "                $(this).parent().children('p').slideToggle(250);\n" +
-            "            });\n" +
-            "\n" +
-            "            $('body').on(\"click\", \"nav ul li a\", function(){\n" +
-            "                let title = $(this).data('title');\n" +
-            "                $('.title').children('h2').html(title);\n" +
-            "\n" +
-            "            });\n" +
-            "        });\n" +
-            "\n" +
-            "        /**\n" +
-            "         * @return {number}\n" +
-            "         */\n" +
-            "        function RandDomNumber(max) {\n" +
-            "            let boundary = Number.parseInt(max);\n" +
-            "            return Math.floor(Math.random()*boundary);\n" +
-            "        }\n" +
-            "    </script>\n" +
-            "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
-            "</head>\n" +
-            "<body>\n" +
-            "<span class=\"bckg\">\n" +
-            "    <header>\n" +
-            "    <a href=\"/writerpage\" id=\"home\">Dashboard</a>\n" +
-            "    <nav>\n" +
-            "        <ul>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "                    function postedrender() {\n" +
-            "                        window.location.href = \"/postedrender?email=tranthevu.iuh@gmail.com\"\n" +
-            "                    }\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "                    function Commentrender() {\n" +
-            "                        window.location.href = \"/Commentrender?email=tranthevu.iuh@gmail.com\"\n" +
-            "                    }\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Đang theo dõi\" onclick=\"WatchingRender()\">Đang theo dõi</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "                    function WatchingRender() {\n" +
-            "                        window.location.href = \"/WatchingRender\"\n" +
-            "                    }\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Những người theo dõi\" onclick=\"WatchedRender()\">Những người theo dõi</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "                    function WatchedRender() {\n" +
-            "                        window.location.href = \"/WatchedRender\"\n" +
-            "                    }\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Viết bài\" onclick=\"editorrender()\">Viết bài</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "                    function editorrender() {\n" +
-            "                        window.location.href = \"/editorrender\"\n" +
-            "                    }\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Tìm kiếm\" onclick=\"FindingRender()\">Tìm kiếm</a>\n" +
-            "                <script type=\"text/javascript\"></script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <span style=\"color: red; margin-left: -5px;\">Dangerous place !</span>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Xóa bài đăng\" onclick=\"RemovePost()\">Xóa bài đăng</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "        </ul>\n" +
-            "    </nav>\n" +
-            "</header>\n" +
-            "</span>\n" +
-            "<div class=\"main\">\n" +
-            "    <div class=\"title\">\n" +
-            "        <h2>Viết bài</h2>\n" +
-            "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
-            "    </div>\n" +
-            "    <div class=\"rendered\">\n" +
-            "        <h2 style=\"background: #333333;color: #FFFFFF;opacity: 0.6;\">Các bình luận </h2>\n" +
-            "        <div class=\"topic\"></div>\n" +
-            "    </div>\n" +
-            "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
-            "    <script src='http://cdn.tinymce.com/4/tinymce.min.js'></script>\n" +
-            "    <script>\n" +
-            "        tinymce.init({\n" +
-            "            selector: 'textarea',\n" +
-            "            height: 500,\n" +
-            "            plugins: [\n" +
-            "                'advlist autolink lists link image charmap print preview anchor',\n" +
-            "                'searchreplace visualblocks code fullscreen',\n" +
-            "                'insertdatetime media table contextmenu paste code'\n" +
-            "            ],\n" +
-            "            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',\n" +
-            "            content_css: [\n" +
-            "                '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',\n" +
-            "                '//www.tinymce.com/css/codepen.min.css'\n" +
-            "            ]\n" +
-            "        });\n" +
-            "    </script>\n" +
-            "</div>\n" +
-            "</body>\n";
-        res.send(code);
-    },
     EditorPageRender : function (req,res) {
         let code = "\n" +
             "\n" +
@@ -1324,10 +322,12 @@ module.exports = {
             "            display: flex;\n" +
             "            margin: 0;\n" +
             "            padding: 0;\n" +
-            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
-            "            background-size: cover;\n" +
             "            font-family: Muli, sans-serif;\n" +
             "            color: #444;\n" +
+            "            background: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
+            "            background-size: cover;\n" +
+            "            height: auto;\n" +
+            "            min-height:1300px;\n" +
             "        }\n" +
             "        ul {\n" +
             "            list-style: none;\n" +
@@ -1343,7 +343,7 @@ module.exports = {
             "        .bckg {\n" +
             "            background-color: #383B42;\n" +
             "            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;\n" +
-            "            width: 230px;\n" +
+            "            width: 270px;\n" +
             "            height: 100%;\n" +
             "            position: fixed;\n" +
             "            left: 0;\n" +
@@ -1355,7 +355,7 @@ module.exports = {
             "            color: #F6F6EF;\n" +
             "            line-height: 60px;\n" +
             "            margin: 0;\n" +
-            "            font-size: 20px;\n" +
+            "            font-size: 15px;\n" +
             "            letter-spacing: 2px;\n" +
             "            background-color: #34363A;\n" +
             "            border-bottom: 1px solid rgba(101,116,134,0.57);\n" +
@@ -1452,7 +452,7 @@ module.exports = {
             "            width: 1900px;\n" +
             "            float: right;\n" +
             "            margin-left: 221px;" +
-        "        }\n" +
+            "        }\n" +
             "        .title {\n" +
             "            background-color: #fff;\n" +
             "            border-bottom: 1px solid #C0C1C0;\n" +
@@ -1462,6 +462,7 @@ module.exports = {
             "            display: -ms-flexbox;\n" +
             "            display: -webkit-flex;\n" +
             "            display: flex;\n" +
+            "            margin-left: 30px;\n" +
             "        }\n" +
             "        .title a {\n" +
             "            color: #AAA;\n" +
@@ -1516,11 +517,15 @@ module.exports = {
             "            border-left: 1px solid #ccc;\n" +
             "        }\n" +
             "        .rendered{\n" +
-            "            margin-left: 25px;\n" +
+            "            margin-left: 15px;\n" +
             "            height: auto;\n" +
             "            margin-top: 100px;\n" +
-            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
-            "            background-size: cover;\n" +
+            "            margin: 2.5em;\n" +
+            "        }\n" +
+            "        #home\n" +
+            "        {\n" +
+            "            font-size:45px;\n" +
+            "            padding-right: 10px;\n" +
             "        }\n" +
             "    </style>\n" +
             "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
@@ -1724,8 +729,7 @@ module.exports = {
             "                    </div>\n" +
             "\n" +
             "                    <div class=\"input-field col s12\">\n" +
-            "                        <input id=\"image_path\" type=\"text\" class=\"validate\" name=\"image_path\" placeholder=\"Đường dẫn hình ảnh\" />\n" +
-            "                    </div>\n" +
+            "                        <input id=\"image_path\" type=\"text\" class=\"validate\" name=\"image_path\" placeholder=\"Đường dẫn hình ảnh\" />\n" + "                    </div>\n" +
             "\n" +
             "                    <div class=\"input-field col m4 s12\">\n" +
             "                        <input type=\"submit\" class=\"waves-effect waves-light btn-large\" value=\"Upload Video\" name=\"submit\"/>\n" +
@@ -1987,10 +991,12 @@ module.exports = {
             "            display: flex;\n" +
             "            margin: 0;\n" +
             "            padding: 0;\n" +
-            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
-            "            background-size: cover;\n" +
             "            font-family: Muli, sans-serif;\n" +
             "            color: #444;\n" +
+            "            background: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
+            "            background-size: cover;\n" +
+            "            height: auto;\n" +
+            "            min-height:1300px;\n" +
             "        }\n" +
             "        ul {\n" +
             "            list-style: none;\n" +
@@ -2006,7 +1012,7 @@ module.exports = {
             "        .bckg {\n" +
             "            background-color: #383B42;\n" +
             "            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;\n" +
-            "            width: 230px;\n" +
+            "            width: 270px;\n" +
             "            height: 100%;\n" +
             "            position: fixed;\n" +
             "            left: 0;\n" +
@@ -2018,7 +1024,7 @@ module.exports = {
             "            color: #F6F6EF;\n" +
             "            line-height: 60px;\n" +
             "            margin: 0;\n" +
-            "            font-size: 20px;\n" +
+            "            font-size: 15px;\n" +
             "            letter-spacing: 2px;\n" +
             "            background-color: #34363A;\n" +
             "            border-bottom: 1px solid rgba(101,116,134,0.57);\n" +
@@ -2071,6 +1077,11 @@ module.exports = {
             "            transition: all 0.6s;\n" +
             "            border-top: 1px solid #2E3036;\n" +
             "        }\n" +
+            "        #home\n" +
+            "        {\n" +
+            "            font-size:45px;\n" +
+            "            padding-right: 10px;\n" +
+            "        }\n" +
             "        header nav ul li:hover {\n" +
             "            background-color: #454952;\n" +
             "            transition: all 0.6s;\n" +
@@ -2114,8 +1125,8 @@ module.exports = {
             "        .main {\n" +
             "            width: 1900px;\n" +
             "            float: right;\n" +
-            "            margin-left: 221px;"
-        "        }\n" +
+            "            margin-left: 221px;" +
+            "        }\n" +
             "        .title {\n" +
             "            background-color: #fff;\n" +
             "            border-bottom: 1px solid #C0C1C0;\n" +
@@ -2125,6 +1136,7 @@ module.exports = {
             "            display: -ms-flexbox;\n" +
             "            display: -webkit-flex;\n" +
             "            display: flex;\n" +
+            "            margin-left: 30px;\n" +
             "        }\n" +
             "        .title a {\n" +
             "            color: #AAA;\n" +
@@ -2179,11 +1191,9 @@ module.exports = {
             "            border-left: 1px solid #ccc;\n" +
             "        }\n" +
             "        .rendered{\n" +
-            "            margin-left: 25px;\n" +
+            "            margin-left: 15px;\n" +
             "            height: auto;\n" +
             "            margin-top: 100px;\n" +
-            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
-            "            background-size: cover;\n" +
             "        }\n" +
             "    </style>\n" +
             "    <style type=\"text/css\">\n" +
@@ -2427,13 +1437,12 @@ module.exports = {
             "    </nav>\n" +
             "</header>\n" +
             "</span>\n" +
-            "<div>\n" +
+            "<div class=\"main\">\n" +
             "    <div class=\"title\">\n" +
-            "        <h2>Viết bài</h2>\n" +
+            "        <h2>Bạn đang theo dõi </h2>\n" +
             "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
             "    </div>\n" +
             "    <div class=\"rendered\">\n" +
-            "        <h2 style=\"background: #333333;color: #FFFFFF;opacity: 0.6;\">Bạn đang theo dõi </h2>\n" +
             "        <div class=\"users\"></div>\n" +
             "    </div>\n" +
             "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
@@ -2745,7 +1754,7 @@ module.exports = {
             "            position: relative;\n" +
             "            top: 50%;\n" +
             "            left: 0;\n" +
-            "            right: 0;\n"
+            "            right: 0;\n" +
             "            color: #FFF;\n" +
             "            text-align: center;\n" +
             "            font-family: \"lato\", sans-serif;\n" +
@@ -3907,7 +2916,7 @@ module.exports = {
                     htmlCode += "<div class=\"box\">\n" +
                         "            <div class=\"ProductSet ProductSet--grid\">\n" +
                         "                <!-- Product Card: vertical -->\n" +
-                        "                <a href=\"/watchvideo?id=" + clips.id + "&&ip=" +  clips.urlVideo + "\" class=\"ProductCard ProductCard--grid\">\n" +
+                        "                <a href=\"/watchvideo?id=" + clips.id + "&&ip=" +  clips.urlVideo + "&&owner=" + clips.email + "\" class=\"ProductCard ProductCard--grid\">\n" +
                         "                    <div class=\"ProductCard__img-wrapper\">\n" +
                         "                        <img src=\""+clips.image+"\" alt=\"\" class=\"ProductCard__img\">\n" +
                         "                    </div>\n" +
@@ -3988,10 +2997,12 @@ module.exports = {
             "            display: flex;\n" +
             "            margin: 0;\n" +
             "            padding: 0;\n" +
-            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
-            "            background-size: cover;\n" +
             "            font-family: Muli, sans-serif;\n" +
             "            color: #444;\n" +
+            "            background: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
+            "            background-size: cover;\n" +
+            "            height: auto;\n" +
+            "            min-height:1300px;\n" +
             "        }\n" +
             "        ul {\n" +
             "            list-style: none;\n" +
@@ -4007,7 +3018,7 @@ module.exports = {
             "        .bckg {\n" +
             "            background-color: #383B42;\n" +
             "            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;\n" +
-            "            width: 230px;\n" +
+            "            width: 270px;\n" +
             "            height: 100%;\n" +
             "            position: fixed;\n" +
             "            left: 0;\n" +
@@ -4019,7 +3030,7 @@ module.exports = {
             "            color: #F6F6EF;\n" +
             "            line-height: 60px;\n" +
             "            margin: 0;\n" +
-            "            font-size: 20px;\n" +
+            "            font-size: 15px;\n" +
             "            letter-spacing: 2px;\n" +
             "            background-color: #34363A;\n" +
             "            border-bottom: 1px solid rgba(101,116,134,0.57);\n" +
@@ -4072,6 +3083,11 @@ module.exports = {
             "            transition: all 0.6s;\n" +
             "            border-top: 1px solid #2E3036;\n" +
             "        }\n" +
+            "        #home\n" +
+            "        {\n" +
+            "            font-size:45px;\n" +
+            "            padding-right: 10px;\n" +
+            "        }\n" +
             "        header nav ul li:hover {\n" +
             "            background-color: #454952;\n" +
             "            transition: all 0.6s;\n" +
@@ -4115,8 +3131,8 @@ module.exports = {
             "        .main {\n" +
             "            width: 1900px;\n" +
             "            float: right;\n" +
-            "            margin-left: 221px;"
-        "        }\n" +
+            "            margin-left: 221px;" +
+            "        }\n" +
             "        .title {\n" +
             "            background-color: #fff;\n" +
             "            border-bottom: 1px solid #C0C1C0;\n" +
@@ -4126,6 +3142,7 @@ module.exports = {
             "            display: -ms-flexbox;\n" +
             "            display: -webkit-flex;\n" +
             "            display: flex;\n" +
+            "            margin-left: 30px;\n" +
             "        }\n" +
             "        .title a {\n" +
             "            color: #AAA;\n" +
@@ -4180,11 +3197,9 @@ module.exports = {
             "            border-left: 1px solid #ccc;\n" +
             "        }\n" +
             "        .rendered{\n" +
-            "            margin-left: 25px;\n" +
+            "            margin-left: 15px;\n" +
             "            height: auto;\n" +
             "            margin-top: 100px;\n" +
-            "            background-image: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
-            "            background-size: cover;\n" +
             "        }\n" +
             "    </style>\n" +
             "    <style type=\"text/css\">\n" +
@@ -4430,11 +3445,10 @@ module.exports = {
             "</span>\n" +
             "<div class=\"main\">\n" +
             "    <div class=\"title\">\n" +
-            "        <h2>Viết bài</h2>\n" +
+            "        <h2>Những người đang theo dõi bạn </h2>\n" +
             "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
             "    </div>\n" +
             "    <div class=\"rendered\">\n" +
-            "        <h2 style=\"background: #333333;color: #FFFFFF;opacity: 0.6;\">Bạn đang theo dõi </h2>\n" +
             "        <div class=\"users\"></div>\n" +
             "    </div>\n" +
             "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +

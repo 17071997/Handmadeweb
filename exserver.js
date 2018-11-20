@@ -62,8 +62,9 @@ app.get('/watchvideo', (req,res) => {
     let query = url.parse(req.url,true).query;
     let urlvideo = query.ip;
     let id = query.id;
+    let owner = query.owner;
     try {
-        AWSDynamoRetrieve.GetVideoByID(urlvideo,id,res);
+        AWSDynamoRetrieve.GetVideoByID(urlvideo,id,owner,res);
     } catch (e) {
         console.log(e);
         res.redirect("/");
@@ -228,7 +229,8 @@ app.post('/postcomment', urlencodedParser, (req,res)=> {
     let email = req.body.email;
     let content = req.body.content;
     let id = req.body.idvideo;
-    AWSDynamoPost.PostComment(id,email,content);
+    let owner = req.body.owner;
+    AWSDynamoPost.PostComment(id,email,content,owner);
     res.redirect(req.get('referer'));//reload page
 });
 
@@ -241,7 +243,9 @@ app.get('/postedrender', (req,res) => {
 
 app.get('/Commentrender', (req,res) => {
     //res.sendFile(__dirname+ "/public/view.partials/" + 'Comments.html');
-    Renderator.CommentRender(req,res);
+    let query = url.parse(req.url,true).query;
+    let email = query.email;
+    AWSDynamoRetrieve.GetCommentOnVideoByEmail(req,res,email);
 });
 
 app.get('/WatchingRender', (req,res) => {
