@@ -15,6 +15,7 @@ let urlencodedParser = bodyParser.urlencoded({ extended : true });
 let OptionalFunction = require('./NodeJS/OptionalFunctions');
 let session = require('express-session');
 let AWSDynamoPost = require('./NodeJS/PostToAWS');
+let http = require('http').Server(app);
 
 app.use(express.static('public'));
 //app.use(morgan('dev'));
@@ -171,6 +172,8 @@ app.post("/Dangbai", urlencodedParser, upload.any(), function (req,res,next) {
                 let email = req.body.email;
                 let urlVideo = video_file_location;
                 let image = image_file_location;
+                let like_count = 0;
+                let dislike_count = 0;
                 let title = req.body.video_title;
                 let summary = req.body.video_description;
                 let tags = req.body.video_tags;
@@ -248,15 +251,6 @@ app.get('/Commentrender', (req,res) => {
     AWSDynamoRetrieve.GetCommentOnVideoByEmail(req,res,email);
 });
 
-app.get('/WatchingRender', (req,res) => {
-    //res.sendFile(__dirname+ "/public/view/partials/" + 'Watching.html');
-    Renderator.WatchingRender(req,res);
-});
-
-app.get('/WatchedRender', (req,res) => {
-    Renderator.WatchedRender(req,res);
-});
-
 app.post('/authenticate',urlencodedParser,function (req,res,next) {
     //parameter 'next' used for jwt, but i'll add it later
     let email = req.body.email.toString();
@@ -264,10 +258,48 @@ app.post('/authenticate',urlencodedParser,function (req,res,next) {
     authenticate.sign_in(email,password,req,res,app);
 });
 
-let server = app.listen(8000, function () {
-
-    let host = server.address().address;
-    let port = server.address().port;
-
-    console.log("Server dang lang nghe tai dia chi: http://%s:%s", host, port)
+let io = require('socket.io')(http);
+io.on('connection', function (socket) {
+    //console.log("someone volt a video");
+    socket.on('like', function (id) {
+        AWSDynamoRetrieve.IncreaseLike(id);
+        console.log("Someone volt like video has id is " +id );
+    });
+    socket.on('giveuplike',function (id) {
+        AWSDynamoRetrieve.DecreaseLike(id);
+        console.log("The video, has id is " + id + ", got decrease!");
+    });
+    socket.on('dislike', function (id) {
+        AWSDynamoRetrieve.IncreaseDisLike(id);
+        console.log("Someone volt dislike video has id is " + id);
+    });
+    socket.on('giveupdislike', function (id) {
+        AWSDynamoRetrieve.DecreaseDisLike(id);
+        console.log("The video, has id is " + id + ", got decrease!");
+    });
 });
+
+http.listen(8000, function () {
+    /*
+    let host = server.address().address;
+    let port = server.address().port;*/
+    console.log("Server dang lang nghe tren *: 8000");
+});
+/*
+//cài đặt cấu hình cho socket.io
+io = socket.listen(server);
+io.on('connection',function(socket){
+    console.log('Someone volting video');
+});
+/*
+io.set('match origin protocol', true);//config để có thể chạy được nodejs cùng với socket.io server, phân biệt đâu là socket.io, đâu là nodejs server
+io.set('origins','.');//config  để socket.io nhận những client ở domain nào port nào, ở đây * là nhận tất
+io.set('log level',1);
+let run = function( socket) {
+  socket.on("capnhatlike", (data) => {
+      GetLike (data);
+      console.log("Changed like");
+  })
+};
+//nguồn nghiên cứu socket.io : https://viblo.asia/p/nodejs-va-socketio-can-ban-jlA7GKxdvKZQ
+*/

@@ -1,10 +1,186 @@
 let aws = require('aws-sdk');
 let config = require('./config.json');
-
 //PostedHTML_start _ line 31
+function GetCommentAndVideoList(id,urlVideo,owner,code_tam_thoi,res){
+    aws.config.update({
+        region: 'us-east-1',
+        endpoint: "http://dynamodb.us-east-1.amazonaws.com",
+        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+    });
+
+    let docClient = new aws.DynamoDB.DocumentClient();
+    let comment = "";
+    let getvideolist = "";
+
+    let params = {
+        TableName: "handmadevideo01",
+        FilterExpression: 'id <> :value',
+        ExpressionAttributeValues:{
+            ":value" : Number.parseInt(id)
+        }
+    };
+    let params1 = {
+        TableName : "Comments",
+        FilterExpression: "idvideo = :keyword",
+        ExpressionAttributeValues: {
+            ":keyword" : id
+        }
+    };
+    docClient.scan(params1,(err,data)=>{
+        if (err)
+            console.log("Unable to scan comment for this video. Please view these json errors:" +JSON.stringify(err,null,2));
+        else {
+            data.Items.forEach(function (item){
+                comment += "<div class=\"comment_area\">\n" +
+                    "                <p>From:" + item.guestemail + "</p>\n" +
+                    "                <p style=\"background: #333333;color: #FFFFFF;\">" + item.content +"</p>\n" +
+                    "            </div>";
+            });
+            code_tam_thoi += comment;
+            docClient.scan(params, function (err,data) {
+                if (err) {
+                    console.log(err);
+                    getvideolist =
+                        "            <div class=\"comment_post\">\n" +
+                        "                <form class=\"form\" id=\"form1\" method=\"post\" name=\"form1\" action=\"postcomment\">\n" +
+                        "                    <h3 style=\"color: #FFFFFF;\">Leave a comment</h3>\n" +
+                        "                    <input type=\"text\" disabled id=\"idvideo\" value=\"ID video:" + id + "\" name=\"idvideo\" />\n" +
+                        "                    <input type=\"text\" disabled id=\"ownername\" value=\"Người sở hữu:" + owner +"\" name=\"ownername\" />\n" +
+                        "                    <p class=\"email\">\n" +
+                        "                        <input name=\"email\" type=\"email\" class=\"validate[required,custom[email]] feedback-input\" id=\"email\" placeholder=\"Email\" />\n" +
+                        "                    </p>\n" +
+                        "                    <p class=\"text\">\n" +
+                        "                        <textarea name=\"text\" class=\"validate[required,length[6,300]] feedback-input\" id=\"comment\" placeholder=\"Comment\"></textarea>\n" +
+                        "                    </p>\n" +
+                        "                    <div class=\"submit\">\n" +
+                        "                        <input type=\"submit\" value=\"SEND\" id=\"button-blue\" />\n" +
+                        "                        <div class=\"ease\"></div>\n" +
+                        "                    </div>\n" +
+                        "                </form>\n" +
+                        "            </div>\n" +
+                        "        </div>\n" +
+                        "    </div>\n" +
+                        "    <div class=\"container\">" +
+                        "   <script>\n" +
+                        "            $('.show-list').click(function(){\n" +
+                        "                $('.wrapper').addClass('list-mode');\n" +
+                        "            });\n" +
+                        "\n" +
+                        "            $('.hide-list').click(function(){\n" +
+                        "                $('.wrapper').removeClass('list-mode');\n" +
+                        "            });\n" +
+                        "            $(function(){\n" +
+                        "                let header = $(\"nav\"),\n" +
+                        "                    yOffset = 0,\n" +
+                        "                    triggerPoint = 150;\n" +
+                        "                $(window).scroll(function(){\n" +
+                        "                    yOffset = $(window).scrollTop();\n" +
+                        "\n" +
+                        "                    if(yOffset >= triggerPoint){\n" +
+                        "                        header.addClass(\"minimized\");\n" +
+                        "                    }else{\n" +
+                        "                        header.removeClass(\"minimized\");\n" +
+                        "                    }\n" +
+                        "                });\n" +
+                        "            });\n" +
+                        "        </script>\n" +
+                        "    </div>\n" +
+                        "</div>\n" +
+                        "</body>\n" +
+                        "</html>\n";
+                }
+                else {
+                    data.Items.forEach(function (item) {
+                        getvideolist  = "            <div class=\"comment_post\">\n" +
+                            "                <form class=\"form\" id=\"form1\" method=\"post\" name=\"form1\" action=\"postcomment\">\n" +
+                            "                    <h3 style=\"color: #FFFFFF;\">Leave a comment</h3>\n" +
+                            "                    <input type=\"text\" disabled id=\"idvideo\" value=\"ID video:" + id + "\" name=\"idvideo\" />\n" +
+                            "                    <input type=\"text\" disabled id=\"ownername\" value=\"Người sở hữu:" + owner +"\" name=\"ownername\" />\n" +
+                            "                    <p class=\"email\">\n" +
+                            "                        <input type=\"email\" class=\"validate[required,custom[email]] feedback-input\" id=\"email\" placeholder=\"Email\" name=\"email\"/>\n" +
+                            "                    </p>\n" +
+                            "                    <p class=\"text\">\n" +
+                            "                        <textarea type=\"text\" class=\"validate[required,length[6,300]] feedback-input\" id=\"comment\" placeholder=\"Comment\" name=\"content\"></textarea>\n" +
+                            "                    </p>\n" +
+                            "                    <div class=\"submit\">\n" +
+                            "                        <input type=\"submit\" value=\"SEND\" id=\"button-blue\" />\n" +
+                            "                        <div class=\"ease\"></div>\n" +
+                            "                    </div>\n" +
+                            "                </form>\n" +
+                            "            </div>\n" +
+                            "        </div>\n" +
+                            "    </div>\n" +
+                            "    <div class=\"container\">\n" +
+                            "       <div class=\"box\">\n" +
+                            "            <div class=\"ProductSet ProductSet--grid\">\n" +
+                            "                <!-- Product Card: vertical -->\n" +
+                            "                <a href=\"/watchvideo?id=" + item.id + "&&ip=" +  item.urlVideo + "&&owner=" + item.email + "\" class=\"ProductCard ProductCard--grid\">\n" +
+                            "                    <div class=\"ProductCard__img-wrapper\">\n" +
+                            "                        <img src=\"" +  item.image + "\" alt=\"\" class=\"ProductCard__img\">\n" +
+                            "                    </div>\n" +
+                            "                    <div class=\"ProductCard__details\">\n" +
+                            "                        <div class=\"ProductCard__details__header\">\n" +
+                            "                            <div class=\"ProductCard__titles\">\n" +
+                            "                                <h4 class=\"ProductCard__title\">" +  item.title + "</h4>\n" +
+                            "                                <h5 class=\"ProductCard__price\">" +  item.email + "</h5>\n" +
+                            "                            </div>\n" +
+                            "                            <button class=\"IconBtn\">\n" +
+                            "                                <svg class=\"Icon Icon--medium Icon--colored\">\n" +
+                            "                                    <use xlink:href=\"./src/img/icons/svg-sprite.svg#heart\"></use>\n" +
+                            "                                </svg>\n" +
+                            "                            </button>\n" +
+                            "                        </div>\n" +
+                            "                        <p class=\"ProductCard__description\">\n" +
+                            "\n" +
+                            "                        </p>\n" +
+                            "                    </div>\n" +
+                            "                </a>\n" +
+                            "            </div>\n" +
+                            "        </div>" +
+                            "        <script>\n" +
+                            "            $('.show-list').click(function(){\n" +
+                            "                $('.wrapper').addClass('list-mode');\n" +
+                            "            });\n" +
+                            "\n" +
+                            "            $('.hide-list').click(function(){\n" +
+                            "                $('.wrapper').removeClass('list-mode');\n" +
+                            "            });\n" +
+                            "            $(function(){\n" +
+                            "                let header = $(\"nav\"),\n" +
+                            "                    yOffset = 0,\n" +
+                            "                    triggerPoint = 150;\n" +
+                            "                $(window).scroll(function(){\n" +
+                            "                    yOffset = $(window).scrollTop();\n" +
+                            "\n" +
+                            "                    if(yOffset >= triggerPoint){\n" +
+                            "                        header.addClass(\"minimized\");\n" +
+                            "                    }else{\n" +
+                            "                        header.removeClass(\"minimized\");\n" +
+                            "                    }\n" +
+                            "                });\n" +
+                            "            });\n" +
+                            "        </script>\n" +
+                            "    </div>\n" +
+                            "</div>\n" +
+                            "</body>\n" +
+                            "</html>\n";
+                    });
+                    let videoviewer =code_tam_thoi + getvideolist;
+                    res.send(videoviewer);
+                }
+            })
+        }
+    });
+}
 
 exports.GetVideoByID = function (urlVideo,id,owner,res){
+    aws.config.update({
+        region: 'us-east-1',
+        endpoint: "http://dynamodb.us-east-1.amazonaws.com",
+        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+    });
 
+    let docClient = new aws.DynamoDB.DocumentClient();
     let videoViewer_start = "<!DOCTYPE html>\n" +
         "<html lang=\"en\" >\n" +
         "\n" +
@@ -118,7 +294,7 @@ exports.GetVideoByID = function (urlVideo,id,owner,res){
         "\n" +
         "        .videoPlayer{\n" +
         "            width: 1170px;\n" +
-        "            height: 800px;\n" +
+        "            height: 870px;\n" +
         "            float: left;\n" +
         "        }\n" +
         "        \n" +
@@ -530,6 +706,27 @@ exports.GetVideoByID = function (urlVideo,id,owner,res){
         "            background-color: white;\n" +
         "        }\n" +
         "\n" +
+        "        #button-red {\n" +
+        "            font-family: 'Montserrat', Arial, Helvetica, sans-serif;\n" +
+        "            float:left;\n" +
+        "            width: 200px;\n" +
+        "            height: 52px;\n" +
+        "            border: #fbfbfb solid 4px;\n" +
+        "            color: white;\n" +
+        "            cursor: pointer;\n" +
+        "            background-color: red;\n" +
+        "            font-size: 24px;\n" +
+        "            padding-top: 2px;\n" +
+        "            padding-bottom: 2px;\n" +
+        "            -webkit-transition: all 0.3s;\n" +
+        "            -moz-transition: all 0.3s;\n" +
+        "            transition: all 0.3s;\n" +
+        "            font-weight: 700\n" +
+        "        }\n" +
+        "        #button-red:hover {\n" +
+        "            background-color: rgba(0, 0, 0, 0);\n" +
+        "            color: red;\n" +
+        "        }\n" +
         "        #button-blue {\n" +
         "            font-family: 'Montserrat', Arial, Helvetica, sans-serif;\n" +
         "            float: left;\n" +
@@ -573,8 +770,65 @@ exports.GetVideoByID = function (urlVideo,id,owner,res){
         "            background-color: white;\n" +
         "        }\n" +
         "\n" +
+        "        #idvideo #ownername:disabled {" +
+        "              background: #ccc;\n" +
+        "        }\n" +
+        "        .volting {" +
+        "              width: 1170px;\n" +
+        "              height: 80px;\n" +
+        "              display: inline-block;\n" +
+        "              margin: 10px auto 20px auto;\n" +
+        "              padding: 10px 10px 10px 20em;\n" +
+        "              border-bottom: #666666 solid 3px;\n" +
+        "        }\n" +
+        "        .volt {\n" +
+        "              width: 150px;\n" +
+        "              height: 52px;\n" +
+        "              float: left;\n" +
+        "              margin-left: 3em;\n" +
+        "        }\n" +
+        "        .volt:hover {\n" +
+        "              color: red;\n" +
+        "              cursor: pointer;\n" +
+        "        }\n" +
         "    </style>\n" +
         "    <!--------------------->\n" +
+        "<link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.5.0/css/all.css\" " +
+        "integrity=\"sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU\" crossorigin=\"anonymous\">\n" + //đường dẫn thư viện thêm icon vào web
+        "<script src=\"/socket.io/socket.io.js\"></script>\n" +
+        "<script>\n" +
+        "   let socket = io();" +
+        "   $(document).ready(()=>{\n" +
+        "       let count_like = 0;\n" +
+        "       let count_dislike = 0;\n" +
+        "       let likevalue = parseInt(document.getElementById(\"like\").innerHTML.match(/\\d+/));\n" + //dòng này tách chuối lấy số... 5 Like => 5
+        "       let dislikevalue = parseInt(document.getElementById(\"dislike\").innerHTML.match(/\\d+/));\n" + //dòng này tách chuối lấy số... 5 Like => 5
+        "       $(\"#like\").click(()=>{\n" +
+        "           count_like ++;\n" +
+        "           if (count_like % 2 !== 0 ) {\n" +
+        "               likevalue += 1; //click first time => tăng lượt like lên 1\n" +
+        "               socket.emit('like'," + id + ");\n" +
+        "           }\n" +
+        "           if (count_like % 2 === 0 ) { \n" +
+        "               likevalue -= 1; //click 2 time => lượt like như cũ\n" +
+        "               socket.emit('giveuplike'," + id + ")" +
+        "           }\n" +
+        "           document.getElementById(\"like\").innerHTML = \" \" + likevalue + \" Like\"\n" +
+        "       })\n" +
+        "       $(\"#dislike\").click(()=>{\n" +
+        "           count_dislike ++;\n" +
+        "           if (count_dislike % 2 !== 0 ) {\n" +
+        "               dislikevalue += 1; //click first time => tăng lượt dislike lên 1\n" +
+        "               socket.emit('dislike'," + id + ");\n" +
+        "           }\n" +
+        "           if (count_dislike % 2 === 0 ) { \n" +
+        "               dislikevalue -= 1; //click 2 time => lượt dislike như cũ\n" +
+        "               socket.emit('giveupdislike'," + id + ")" +
+        "           }\n" +
+        "           document.getElementById(\"dislike\").innerHTML = \" \" + dislikevalue + \" DisLike\"\n" +
+        "       })\n" +
+        "   })\n" +
+        "</script>\n" +
         "</head>\n" +
         "<body>\n" +
         "<div class=\"InnerBackGround\">\n" +
@@ -602,178 +856,63 @@ exports.GetVideoByID = function (urlVideo,id,owner,res){
         "                <source src=\"" + urlVideo +"\" type=\"video/mp4\">\n" +
         "                Your browser doesn't support the video tag\n" +
         "            </video>\n" +
-        "        </div>\n" +
-        "        <div class=\"comment\">\n";
-
-    let comment = "";
-    let getvideolist = "";
-
-    aws.config.update({
-        region: 'us-east-1',
-        endpoint: "http://dynamodb.us-east-1.amazonaws.com",
-        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
-    });
-
-    let docClient = new aws.DynamoDB.DocumentClient();
-    let params = {
-        TableName: "handmadevideo01",
-        FilterExpression: 'id <> :value',
-        ExpressionAttributeValues:{
-            ":value" : Number.parseInt(id)
-        }
-    };
-    let params1 = {
-        TableName : "Comments",
-        FilterExpression: "idvideo = :keyword",
-        ExpressionAttributeValues: {
-            ":keyword" : id
-        }
-    };
-    docClient.scan(params1,(err,data)=>{
-        if (err)
-            console.log("Unable to scan comment for this video. Please view these json errors:" +JSON.stringify(err,null,2));
-        else {
-            data.Items.forEach(function (item){
-                comment += "<div class=\"comment_area\">\n" +
-                    "                <p>From:" + item.guestemail + "</p>\n" +
-                    "                <p style=\"background: #333333;color: #FFFFFF;\">" + item.content +"</p>\n" +
-                    "            </div>";
-            });
-            videoViewer_start += comment;
-            docClient.scan(params, function (err,data) {
-                if (err) {
-                    console.log(err);
-                    getvideolist =
-                        "            <div class=\"comment_post\">\n" +
-                        "                <form class=\"form\" id=\"form1\" method=\"post\" name=\"form1\" action=\"postcomment\">\n" +
-                        "                    <h3 style=\"color: #FFFFFF;\">Leave a comment</h3>\n" +
-                        "                    <input type=\"text\" id=\"idvideo\" value=\"" + id +"\" name=\"idvideo\"/>\n" +
-                        "                    <input type=\"text\" id=\"ownername\" value=\"" + owner +"\" name=\"ownername\"/>\n" +
-                        "                    <p class=\"email\">\n" +
-                        "                        <input name=\"email\" type=\"email\" class=\"validate[required,custom[email]] feedback-input\" id=\"email\" placeholder=\"Email\" />\n" +
-                        "                    </p>\n" +
-                        "                    <p class=\"text\">\n" +
-                        "                        <textarea name=\"text\" class=\"validate[required,length[6,300]] feedback-input\" id=\"comment\" placeholder=\"Comment\"></textarea>\n" +
-                        "                    </p>\n" +
-                        "                    <div class=\"submit\">\n" +
-                        "                        <input type=\"submit\" value=\"SEND\" id=\"button-blue\" />\n" +
-                        "                        <div class=\"ease\"></div>\n" +
-                        "                    </div>\n" +
-                        "                </form>\n" +
-                        "            </div>\n" +
-                        "        </div>\n" +
-                        "    </div>\n" +
-                        "    <div class=\"container\">" +
-                        "   <script>\n" +
-                        "            $('.show-list').click(function(){\n" +
-                        "                $('.wrapper').addClass('list-mode');\n" +
-                        "            });\n" +
-                        "\n" +
-                        "            $('.hide-list').click(function(){\n" +
-                        "                $('.wrapper').removeClass('list-mode');\n" +
-                        "            });\n" +
-                        "            $(function(){\n" +
-                        "                let header = $(\"nav\"),\n" +
-                        "                    yOffset = 0,\n" +
-                        "                    triggerPoint = 150;\n" +
-                        "                $(window).scroll(function(){\n" +
-                        "                    yOffset = $(window).scrollTop();\n" +
-                        "\n" +
-                        "                    if(yOffset >= triggerPoint){\n" +
-                        "                        header.addClass(\"minimized\");\n" +
-                        "                    }else{\n" +
-                        "                        header.removeClass(\"minimized\");\n" +
-                        "                    }\n" +
-                        "                });\n" +
-                        "            });\n" +
-                        "        </script>\n" +
-                        "    </div>\n" +
-                        "</div>\n" +
-                        "</body>\n" +
-                        "</html>\n";
-                }
-                else {
-                    data.Items.forEach(function (item) {
-                        getvideolist  = "            <div class=\"comment_post\">\n" +
-                            "                <form class=\"form\" id=\"form1\" method=\"post\" name=\"form1\" action=\"postcomment\">\n" +
-                            "                    <h3 style=\"color: #FFFFFF;\">Leave a comment</h3>\n" +
-                            "                    <input type=\"text\" id=\"idvideo\" value=\"" + id +"\" name=\"idvideo\"/>\n" +
-                            "                    <input type=\"text\" id=\"ownername\" value=\"" + owner +"\" name=\"ownername\"/>\n" +
-                            "                    <p class=\"email\">\n" +
-                            "                        <input type=\"email\" class=\"validate[required,custom[email]] feedback-input\" id=\"email\" placeholder=\"Email\" name=\"email\"/>\n" +
-                            "                    </p>\n" +
-                            "                    <p class=\"text\">\n" +
-                            "                        <textarea type=\"text\" class=\"validate[required,length[6,300]] feedback-input\" id=\"comment\" placeholder=\"Comment\" name=\"content\"></textarea>\n" +
-                            "                    </p>\n" +
-                            "                    <div class=\"submit\">\n" +
-                            "                        <input type=\"submit\" value=\"SEND\" id=\"button-blue\" />\n" +
-                            "                        <div class=\"ease\"></div>\n" +
-                            "                    </div>\n" +
-                            "                </form>\n" +
-                            "            </div>\n" +
-                            "        </div>\n" +
-                            "    </div>\n" +
-                            "    <div class=\"container\">\n" +
-                            "       <div class=\"box\">\n" +
-                            "            <div class=\"ProductSet ProductSet--grid\">\n" +
-                            "                <!-- Product Card: vertical -->\n" +
-                            "                <a href=\"#\" class=\"ProductCard ProductCard--grid\">\n" +
-                            "                    <div class=\"ProductCard__img-wrapper\">\n" +
-                            "                        <img src=\"" +  item.image + "\" alt=\"\" class=\"ProductCard__img\">\n" +
-                            "                    </div>\n" +
-                            "                    <div class=\"ProductCard__details\">\n" +
-                            "                        <div class=\"ProductCard__details__header\">\n" +
-                            "                            <div class=\"ProductCard__titles\">\n" +
-                            "                                <h4 class=\"ProductCard__title\">" +  item.title + "</h4>\n" +
-                            "                                <h5 class=\"ProductCard__price\">" +  item.email + "</h5>\n" +
-                            "                            </div>\n" +
-                            "                            <button class=\"IconBtn\">\n" +
-                            "                                <svg class=\"Icon Icon--medium Icon--colored\">\n" +
-                            "                                    <use xlink:href=\"./src/img/icons/svg-sprite.svg#heart\"></use>\n" +
-                            "                                </svg>\n" +
-                            "                            </button>\n" +
-                            "                        </div>\n" +
-                            "                        <p class=\"ProductCard__description\">\n" +
-                            "\n" +
-                            "                        </p>\n" +
-                            "                    </div>\n" +
-                            "                </a>\n" +
-                            "            </div>\n" +
-                            "        </div>" +
-                            "        <script>\n" +
-                            "            $('.show-list').click(function(){\n" +
-                            "                $('.wrapper').addClass('list-mode');\n" +
-                            "            });\n" +
-                            "\n" +
-                            "            $('.hide-list').click(function(){\n" +
-                            "                $('.wrapper').removeClass('list-mode');\n" +
-                            "            });\n" +
-                            "            $(function(){\n" +
-                            "                let header = $(\"nav\"),\n" +
-                            "                    yOffset = 0,\n" +
-                            "                    triggerPoint = 150;\n" +
-                            "                $(window).scroll(function(){\n" +
-                            "                    yOffset = $(window).scrollTop();\n" +
-                            "\n" +
-                            "                    if(yOffset >= triggerPoint){\n" +
-                            "                        header.addClass(\"minimized\");\n" +
-                            "                    }else{\n" +
-                            "                        header.removeClass(\"minimized\");\n" +
-                            "                    }\n" +
-                            "                });\n" +
-                            "            });\n" +
-                            "        </script>\n" +
-                            "    </div>\n" +
-                            "</div>\n" +
-                            "</body>\n" +
-                            "</html>\n";
-                    });
-                    let videoviewer = videoViewer_start + getvideolist;
-                    res.send(videoviewer);
-                }
-            })
-        }
-    });
+        "            <div class=\"volting\">\n";
+        let volting = "";
+        let params9 = {
+            TableName: "handmadevideo01",
+            FilterExpression: "id = :num",
+            ExpressionAttributeValues: {
+                ":num" : Number.parseInt(id)
+            }
+        };
+        docClient.scan( params9, (err,data) => {
+           if (err) {
+               volting += "               <div class=\"volt\">\n" +
+                   "                   <i class=\"far fa-thumbs-up\" id=\"like\"> Like</i>\n" +
+                   "                   <script>\n" +
+                   "                       $(\"#like\").click((id)=>{\n" +
+                   "                           let value = $(this).attr(\"value\");\n" +
+                   "                           $(\"#like\").text(String.valueOf(value)+\" like\");" +
+                   "                       });\n" +
+                   "                   </script>\n" +
+                   "               </div>\n" +
+                   "               <div class=\"volt\">\n" +
+                   "                   <i class=\"far fa-thumbs-down\" id=\"dislike\"> Dislike</i>\n" +
+                   "               </div>\n" +
+                   "               <input type=\"submit\" value=\"Follow\" class=\"ease\" id=\"button-red\" style=\"margin-top:-10px;\"/>\n" +
+                   "            </div>\n";
+               console.log (JSON.stringify(err,null,2));
+           } else {
+               data.Items.forEach((item) => {
+                   volting += "               <div class=\"volt\">\n" +
+                       "                           <i class=\"far fa-thumbs-up\" id=\"like\">" + item.like_count + " Like</i>\n" +
+                       "                      </div>\n" +
+                       "                      <div class=\"volt\">\n" +
+                       "                           <i class=\"far fa-thumbs-down\" id=\"dislike\">" + item.dislike_count +" Dislike</i>\n" +
+                       "                            <script>\n" +
+                       "                                let count1 = 0;\n" +
+                       "                                $(\"#dislike\").click((id)=>{\n" +
+                       "                                    let value1 = 0;" +
+                       "                                    count1 ++;\n" +
+                       "                                    if (count1 % 2 === 0 ) \n" +
+                       "                                        value1 = " + item.dislike_count + "; //click 2 time => luot dislike nhu cu\n" +
+                       "                                    else {\n" +
+                       "                                        value1 = " + (item.dislike_count + 1) + "; //click first time => tang luot like len 1\n" +
+                       "                                    }\n" +
+                       "                                    document.getElementById(\"dislike\").innerHTML = \" \" + value1 + \" Dislike\"\n" +
+                       "                                });\n" +
+                       "                            </script>\n" +
+                       "                      </div>\n" +
+                       "                      <input type=\"submit\" value=\"Follow\" class=\"ease\" id=\"button-red\" style=\"margin-top:-10px;\"/>\n" +
+                       "                   </div>\n" +
+                       "                   <div class=\"ease\"></div>\n" +
+                       "                </div>\n" +
+                       "                <div class=\"comment\">\n";
+               });
+               let code_tam_thoi = videoViewer_start + volting;
+               GetCommentAndVideoList(id,urlVideo,owner,code_tam_thoi,res);
+           }
+        });
 };
 
 exports.GetPostsByEmail = function (email,res) {
@@ -1183,22 +1322,6 @@ exports.GetPostsByEmail = function (email,res) {
         "                <script type=\"text/javascript\">\n" +
         "                    function Commentrender() {\n" +
         "                        window.location.href = \"/Commentrender?email=" + email + "\"\n" +
-        "                    }\n" +
-        "                </script>\n" +
-        "            </li>\n" +
-        "            <li>\n" +
-        "                <a href=\"javascript:void(0);\" data-title=\"Đang theo dõi\" onclick=\"WatchingRender()\">Đang theo dõi</a>\n" +
-        "                <script type=\"text/javascript\">\n" +
-        "                    function WatchingRender() {\n" +
-        "                        window.location.href = \"/WatchingRender?email=" + email + "\"\n" +
-        "                    }\n" +
-        "                </script>\n" +
-        "            </li>\n" +
-        "            <li>\n" +
-        "                <a href=\"javascript:void(0);\" data-title=\"Những người theo dõi\" onclick=\"WatchedRender()\">Những người theo dõi</a>\n" +
-        "                <script type=\"text/javascript\">\n" +
-        "                    function WatchedRender() {\n" +
-        "                        window.location.href = \"/WatchedRender?email=" + email +"\"\n" +
         "                    }\n" +
         "                </script>\n" +
         "            </li>\n" +
@@ -1870,22 +1993,6 @@ exports.GetCommentOnVideoByEmail = function (req,res,email) {
         "                </script>\n" +
         "            </li>\n" +
         "            <li>\n" +
-        "                <a href=\"javascript:void(0);\" data-title=\"Đang theo dõi\" onclick=\"WatchingRender()\">Đang theo dõi</a>\n" +
-        "                <script type=\"text/javascript\">\n" +
-        "                    function WatchingRender() {\n" +
-        "                        window.location.href = \"/WatchingRender?email=" + email + "\"\n" +
-        "                    }\n" +
-        "                </script>\n" +
-        "            </li>\n" +
-        "            <li>\n" +
-        "                <a href=\"javascript:void(0);\" data-title=\"Những người theo dõi\" onclick=\"WatchedRender()\">Những người theo dõi</a>\n" +
-        "                <script type=\"text/javascript\">\n" +
-        "                    function WatchedRender() {\n" +
-        "                        window.location.href = \"/WatchedRender?email=" + email + "\"\n" +
-        "                    }\n" +
-        "                </script>\n" +
-        "            </li>\n" +
-        "            <li>\n" +
         "                <a href=\"javascript:void(0);\" data-title=\"Viết bài\" onclick=\"editorrender()\">Viết bài</a>\n" +
         "                <script type=\"text/javascript\">\n" +
         "                    function editorrender() {\n" +
@@ -2482,3 +2589,211 @@ let head = "<!DOCTYPE html>\n" +
     "    </script>\n" +
     "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
     "</head>\n";
+///////////////////// xử lý đống socket
+////////////////////////////////////////////////////// for like
+
+exports.IncreaseLike = function (id) {
+    aws.config.update({
+        region: "us-east-1",
+        endpoint: "http://dynamodb.us-east-1.amazonaws.com",
+        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+    });
+    let docClient = new aws.DynamoDB.DocumentClient();
+    let params = {
+        TableName: "handmadevideo01",
+        FilterExpression: "id = :num",
+        ExpressionAttributeValues: {
+            ":num": id
+        }
+    };
+    docClient.scan(params, (err,data) => {
+        if (err)
+            console.log("Cannot get like of video has id is " + id + ". Please check these JSON errors bellow: " + JSON.stringify(err,null,2));
+        else {
+            data.Items.forEach((item) => {
+                AddLike (id,item.like_count);
+            })
+        }
+    });
+};
+exports.DecreaseLike = function (id) {
+    aws.config.update({
+        region: "us-east-1",
+        endpoint: "http://dynamodb.us-east-1.amazonaws.com",
+        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+    });
+    let docClient = new aws.DynamoDB.DocumentClient();
+    let params = {
+        TableName: "handmadevideo01",
+        FilterExpression: "id = :num",
+        ExpressionAttributeValues: {
+            ":num": id
+        }
+    };
+    docClient.scan(params, (err,data) => {
+        if (err)
+            console.log("Cannot get like of video has id is " + id + ". Please check these JSON errors bellow: " + JSON.stringify(err,null,2));
+        else {
+            data.Items.forEach((item) => {
+                LowLike (id,item.like_count);
+            })
+        }
+    });
+}
+function LowLike(id,Like) {
+
+    aws.config.update({
+        region: "us-east-1",
+        endpoint: "https://dynamodb.us-east-1.amazonaws.com",
+        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+    });
+    let docClient = new aws.DynamoDB.DocumentClient();
+    let params = {
+        TableName: "handmadevideo01",
+        Key: {
+            "id": id
+        },
+        UpdateExpression: "set like_count = :num",
+        ExpressionAttributeValues: {
+            ":num": Like - 1
+        },
+        ReturnValues: "UPDATED_NEW"
+    };
+    docClient.update(params, (err,data) => {
+        if (err)
+            console.log("The video didn't receive the like from client. Please check the following JSON error: " + JSON.stringify(err,null,2));
+        else {
+            console.log("Video has id number " + id + " increased like")
+        }
+    });
+}
+
+function AddLike (id,Like){
+    aws.config.update({
+        region: "us-east-1",
+        endpoint: "https://dynamodb.us-east-1.amazonaws.com",
+        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+    });
+    let docClient = new aws.DynamoDB.DocumentClient();
+    let params = {
+        TableName: "handmadevideo01",
+        Key: {
+            "id": id
+        },
+        UpdateExpression: "set like_count = :num",
+        ExpressionAttributeValues: {
+            ":num": Like + 1
+        },
+        ReturnValues: "UPDATED_NEW"
+    };
+    docClient.update(params, (err,data) => {
+        if (err)
+            console.log("The video didn't receive the like from client. Please check the following JSON error: " + JSON.stringify(err,null,2));
+        else {
+            console.log("Video has id number " + id + " increased like")
+        }
+    });
+}
+//////////////////////////////////////////////////////for dislike
+exports.IncreaseDisLike = function (id) {
+    aws.config.update({
+        region: "us-east-1",
+        endpoint: "http://dynamodb.us-east-1.amazonaws.com",
+        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+    });
+    let docClient = new aws.DynamoDB.DocumentClient();
+    let params = {
+        TableName: "handmadevideo01",
+        FilterExpression: "id = :num",
+        ExpressionAttributeValues: {
+            ":num": id
+        }
+    };
+    docClient.scan(params, (err,data) => {
+        if (err)
+            console.log("Cannot get dislike of video has id is " + id + ". Please check these JSON errors bellow: " + JSON.stringify(err,null,2));
+        else {
+            data.Items.forEach((item) => {
+                AddDisLike (id,item.dislike_count);
+            })
+        }
+    });
+}
+exports.DecreaseDisLike = function (id) {
+    aws.config.update({
+        region: "us-east-1",
+        endpoint: "http://dynamodb.us-east-1.amazonaws.com",
+        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+    });
+    let docClient = new aws.DynamoDB.DocumentClient();
+    let params = {
+        TableName: "handmadevideo01",
+        FilterExpression: "id = :num",
+        ExpressionAttributeValues: {
+            ":num": id
+        }
+    };
+    docClient.scan(params, (err,data) => {
+        if (err)
+            console.log("Cannot get dislike of video has id is " + id + ". Please check these JSON errors bellow: " + JSON.stringify(err,null,2));
+        else {
+            data.Items.forEach((item) => {
+                LowDisLike (id,item.dislike_count);
+            })
+        }
+    });
+}
+function LowDisLike(id,DisLike) {
+
+    aws.config.update({
+        region: "us-east-1",
+        endpoint: "https://dynamodb.us-east-1.amazonaws.com",
+        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+    });
+    let docClient = new aws.DynamoDB.DocumentClient();
+    let params = {
+        TableName: "handmadevideo01",
+        Key: {
+            "id": id
+        },
+        UpdateExpression: "set dislike_count = :num",
+        ExpressionAttributeValues: {
+            ":num": DisLike - 1
+        },
+        ReturnValues: "UPDATED_NEW"
+    };
+    docClient.update(params, (err,data) => {
+        if (err)
+            console.log("The video didn't receive the dislike from client. Please check the following JSON error: " + JSON.stringify(err,null,2));
+        else {
+            console.log("Video has id number " + id + " increased dislike")
+        }
+    });
+}
+
+function AddDisLike (id,DisLike){
+    aws.config.update({
+        region: "us-east-1",
+        endpoint: "https://dynamodb.us-east-1.amazonaws.com",
+        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+    });
+    let docClient = new aws.DynamoDB.DocumentClient();
+    let params = {
+        TableName: "handmadevideo01",
+        Key: {
+            "id": id
+        },
+        UpdateExpression: "set dislike_count = :num",
+        ExpressionAttributeValues: {
+            ":num": DisLike + 1
+        },
+        ReturnValues: "UPDATED_NEW"
+    };
+    docClient.update(params, (err,data) => {
+        if (err)
+            console.log("The video didn't receive the like from client. Please check the following JSON error: " + JSON.stringify(err,null,2));
+        else {
+            console.log("Video has id number " + id + " decreased like")
+        }
+    });
+}
