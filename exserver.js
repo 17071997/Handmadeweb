@@ -99,19 +99,19 @@ app.get('/lost',function (req,res) {
 });
 
 app.get('/decorate',function (req,res) {
-    res.sendFile(__dirname+ "/public/view/" + 'decorate.html');
+    AWSDynamoRetrieve.GetDecorateBody(req,res);
 });
 
 app.get('/origami',function (req,res) {
-    res.sendFile(__dirname+ "/public/view/" + 'origami.html')
+    AWSDynamoRetrieve.GetOrigamiBody(req,res);
 });
 
 app.get('/food',function (req,res) {
-    res.sendFile(__dirname+ "/public/view/" + 'food.html');
+    AWSDynamoRetrieve.GetCookingBody(req,res);
 });
 
 app.get('/house',function (req,res) {
-    res.sendFile(__dirname + "/public/view/" + 'house.html');
+    AWSDynamoRetrieve.GetHouseBody(req,res);
 });
 
 app.get('/writerpage', (req,res) =>  {
@@ -231,7 +231,8 @@ app.post("/Dangbai", urlencodedParser, upload.any(), function (req,res,next) {
 app.post('/postcomment', urlencodedParser, (req,res)=> {
     let email = req.body.email;
     let content = req.body.content;
-    let id = req.body.idvideo;
+    let id = req.body.id;
+    console.log(id);
     let owner = req.body.owner;
     AWSDynamoPost.PostComment(id,email,content,owner);
     res.redirect(req.get('referer'));//reload page
@@ -277,13 +278,18 @@ io.on('connection', function (socket) {
         AWSDynamoRetrieve.DecreaseDisLike(id);
         console.log("The video, has id is " + id + ", got decrease!");
     });
+    socket.on('comment', function (data) {
+        AWSDynamoPost.PostComment(data.idvideo,data.guestemail,data.content,data.owner);
+        console.log("User " + data.guestemail + " commented a video has id is " + data.idvideo);
+        io.emit('comment',data);
+    });
 });
 
-http.listen(8000, function () {
+http.listen(8001, function () {
     /*
     let host = server.address().address;
     let port = server.address().port;*/
-    console.log("Server dang lang nghe tren *: 8000");
+    console.log("Server dang lang nghe tren *: 8001");
 });
 /*
 //cài đặt cấu hình cho socket.io

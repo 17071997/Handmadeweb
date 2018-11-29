@@ -23,7 +23,7 @@ function GetCommentAndVideoList(id,urlVideo,owner,code_tam_thoi,res){
         TableName : "Comments",
         FilterExpression: "idvideo = :keyword",
         ExpressionAttributeValues: {
-            ":keyword" : id
+            ":keyword" : Number.parseInt(id)
         }
     };
     docClient.scan(params1,(err,data)=>{
@@ -31,43 +31,73 @@ function GetCommentAndVideoList(id,urlVideo,owner,code_tam_thoi,res){
             console.log("Unable to scan comment for this video. Please view these json errors:" +JSON.stringify(err,null,2));
         else {
             data.Items.forEach(function (item){
-                comment += "<div class=\"comment_area\">\n" +
-                    "                <p>From:" + item.guestemail + "</p>\n" +
-                    "                <p style=\"background: #333333;color: #FFFFFF;\">" + item.content +"</p>\n" +
-                    "            </div>";
+                comment += "<li class=\"comment_content\">From:" + item.guestemail + "=> <span style='background: wheat;'>" + item.content + "</span></li>\n";
             });
             code_tam_thoi += comment;
+            let comment_post = "     </ul>\n" +
+                "                    <div class=\"comment_post\">\n" +
+                "                       <div id=\"form1\" name=\"form1\" class=\"form\">\n" +
+                "                           <h3 style=\"color: #FFFFFF;\">Leave a comment</h3>\n" +
+                "                               <span style=\"color:white;\">  Được đăng bởi </span><input type=\"text\" disabled id=\"ownername\" value=\"" + owner +"\" name=\"ownername\"  size=\"40\"/>\n" +
+                "                               <p class=\"email\">\n" +
+                "                                   <input name=\"email\" type=\"email\" class=\"validate[required,custom[email]] feedback-input\" id=\"email\" placeholder=\"Email\" />\n" +
+                "                               </p>\n" +
+                "                               <p class=\"text\">\n" +
+                "                                   <textarea name=\"comment\" class=\"validate[required,length[6,300]] feedback-input\" id=\"comment\" placeholder=\"Comment\"></textarea>\n" +
+                "                               </p>\n" +
+                "                               <div class=\"submit\">\n" +
+                "                                   <div id=\"button_blue\">\n" +
+                "                                       <i id=\"btncomment\">Bình luận</i>\n" +
+                "                                   </div>\n" +
+                "                                   <div class=\"ease\"></div>\n" +
+                "                               </div>\n" +
+                "                           </div>\n" +
+                "                       </div>\n" +
+                "                   </div>\n" +
+                "               </div>\n" +
+                "           <div class=\"container\">";
             docClient.scan(params, function (err,data) {
                 if (err) {
                     console.log(err);
-                    getvideolist =
-                        "            <div class=\"comment_post\">\n" +
-                        "                <form class=\"form\" id=\"form1\" method=\"post\" name=\"form1\" action=\"postcomment\">\n" +
-                        "                    <h3 style=\"color: #FFFFFF;\">Leave a comment</h3>\n" +
-                        "                    <input type=\"text\" disabled id=\"idvideo\" value=\"ID video:" + id + "\" name=\"idvideo\" />\n" +
-                        "                    <input type=\"text\" disabled id=\"ownername\" value=\"Người sở hữu:" + owner +"\" name=\"ownername\" />\n" +
-                        "                    <p class=\"email\">\n" +
-                        "                        <input name=\"email\" type=\"email\" class=\"validate[required,custom[email]] feedback-input\" id=\"email\" placeholder=\"Email\" />\n" +
-                        "                    </p>\n" +
-                        "                    <p class=\"text\">\n" +
-                        "                        <textarea name=\"text\" class=\"validate[required,length[6,300]] feedback-input\" id=\"comment\" placeholder=\"Comment\"></textarea>\n" +
-                        "                    </p>\n" +
-                        "                    <div class=\"submit\">\n" +
-                        "                        <input type=\"submit\" value=\"SEND\" id=\"button-blue\" />\n" +
-                        "                        <div class=\"ease\"></div>\n" +
-                        "                    </div>\n" +
-                        "                </form>\n" +
-                        "            </div>\n" +
-                        "        </div>\n" +
-                        "    </div>\n" +
-                        "    <div class=\"container\">" +
-                        "   <script>\n" +
-                        "            $('.show-list').click(function(){\n" +
-                        "                $('.wrapper').addClass('list-mode');\n" +
+                }
+                else {
+                    data.Items.forEach(function (item) {//bug chỗ này nữa, getvideolist phải là += hoặc danh sách video phụ sẽ chỉ có một video
+                        //để làm điều đó thì nên để phần comment post sang chỗ khác
+                        getvideolist  +=
+                            "                   <div class=\"box\">\n" +
+                            "                       <div class=\"ProductSet ProductSet--grid\">\n" +
+                            "                       <!-- Product Card: vertical -->\n" +
+                            "                           <a href=\"/watchvideo?id=" + item.id + "&&ip=" +  item.urlVideo + "&&owner=" + item.email + "\" class=\"ProductCard ProductCard--grid\">\n" +
+                            "                           <div class=\"ProductCard__img-wrapper\">\n" +
+                            "                               <img src=\"" +  item.image + "\" alt=\"\" class=\"ProductCard__img\">\n" +
+                            "                           </div>\n" +
+                            "                           <div class=\"ProductCard__details\">\n" +
+                            "                               <div class=\"ProductCard__details__header\">\n" +
+                            "                                   <div class=\"ProductCard__titles\">\n" +
+                            "                                       <h4 class=\"ProductCard__title\">" +  item.title + "</h4>\n" +
+                            "                                       <h5 class=\"ProductCard__price\">" +  item.email + "</h5>\n" +
+                            "                                   </div>\n" +
+                            "                                   <button class=\"IconBtn\">\n" +
+                            "                                       <svg class=\"Icon Icon--medium Icon--colored\">\n" +
+                            "                                           <use xlink:href=\"./src/img/icons/svg-sprite.svg#heart\"></use>\n" +
+                            "                                       </svg>\n" +
+                            "                                   </button>\n" +
+                            "                               </div>\n" +
+                            "                               <p class=\"ProductCard__description\">\n" +
+                            "\n" +
+                            "                               </p>\n" +
+                            "                           </div>\n" +
+                            "                       </a>\n" +
+                            "                   </div>\n" +
+                            "               </div>";
+                    });
+                    let videoviewer =code_tam_thoi + comment_post + getvideolist + "<script>\n" +
+                        "               $('.show-list').click(function(){\n" +
+                        "               $('.wrapper').addClass('list-mode');\n" +
                         "            });\n" +
                         "\n" +
-                        "            $('.hide-list').click(function(){\n" +
-                        "                $('.wrapper').removeClass('list-mode');\n" +
+                        "               $('.hide-list').click(function(){\n" +
+                        "               $('.wrapper').removeClass('list-mode');\n" +
                         "            });\n" +
                         "            $(function(){\n" +
                         "                let header = $(\"nav\"),\n" +
@@ -88,84 +118,6 @@ function GetCommentAndVideoList(id,urlVideo,owner,code_tam_thoi,res){
                         "</div>\n" +
                         "</body>\n" +
                         "</html>\n";
-                }
-                else {
-                    data.Items.forEach(function (item) {
-                        getvideolist  = "            <div class=\"comment_post\">\n" +
-                            "                <form class=\"form\" id=\"form1\" method=\"post\" name=\"form1\" action=\"postcomment\">\n" +
-                            "                    <h3 style=\"color: #FFFFFF;\">Leave a comment</h3>\n" +
-                            "                    <input type=\"text\" disabled id=\"idvideo\" value=\"ID video:" + id + "\" name=\"idvideo\" />\n" +
-                            "                    <input type=\"text\" disabled id=\"ownername\" value=\"Người sở hữu:" + owner +"\" name=\"ownername\" />\n" +
-                            "                    <p class=\"email\">\n" +
-                            "                        <input type=\"email\" class=\"validate[required,custom[email]] feedback-input\" id=\"email\" placeholder=\"Email\" name=\"email\"/>\n" +
-                            "                    </p>\n" +
-                            "                    <p class=\"text\">\n" +
-                            "                        <textarea type=\"text\" class=\"validate[required,length[6,300]] feedback-input\" id=\"comment\" placeholder=\"Comment\" name=\"content\"></textarea>\n" +
-                            "                    </p>\n" +
-                            "                    <div class=\"submit\">\n" +
-                            "                        <input type=\"submit\" value=\"SEND\" id=\"button-blue\" />\n" +
-                            "                        <div class=\"ease\"></div>\n" +
-                            "                    </div>\n" +
-                            "                </form>\n" +
-                            "            </div>\n" +
-                            "        </div>\n" +
-                            "    </div>\n" +
-                            "    <div class=\"container\">\n" +
-                            "       <div class=\"box\">\n" +
-                            "            <div class=\"ProductSet ProductSet--grid\">\n" +
-                            "                <!-- Product Card: vertical -->\n" +
-                            "                <a href=\"/watchvideo?id=" + item.id + "&&ip=" +  item.urlVideo + "&&owner=" + item.email + "\" class=\"ProductCard ProductCard--grid\">\n" +
-                            "                    <div class=\"ProductCard__img-wrapper\">\n" +
-                            "                        <img src=\"" +  item.image + "\" alt=\"\" class=\"ProductCard__img\">\n" +
-                            "                    </div>\n" +
-                            "                    <div class=\"ProductCard__details\">\n" +
-                            "                        <div class=\"ProductCard__details__header\">\n" +
-                            "                            <div class=\"ProductCard__titles\">\n" +
-                            "                                <h4 class=\"ProductCard__title\">" +  item.title + "</h4>\n" +
-                            "                                <h5 class=\"ProductCard__price\">" +  item.email + "</h5>\n" +
-                            "                            </div>\n" +
-                            "                            <button class=\"IconBtn\">\n" +
-                            "                                <svg class=\"Icon Icon--medium Icon--colored\">\n" +
-                            "                                    <use xlink:href=\"./src/img/icons/svg-sprite.svg#heart\"></use>\n" +
-                            "                                </svg>\n" +
-                            "                            </button>\n" +
-                            "                        </div>\n" +
-                            "                        <p class=\"ProductCard__description\">\n" +
-                            "\n" +
-                            "                        </p>\n" +
-                            "                    </div>\n" +
-                            "                </a>\n" +
-                            "            </div>\n" +
-                            "        </div>" +
-                            "        <script>\n" +
-                            "            $('.show-list').click(function(){\n" +
-                            "                $('.wrapper').addClass('list-mode');\n" +
-                            "            });\n" +
-                            "\n" +
-                            "            $('.hide-list').click(function(){\n" +
-                            "                $('.wrapper').removeClass('list-mode');\n" +
-                            "            });\n" +
-                            "            $(function(){\n" +
-                            "                let header = $(\"nav\"),\n" +
-                            "                    yOffset = 0,\n" +
-                            "                    triggerPoint = 150;\n" +
-                            "                $(window).scroll(function(){\n" +
-                            "                    yOffset = $(window).scrollTop();\n" +
-                            "\n" +
-                            "                    if(yOffset >= triggerPoint){\n" +
-                            "                        header.addClass(\"minimized\");\n" +
-                            "                    }else{\n" +
-                            "                        header.removeClass(\"minimized\");\n" +
-                            "                    }\n" +
-                            "                });\n" +
-                            "            });\n" +
-                            "        </script>\n" +
-                            "    </div>\n" +
-                            "</div>\n" +
-                            "</body>\n" +
-                            "</html>\n";
-                    });
-                    let videoviewer =code_tam_thoi + getvideolist;
                     res.send(videoviewer);
                 }
             })
@@ -219,7 +171,7 @@ exports.GetVideoByID = function (urlVideo,id,owner,res){
         "            -moz-box-sizing: border-box;\n" +
         "            box-sizing: border-box;\n" +
         "            padding: 50px;\n" +
-        "            min-height: 1600px;\n" +
+        "            min-height: 2000px;\n" +
         "            height: auto;\n" +
         "        }\n" +
         "\n" +
@@ -257,11 +209,13 @@ exports.GetVideoByID = function (urlVideo,id,owner,res){
         "            background-color:#11956c;\n" +
         "        }\n" +
         "\n" +
-        "        .container{\n" +
-        "            padding:10px 0 10px 0;\n" +
-        "            height:auto;            min-height: 1000px;\n" +
-        "            width: 400px;\n" +
+        "        .container {\n" +
+        "            padding-top: 10px;\n" +
+        "            padding-bottom: 5px;\n" +
+        "            height:auto;            min-height: 1870px;\n" +
+        "            width: 450px;\n" +
         "            float: right;\n" +
+        "            background: wheat;\n" +
         "        }\n" +
         "        .wrapper .box{\n" +
         "            float:left;\n" +
@@ -602,6 +556,13 @@ exports.GetVideoByID = function (urlVideo,id,owner,res){
         "            padding: 10px;\n" +
         "            font-family: Georgia, sans-serif;\n" +
         "            color: black;\n" +
+        "            list-style-type: none;\n" +
+        "        }\n" +
+        "        .comment_area li{\n" +
+        "            background: #44D5AC;\n" +
+        "            color: #333333;\n" +
+        "            padding: 5px;\n" +
+        "            margin-top: 5px;\n" +
         "        }\n" +
         "        .comment_post{\n" +
         "            margin: 20px 10px 10px 10px;\n" +
@@ -706,7 +667,7 @@ exports.GetVideoByID = function (urlVideo,id,owner,res){
         "            background-color: white;\n" +
         "        }\n" +
         "\n" +
-        "        #button-red {\n" +
+        "        #button_red {\n" +
         "            font-family: 'Montserrat', Arial, Helvetica, sans-serif;\n" +
         "            float:left;\n" +
         "            width: 200px;\n" +
@@ -723,31 +684,33 @@ exports.GetVideoByID = function (urlVideo,id,owner,res){
         "            transition: all 0.3s;\n" +
         "            font-weight: 700\n" +
         "        }\n" +
-        "        #button-red:hover {\n" +
+        "        #button_red:hover {\n" +
         "            background-color: rgba(0, 0, 0, 0);\n" +
         "            color: red;\n" +
         "        }\n" +
-        "        #button-blue {\n" +
+        "        #button_blue {\n" +
         "            font-family: 'Montserrat', Arial, Helvetica, sans-serif;\n" +
-        "            float: left;\n" +
+        "            float:left;\n" +
         "            width: 100%;\n" +
+        "            height: 75px;\n" +
+        "            text-align: center;\n" +
+        "            justify-content: center;\n" +
         "            border: #fbfbfb solid 4px;\n" +
-        "            cursor: pointer;\n" +
-        "            background-color: #3498db;\n" +
         "            color: white;\n" +
+        "            cursor: pointer;\n" +
+        "            background-color: #44D5AC;\n" +
         "            font-size: 24px;\n" +
-        "            padding-top: 22px;\n" +
-        "            padding-bottom: 22px;\n" +
+        "            padding-top: 2px;\n" +
+        "            padding-bottom: 2px;\n" +
         "            -webkit-transition: all 0.3s;\n" +
         "            -moz-transition: all 0.3s;\n" +
         "            transition: all 0.3s;\n" +
-        "            margin-top: -4px;\n" +
-        "            font-weight: 700;\n" +
+        "            font-weight: 700\n" +
         "        }\n" +
         "\n" +
-        "        #button-blue:hover {\n" +
+        "        #button_blue:hover {\n" +
         "            background-color: rgba(0, 0, 0, 0);\n" +
-        "            color: #0493bd;\n" +
+        "            color: #44D5AC;\n" +
         "        }\n" +
         "\n" +
         "        .submit:hover {\n" +
@@ -799,6 +762,25 @@ exports.GetVideoByID = function (urlVideo,id,owner,res){
         "<script>\n" +
         "   let socket = io();" +
         "   $(document).ready(()=>{\n" +
+        "       $(document).on(\"click\",\"#button_blue\",function(){\n" +
+        "           let email = $(\"#email\").val();\n" +
+        "           let content = $(\"#comment\").val();\n" +
+        "           let Comment = {\n" +
+        "               idvideo: " + id + ",\n" +
+        "               owner: \"" + owner + "\",\n" +
+        "               guestemail: email,\n" +
+        "               content: content" +
+        "           };\n" +
+        "           let JSONComment = JSON.stringify(Comment,null,2);\n" +
+        "           console.log(JSONComment);\n" +
+        "           socket.emit('comment',Comment);\n" +
+        "           socket.on('comment',function(data){\n" +
+        "               let height = $(\".wrapper\").height();\n" +
+        "               $(\".wrapper\").css(\"min-height\",\"\" + (Number.parseInt(height)+20) + \"px\");" +
+        "               $(\".comment_area\").prepend(\"<li>From \" + data.guestemail + \"=> \" + data.content + \"</li>\");" +
+        "           });\n" +
+        "" +
+        "       });\n" +
         "       let count_like = 0;\n" +
         "       let count_dislike = 0;\n" +
         "       let likevalue = parseInt(document.getElementById(\"like\").innerHTML.match(/\\d+/));\n" + //dòng này tách chuối lấy số... 5 Like => 5
@@ -879,7 +861,7 @@ exports.GetVideoByID = function (urlVideo,id,owner,res){
                    "               <div class=\"volt\">\n" +
                    "                   <i class=\"far fa-thumbs-down\" id=\"dislike\"> Dislike</i>\n" +
                    "               </div>\n" +
-                   "               <input type=\"submit\" value=\"Follow\" class=\"ease\" id=\"button-red\" style=\"margin-top:-10px;\"/>\n" +
+                   "               <input type=\"submit\" value=\"Follow\" class=\"ease\" id=\"button_red\" style=\"margin-top:-10px;\"/>\n" +
                    "            </div>\n";
                console.log (JSON.stringify(err,null,2));
            } else {
@@ -903,11 +885,12 @@ exports.GetVideoByID = function (urlVideo,id,owner,res){
                        "                                });\n" +
                        "                            </script>\n" +
                        "                      </div>\n" +
-                       "                      <input type=\"submit\" value=\"Follow\" class=\"ease\" id=\"button-red\" style=\"margin-top:-10px;\"/>\n" +
+                       "                      <input type=\"submit\" value=\"Follow\" class=\"ease\" id=\"button_red\" style=\"margin-top:-10px;\"/>\n" +
                        "                   </div>\n" +
                        "                   <div class=\"ease\"></div>\n" +
                        "                </div>\n" +
-                       "                <div class=\"comment\">\n";
+                       "                <div class=\"comment\">\n" +
+                       "                    <ul class=\"comment_area\">\n";
                });
                let code_tam_thoi = videoViewer_start + volting;
                GetCommentAndVideoList(id,urlVideo,owner,code_tam_thoi,res);
@@ -1900,7 +1883,7 @@ exports.GetPostsByKeyWord = function(keyword,res){
                 GotList = "<div class=\"box\">\n" +
                     "            <div class=\"ProductSet ProductSet--grid\">\n" +
                     "                <!-- Product Card: vertical -->\n" +
-                    "                <a href=\"/watchvideo?id=" + item.id + "&&ip=" +  item.urlVideo + "\" class=\"ProductCard ProductCard--grid\">\n" +
+                    "                <a href=\"/watchvideo?id=" + item.id + "&&ip=" +  item.urlVideo + "&&owner=" + item.email + "\" class=\"ProductCard ProductCard--grid\">\n" +
                     "                    <div class=\"ProductCard__img-wrapper\">\n" +
                     "                        <img src=\"" + item.image + "\" alt=\"\" class=\"ProductCard__img\">\n" +
                     "                    </div>\n" +
@@ -1954,7 +1937,7 @@ exports.GetPostsByKeyWord = function(keyword,res){
         }
     })
 };
-
+//loại bỏ phần tử giống nhau trong mảng
 let deduplicate = function (ArrVideoID){
     let isExist = (ArrVideoID, x) => {
         for (let i=0; i< ArrVideoID.length; i++){
@@ -1996,7 +1979,7 @@ exports.GetCommentOnVideoByEmail = function (req,res,email) {
         "                <a href=\"javascript:void(0);\" data-title=\"Viết bài\" onclick=\"editorrender()\">Viết bài</a>\n" +
         "                <script type=\"text/javascript\">\n" +
         "                    function editorrender() {\n" +
-        "                        window.location.href = \"/editorrender?email=" + email +"\"\n" +
+        "                        window.location.href = \"/editorrender?email=" + email + "\"\n" +
         "                    }\n" +
         "                </script>\n" +
         "            </li>\n" +
@@ -2029,29 +2012,6 @@ exports.GetCommentOnVideoByEmail = function (req,res,email) {
         "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
         "    </div>\n" +
         "    <div class=\"rendered\">\n";
-    let end = "</div>\n" +
-        "</div>\n" +
-        "    </div>\n" +
-        "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
-        "    <script src='http://cdn.tinymce.com/4/tinymce.min.js'></script>\n" +
-        "    <script>\n" +
-        "        tinymce.init({\n" +
-        "            selector: 'textarea',\n" +
-        "            height: 500,\n" +
-        "            plugins: [\n" +
-        "                'advlist autolink lists link image charmap print preview anchor',\n" +
-        "                'searchreplace visualblocks code fullscreen',\n" +
-        "                'insertdatetime media table contextmenu paste code'\n" +
-        "            ],\n" +
-        "            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',\n" +
-        "            content_css: [\n" +
-        "                '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',\n" +
-        "                '//www.tinymce.com/css/codepen.min.css'\n" +
-        "            ]\n" +
-        "        });\n" +
-        "    </script>\n" +
-        "</div>\n" +
-        "</body>\n";
     let arr = [];
     aws.config.update({
         region:'us-east-1',
@@ -2066,7 +2026,8 @@ exports.GetCommentOnVideoByEmail = function (req,res,email) {
             ":letter1": email
         }
     };
-    docClient.scan(params0, (err,data) => {
+    docClient.scan(params0, async (err,data) => {
+        let topic_parts = "";
         if (err) {
             console.log(JSON.stringify(err,null,2));
             body += "<h3>Chưa có video nào của bạn được bình luận.</h3>\n" +
@@ -2096,72 +2057,302 @@ exports.GetCommentOnVideoByEmail = function (req,res,email) {
                 arr.push(item.idvideo);
             });
             let new_arr = deduplicate(arr);
-            new_arr.forEach((item)=>{
-                RenderContent(item,body,end,res);
-            });
+            let part = await CreateContent (new_arr,body,end,res);
+            //console.log(part);
+            //res.send(part);
         }
     });
 };
-function RenderContent (id,body,end,res){
-    aws.config.update({
-        region:'us-east-1',
-        endpoint:'http://dynamodb.us-east-1.amazonaws.com',
-        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
-    });
-    let docClient = new aws.DynamoDB.DocumentClient();
-    let params0 = {
-        TableName: "handmadevideo01",
-        FilterExpression: "id = :num",
-        ExpressionAttributeValues: {
-            ":num" : Number.parseInt(id)
-        }
-    };
-    let image = "";
-    docClient.scan(params0, (err,data) => {
-        if (err)
-            console.log(JSON.stringify(err,null,2));
-        else {
-            data.Items.forEach((item) => {
-                image = "        <div class=\"topic\">" +
-                    "             <div class=\"left\">" +
-                    "                  <img src=\"" + item.image + "\" width=\"300\" height=\"300\" >" +
-                    "             </div>" +
-                    "             <div class=\"right\">" ;
-            });
-            body += image;
-            RenderComment(id,body,end,res);
-        }
-    });
-}
-function RenderComment (id,body,end,res){
-    let comment = "";
-    aws.config.update({
-        region:'us-east-1',
-        endpoint:'http://dynamodb.us-east-1.amazonaws.com',
-        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
-    });
-    let docClient = new aws.DynamoDB.DocumentClient();
+let CreateContent = async (ArrID,body,end,res) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(()=>{
+            if (ArrID.length == 0)
+                return reject(new Error("Mảng rỗng"));
+            ArrID.forEach(async (item) => {
+                content = await RenderContent(item);
+                body += content;
+                if (ArrID.indexOf(item) === ArrID.length - 1){
+                    resolve(head+body+end);
+                    res.send(head + body + end);
+                }
 
-    let params2 = {
-        TableName: "Comments",
-        FilterExpression: "idvideo = :num",
-        ExpressionAttributeValues: {
-            ":num" : id
+            });
+        },2000);
+    });
+}
+
+//thực hiện chức năng lấy bình luận trên bài viết ở phía admin
+let RenderContent = async (idvideo) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(()=>{
+            let result = "";
+            aws.config.update({
+                region:'us-east-1',
+                endpoint:'http://dynamodb.us-east-1.amazonaws.com',
+                "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+            });
+            let docClient = new aws.DynamoDB.DocumentClient();
+            let params0 = {
+                TableName: "handmadevideo01",
+                FilterExpression: "id = :num",
+                ExpressionAttributeValues: {
+                    ":num" : Number.parseInt(idvideo)
+                }
+            };
+
+            docClient.scan(params0, async (err, data) => {
+                if (err) {
+                    return reject(err);
+                } else {
+                    data.Items.forEach(async (item) => {
+                        result = "        <div class=\"topic\">" +
+                            "             <div class=\"left\">" +
+                            "                  <img src=\"" + item.image + "\" width=\"300\" height=\"300\" >" +
+                            "             </div>" +
+                            "             <div class=\"right\">";
+                        let params2 = {
+                            TableName: "Comments",
+                            FilterExpression: "idvideo = :num",
+                            ExpressionAttributeValues: {
+                                ":num": Number.parseInt(idvideo)
+                            }
+                        };
+
+                        docClient.scan(params2, (err, data) => {
+                            if (err) {
+                                return reject(err);
+                            } else {
+                                data.Items.forEach((item) => {
+                                    result += "<h3 style=\"margin: 10px;\"><span style=\"background: #DA7151;color: #FFFFFF;padding: 10px;\">From:" + item.guestemail + "</span> - <span style=\"background: #44D5AC;color: #FFFFFF;padding:10px;\">" + item.content + "</span></h3>";
+                                });
+                                resolve(result);
+                            }
+                        });
+                    });
+                }
+            });
+        },1000);
+    });
+}
+/*RenderComment (idvideo, (err,res) => {
+    if (err)
+        return console.log("Please review these errors: " + JSON.stringify(err,null,2));
+    comment += res;
+})
+result += comment;*/
+exports.GetDecorateBody = function (req,res) {
+    let tag = "Decorate";
+    let tagbody = "<body style=\"background-color: #333333;\">\n" +
+        "    <header>\n" +
+        "        <div class=\"container\">\n" +
+        "            <h1><a href=\"/\" style=\"margin-left: 30px;\">Blyat Co.</a></h1>\n" +
+        "            <span style=\"font-family: 'MV Boli'; color: #ffffff; margin-left: 100px;margin-top: 50px;\">\n" +
+        "                <h1>Handmade sản phẩm trang trí</h1>\n" +
+        "            </span>\n" +
+        "            <nav>\n" +
+        "                <a href=\"/\">Trang chủ</a>\n" +
+        "                <a href=\"food\">Ẩm thực</a>\n" +
+        "                <a href=\"house\">Nhà</a>\n" +
+        "                <a href=\"origami\">Origami</a>\n" +
+        "            </nav>\n" +
+        "        </div>\n" +
+        "    </header>\n" +
+        "    <span>\n" +
+        "        <div class=\"down_container\">\n" +
+        "            <ul class=\"card-list\">";
+    GetBodyOfTagPage(req,res,tag,tagbody,decorate_header);
+}
+exports.GetCookingBody = function (req,res) {
+    let tags = "Cook";
+    let tagbody = "<body style=\"background-color: #333333;\">\n" +
+        "    <header>\n" +
+        "        <div class=\"container\">\n" +
+        "            <h1><a href=\"/\" style=\"margin-left: 30px;\">Blyat Co.</a></h1>\n" +
+        "            <span style=\"font-family: 'MV Boli'; color: #ffffff; margin-left: 100px;margin-top: 50px;\">\n" +
+        "                <h1>Handmade ẩm thực</h1>\n" +
+        "            </span>\n" +
+        "            <nav>\n" +
+        "                <a href=\"/\">Trang chủ</a>\n" +
+        "                <a href=\"decorate\">Trang trí</a>\n" +
+        "                <a href=\"house\">Nhà</a>\n" +
+        "                <a href=\"origami\">Origami</a>\n" +
+        "            </nav>\n" +
+        "        </div>\n" +
+        "    </header>\n" +
+        "    <span>\n" +
+        "        <div class=\"down_container\">\n" +
+        "            <ul class=\"card-list\">";
+    GetBodyOfTagPage (req,res,tags,tagbody,cooking_header);
+}
+
+exports.GetOrigamiBody = function (req,res) {
+    let tag = "Origami";
+    let tag_body = "<body style=\"background-color: #333333;\">\n" +
+        "    <header>\n" +
+        "        <div class=\"container\">\n" +
+        "            <h1><a href=\"/\" style=\"margin-left: 30px;\">Blyat Co.</a></h1>\n" +
+        "            <span style=\"font-family: 'MV Boli'; color: #ffffff; margin-left: 100px;margin-top: 50px;\">\n" +
+        "                <h1>Handmade nghệ thuật gấp giấy</h1>\n" +
+        "            </span>\n" +
+        "            <nav>\n" +
+        "                <a href=\"/\">Trang chủ</a>\n" +
+        "                <a href=\"decorate\">Trang trí</a>\n" +
+        "                <a href=\"house\">Nhà</a>\n" +
+        "                <a href=\"food\">Ẩm thực</a>\n" +
+        "            </nav>\n" +
+        "        </div>\n" +
+        "    </header>\n" +
+        "    <span>\n" +
+        "        <div class=\"down_container\">\n" +
+        "            <ul class=\"card-list\">";
+    GetBodyOfTagPage(req,res,tag,tag_body,origami_header);
+}
+
+exports.GetHouseBody = function (req,res) {
+    let tag = "Model";
+    let tag_body = "<body style=\"background-color: #333333;\">\n" +
+        "    <header>\n" +
+        "        <div class=\"container\">\n" +
+        "            <h1><a href=\"/\" style=\"margin-left: 30px;\">Blyat Co.</a></h1>\n" +
+        "            <span style=\"font-family: 'MV Boli'; color: #ffffff; margin-left: 100px;margin-top: 50px;\">\n" +
+        "                <h1>Handmade mô hình nhà</h1>\n" +
+        "            </span>\n" +
+        "            <nav>\n" +
+        "                <a href=\"/\">Trang chủ</a>\n" +
+        "                <a href=\"decorate\">Trang trí</a>\n" +
+        "                <a href=\"food\">Ẩm thực</a>\n" +
+        "                <a href=\"origami\">Origami</a>\n" +
+        "            </nav>\n" +
+        "        </div>\n" +
+        "    </header>\n" +
+        "    <span>\n" +
+        "        <div class=\"down_container\">\n" +
+        "            <ul class=\"card-list\">";
+    GetBodyOfTagPage(req,res,tag,tag_body,house_header);
+}
+//////////////////////////////////--------------Trả về phần thân của tag cần lấy-------------------------------------////////////////////////////////////////////////////////
+function GetBodyOfTagPage (req,res,tags,TagBody,HeaderCode){
+    let tag = "";
+
+    aws.config.update({
+        region:'us-east-1',
+        endpoint:'http://dynamodb.us-east-1.amazonaws.com',
+        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+    });
+    let docClient = new aws.DynamoDB.DocumentClient();
+    let params = {
+        TableName: "handmadevideo01",
+        FilterExpression: "tags = :keyword",
+        ExpressionAttributeValues:{
+            ":keyword": tags
         }
     };
-    docClient.scan(params2, (err,data) => {
-        if (err)
-            console.log(JSON.stringify(err,null,2));
-        else {
+    docClient.scan(params,(err,data) => {
+        if (err) {
+            console.log("Have some errors in scanning " + tags + " video data for users.Please check it: " + JSON.stringify(err,null,2));
+            TagBody += "<li class=\"card\"> Have some errors in scanning video for this tags.You can refresh this page or it still continue ... Please " +
+                "contact this web's administrator for more detail. It's 076 981 1755 </li>\n" +
+                "            </ul>\n" +
+                "        </div>\n" +
+                "    </span>\n" +
+                "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+                "    <script>\n" +
+                "        $(function(){\n" +
+                "            let header = $(\"header\"),\n" +
+                "                yOffset = 0,\n" +
+                "                triggerPoint = 150;\n" +
+                "            $(window).scroll(function(){\n" +
+                "                yOffset = $(window).scrollTop();\n" +
+                "\n" +
+                "                if(yOffset >= triggerPoint){\n" +
+                "                    header.addClass(\"minimized\");\n" +
+                "                }else{\n" +
+                "                    header.removeClass(\"minimized\");\n" +
+                "                }\n" +
+                "            });\n" +
+                "        });\n" +
+                "    </script>\n" +
+                "    <script>\n" +
+                "        let setCardTransform = function setCardTransform(cardIndex, angle) {\n" +
+                "            let card = $('.card-list .card').eq(cardIndex).css('transform', 'rotate3d(1, 0, 0, ' + angle + 'deg)');\n" +
+                "            $('.card-list .card').not(card).css('transform', 'none');\n" +
+                "        };\n" +
+                "\n" +
+                "        $(function () {\n" +
+                "            let $window = $(window);\n" +
+                "            let windowHeight = $window.height();\n" +
+                "\n" +
+                "            $window.resize(function (e) {\n" +
+                "                windowHeight = $window.height();\n" +
+                "            });\n" +
+                "            $window.scroll(function (e) {\n" +
+                "                let cardPercent = window.scrollY % (windowHeight / 2) / windowHeight * 2;\n" +
+                "                let cardCount = Math.floor(window.scrollY / (windowHeight / 2));\n" +
+                "                setCardTransform(cardCount, cardPercent * 50);\n" +
+                "            });\n" +
+                "        });\n" +
+                "    </script>\n" +
+                "</body>\n" +
+                "</html>";
+        } else {
             data.Items.forEach((item) => {
-                comment += "<h3 style=\"margin: 10px;\"><span style=\"background: #DA7151;color: #FFFFFF;padding: 10px;\">From:" + item.guestemail + "</span> - <span style=\"background: #44D5AC;color: #FFFFFF;padding:10px;\">" + item.content + "</span></h3>" ;
-                body += comment;
+                tag += "<li class=\"card\">\n" +
+                    "<a href=\"/watchvideo?id=" + item.id + "&&ip=" +  item.urlVideo + "&&owner=" + item.email + "\">\n" +
+                    "<img src=\"" + item.image + "\" alt=\"" + item.summary + "\" width=\"auto\" class=\"image\"/>\n" +
+                    "<div class=\"card-content\">\n" +
+                    "    <h1>" + item.title + "</h1>\n" +
+                    "    <p>" + item.email + "</p>\n" +
+                    "</div>\n" +
+                    "</a> " +
+                    "</li>";
             });
-            let final = head + body + end;
-            res.send(final);
+            let HTMLcoderesult = HeaderCode + TagBody + tag + "</ul>\n" +
+                "        </div>\n" +
+                "    </span>\n" +
+                "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+                "    <script>\n" +
+                "        $(function(){\n" +
+                "            let header = $(\"header\"),\n" +
+                "                yOffset = 0,\n" +
+                "                triggerPoint = 150;\n" +
+                "            $(window).scroll(function(){\n" +
+                "                yOffset = $(window).scrollTop();\n" +
+                "\n" +
+                "                if(yOffset >= triggerPoint){\n" +
+                "                    header.addClass(\"minimized\");\n" +
+                "                }else{\n" +
+                "                    header.removeClass(\"minimized\");\n" +
+                "                }\n" +
+                "            });\n" +
+                "        });\n" +
+                "    </script>\n" +
+                "    <script>\n" +
+                "        let setCardTransform = function setCardTransform(cardIndex, angle) {\n" +
+                "            let card = $('.card-list .card').eq(cardIndex).css('transform', 'rotate3d(1, 0, 0, ' + angle + 'deg)');\n" +
+                "            $('.card-list .card').not(card).css('transform', 'none');\n" +
+                "        };\n" +
+                "\n" +
+                "        $(function () {\n" +
+                "            let $window = $(window);\n" +
+                "            let windowHeight = $window.height();\n" +
+                "\n" +
+                "            $window.resize(function (e) {\n" +
+                "                windowHeight = $window.height();\n" +
+                "            });\n" +
+                "            $window.scroll(function (e) {\n" +
+                "                let cardPercent = window.scrollY % (windowHeight / 2) / windowHeight * 2;\n" +
+                "                let cardCount = Math.floor(window.scrollY / (windowHeight / 2));\n" +
+                "                setCardTransform(cardCount, cardPercent * 50);\n" +
+                "            });\n" +
+                "        });\n" +
+                "    </script>\n" +
+                "</body>\n" +
+                "</html>";
+            res.send(HTMLcoderesult);
         }
     });
 }
+
 /*
 Author : Tran The Vu
 +
@@ -2175,6 +2366,31 @@ Author : Tran The Vu
                     "     <div class=\"left\">" +
                     "         <img src=\"" + GetImageSource(item.idvideo) + "\">" +
                     "     </div>";*/
+//phần html cho chức năng lấy comment trên bài viết phía người viết bài
+
+let end = "</div>\n" +
+    "</div>\n" +
+    "    </div>\n" +
+    "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+    "    <script src='http://cdn.tinymce.com/4/tinymce.min.js'></script>\n" +
+    "    <script>\n" +
+    "        tinymce.init({\n" +
+    "            selector: 'textarea',\n" +
+    "            height: 500,\n" +
+    "            plugins: [\n" +
+    "                'advlist autolink lists link image charmap print preview anchor',\n" +
+    "                'searchreplace visualblocks code fullscreen',\n" +
+    "                'insertdatetime media table contextmenu paste code'\n" +
+    "            ],\n" +
+    "            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',\n" +
+    "            content_css: [\n" +
+    "                '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',\n" +
+    "                '//www.tinymce.com/css/codepen.min.css'\n" +
+    "            ]\n" +
+    "        });\n" +
+    "    </script>\n" +
+    "</div>\n" +
+    "</body>\n";
 let head = "<!DOCTYPE html>\n" +
     "<html lang=\"en\">\n" +
     "<head>\n" +
@@ -2589,10 +2805,614 @@ let head = "<!DOCTYPE html>\n" +
     "    </script>\n" +
     "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
     "</head>\n";
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+let decorate_header = "<!DOCTYPE html>\n" +
+    "<html lang=\"en\">\n" +
+    "<head>\n" +
+    "    <meta charset=\"UTF-8\">\n" +
+    "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
+    "    <meta name=\"viewport\" content=\"width=device-width\">\n" +
+    "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css\">\n" +
+    "    <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Montserrat:400,300,700\">\n" +
+    "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css\">\n" +
+    "    <link rel=\"stylesheet\" href=\"../CSS/style.css\">\n" +
+    "    <link rel=\"Stylesheet\" href=\"https://fonts.googleapis.com/css?family=Muli\" type=\"text/css\">\n" +
+    "    <link href=\"https://fonts.googleapis.com/css?family=Titillium+Web:400,300,300italic,400italic,600italic,600\" rel=\"stylesheet\" type=\"text/css\">\n" +
+    "    <link rel=\"Stylesheet\" href=\"css/master.css\" type=\"text/css\">\n" +
+    "    <link rel=\"Stylesheet\" href=\"https://ianlunn.github.io/Hover/css/hover.css\" type=\"text/css\">\n" +
+    "    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js\"></script>\n" +
+    "    <link href=\"../CSS/slide.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
+    "    <title>Decorate</title>\n" +
+    "    <style type=\"text/css\">\n" +
+    "        @import \"compass/css3\";\n" +
+    "        body {\n" +
+    "            background: url(https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/NGyZeGzFlijx95hou/christmas-decorations-in-the-studio-christmas-toys-wall-clocks-handmade-stylish-christmas-tree-with-white-fluffy-snow-merry-christmas-and-happy-new-year-new-year-and-christmas-decorations_vgeaddckl__F0000.png) no-repeat;\n" +
+    "            -webkit-background-size: auto;\n" +
+    "            background-size: auto;\n" +
+    "            height: 1000px;\n" +
+    "        }\n" +
+    "        header {\n" +
+    "            font-family: sans-serif;\n" +
+    "            position: fixed;\n" +
+    "            width: 100%;\n" +
+    "            height: 150px;\n" +
+    "            top: 0;\n" +
+    "            left: 0;\n" +
+    "            background-color: rgba(22, 22, 22, 0.4);\n" +
+    "            border-bottom: 3px solid rgba(0, 0, 0, 0.4);\n" +
+    "            -webkit-transition: height 0.3s;\n" +
+    "        }\n" +
+    "        header .container {\n" +
+    "            width: 100%;\n" +
+    "            margin: 0 auto;\n" +
+    "        }\n" +
+    "        header h1 {\n" +
+    "            margin-top: 0;\n" +
+    "            color: #FFFFFF;\n" +
+    "        }\n" +
+    "        header h1, header nav {\n" +
+    "            display: inline-block;\n" +
+    "            position: relative;\n" +
+    "            line-height: 150px;\n" +
+    "            -webkit-transition: all 0.3s;\n" +
+    "        }\n" +
+    "        header a {\n" +
+    "            text-decoration: none;\n" +
+    "            color: #FFFFFF;\n" +
+    "        }\n" +
+    "        header nav {\n" +
+    "            float: right;\n" +
+    "            line-height: 150px;\n" +
+    "            font-size: 1.6em;\n" +
+    "            padding-right: 20px;\n" +
+    "            z-index: 99;\n" +
+    "            height: 100px;\n" +
+    "        }\n" +
+    "        header nav a {\n" +
+    "            margin-top: -10px;\n" +
+    "            margin-left: 10px;\n" +
+    "            color: #333333;\n" +
+    "        }\n" +
+    "        header nav a:hover {\n" +
+    "            border-top: 2px dotted white;\n" +
+    "            border-bottom: 2px dotted white;\n" +
+    "            color: red;\n" +
+    "        }\n" +
+    "        header.minimized {\n" +
+    "            height: 60px;\n" +
+    "        }\n" +
+    "        header.minimized h1, header.minimized nav {\n" +
+    "            line-height: 60px;\n" +
+    "        }\n" +
+    "        header.minimized nav {\n" +
+    "            font-size: 1.2em;\n" +
+    "        }\n" +
+    "        header.minimized h1 {\n" +
+    "            font-size: 1.7em;\n" +
+    "        }\n" +
+    "        .container {\n" +
+    "            height: 700px;\n" +
+    "        }\n" +
+    "        .down_container{\n" +
+    "            margin-top: 910px;\n" +
+    "            background-color: white;\n" +
+    "            min-height: 500px;\n" +
+    "            margin-left: 10px;\n" +
+    "        }\n" +
+    "    </style>\n" +
+    "    <!--For card list-->\n" +
+    "    <style type=\"text/css\">\n" +
+    "\n" +
+    "        .card-list {\n" +
+    "            margin: 0 auto;\n" +
+    "            max-width: 600px;\n" +
+    "            -webkit-perspective: 1200px;\n" +
+    "            perspective: 1200px;\n" +
+    "            z-index: 0;\n" +
+    "        }\n" +
+    "        .card-list .card:last-child {\n" +
+    "            margin-bottom: 0;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card {\n" +
+    "            width: 100%;\n" +
+    "            padding: 10px;\n" +
+    "            background: #fff;\n" +
+    "            border-radius: 3px;\n" +
+    "            height: 47.5vh;\n" +
+    "            margin-top: 5vh;\n" +
+    "            margin-bottom: 5vh;\n" +
+    "            box-shadow: 0 0 6px -1px rgba(0, 0, 0, 0.5);\n" +
+    "            -webkit-transform-origin: bottom center;\n" +
+    "            transform-origin: bottom center;\n" +
+    "            z-index: 0;\n" +
+    "        }\n" +
+    "\n" +
+    "        .image {\n" +
+    "            width: 48%;\n" +
+    "            height: 98%;\n" +
+    "            float: left;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card-content {\n" +
+    "            width: 48%;\n" +
+    "            height: 98%;\n" +
+    "            justify-content: center;\n" +
+    "            float: left;\n" +
+    "           padding-left: 20px;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card-content h1,p {\n" +
+    "            color: #333333;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card-content h1 {\n" +
+    "            " +
+    "        }\n" +
+    "\n" +
+    "        .card-content p {\n" +
+    "            " +
+    "        }\n" +
+    "\n" +
+    "    </style>\n" +
+    "    <!----------------->\n" +
+    "</head>";
+let cooking_header = "<!DOCTYPE html>\n" +
+    "<html lang=\"en\">\n" +
+    "<head>\n" +
+    "    <meta charset=\"UTF-8\">\n" +
+    "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
+    "    <meta name=\"viewport\" content=\"width=device-width\">\n" +
+    "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css\">\n" +
+    "    <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Montserrat:400,300,700\">\n" +
+    "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css\">\n" +
+    "    <link rel=\"stylesheet\" href=\"../CSS/style.css\">\n" +
+    "    <link rel=\"Stylesheet\" href=\"https://fonts.googleapis.com/css?family=Muli\" type=\"text/css\">\n" +
+    "    <link href=\"https://fonts.googleapis.com/css?family=Titillium+Web:400,300,300italic,400italic,600italic,600\" rel=\"stylesheet\" type=\"text/css\">\n" +
+    "    <link rel=\"Stylesheet\" href=\"css/master.css\" type=\"text/css\">\n" +
+    "    <link rel=\"Stylesheet\" href=\"https://ianlunn.github.io/Hover/css/hover.css\" type=\"text/css\">\n" +
+    "    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js\"></script>\n" +
+    "    <link href=\"../CSS/slide.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
+    "    <title>Decorate</title>\n" +
+    "    <style type=\"text/css\">\n" +
+    "        @import \"compass/css3\";\n" +
+    "        body {\n" +
+    "            background: url(http://s1.1zoom.me/b4755/677/Fast_food_Vegetables_tacos_Wood_planks_Cutting_531998_1920x1200.jpg) no-repeat;\n" +
+    "            -webkit-background-size: auto;\n" +
+    "            background-size: auto;\n" +
+    "            height: 1000px;\n" +
+    "        }\n" +
+    "        header {\n" +
+    "            font-family: sans-serif;\n" +
+    "            position: fixed;\n" +
+    "            width: 100%;\n" +
+    "            height: 150px;\n" +
+    "            top: 0;\n" +
+    "            left: 0;\n" +
+    "            background-color: rgba(22, 22, 22, 0.4);\n" +
+    "            border-bottom: 3px solid rgba(0, 0, 0, 0.4);\n" +
+    "            -webkit-transition: height 0.3s;\n" +
+    "        }\n" +
+    "        header .container {\n" +
+    "            width: 100%;\n" +
+    "            margin: 0 auto;\n" +
+    "        }\n" +
+    "        header h1 {\n" +
+    "            margin-top: 0;\n" +
+    "            color: #FFFFFF;\n" +
+    "        }\n" +
+    "        header h1, header nav {\n" +
+    "            display: inline-block;\n" +
+    "            position: relative;\n" +
+    "            line-height: 150px;\n" +
+    "            -webkit-transition: all 0.3s;\n" +
+    "        }\n" +
+    "        header a {\n" +
+    "            text-decoration: none;\n" +
+    "            color: #FFFFFF;\n" +
+    "        }\n" +
+    "        header nav {\n" +
+    "            float: right;\n" +
+    "            line-height: 150px;\n" +
+    "            font-size: 1.6em;\n" +
+    "            padding-right: 20px;\n" +
+    "            z-index: 99;\n" +
+    "            height: 100px;\n" +
+    "        }\n" +
+    "        header nav a {\n" +
+    "            margin-top: -10px;\n" +
+    "            margin-left: 10px;\n" +
+    "            color: #333333;\n" +
+    "        }\n" +
+    "        header nav a:hover {\n" +
+    "            border-top: 2px dotted white;\n" +
+    "            border-bottom: 2px dotted white;\n" +
+    "            color: red;\n" +
+    "        }\n" +
+    "        header.minimized {\n" +
+    "            height: 60px;\n" +
+    "        }\n" +
+    "        header.minimized h1, header.minimized nav {\n" +
+    "            line-height: 60px;\n" +
+    "        }\n" +
+    "        header.minimized nav {\n" +
+    "            font-size: 1.2em;\n" +
+    "        }\n" +
+    "        header.minimized h1 {\n" +
+    "            font-size: 1.7em;\n" +
+    "        }\n" +
+    "        .container {\n" +
+    "            height: 700px;\n" +
+    "        }\n" +
+    "        .down_container{\n" +
+    "            margin-top: 910px;\n" +
+    "            background-color: white;\n" +
+    "            min-height: 500px;\n" +
+    "            margin-left: 10px;\n" +
+    "        }\n" +
+    "    </style>\n" +
+    "    <!--For card list-->\n" +
+    "    <style type=\"text/css\">\n" +
+    "\n" +
+    "        .card-list {\n" +
+    "            margin: 0 auto;\n" +
+    "            max-width: 600px;\n" +
+    "            -webkit-perspective: 1200px;\n" +
+    "            perspective: 1200px;\n" +
+    "            z-index: 0;\n" +
+    "        }\n" +
+    "        .card-list .card:last-child {\n" +
+    "            margin-bottom: 0;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card {\n" +
+    "            width: 100%;\n" +
+    "            padding: 10px;\n" +
+    "            background: #fff;\n" +
+    "            border-radius: 3px;\n" +
+    "            height: 47.5vh;\n" +
+    "            margin-top: 5vh;\n" +
+    "            margin-bottom: 5vh;\n" +
+    "            box-shadow: 0 0 6px -1px rgba(0, 0, 0, 0.5);\n" +
+    "            -webkit-transform-origin: bottom center;\n" +
+    "            transform-origin: bottom center;\n" +
+    "            z-index: 0;\n" +
+    "        }\n" +
+    "\n" +
+    "        .image {\n" +
+    "            width: 48%;\n" +
+    "            height: 98%;\n" +
+    "            float: left;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card-content {\n" +
+    "            width: 48%;\n" +
+    "            height: 98%;\n" +
+    "            justify-content: center;\n" +
+    "            float: left;\n" +
+    "           padding-left: 20px;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card-content h1,p {\n" +
+    "            color: #333333;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card-content h1 {\n" +
+    "            " +
+    "        }\n" +
+    "\n" +
+    "        .card-content p {\n" +
+    "            " +
+    "        }\n" +
+    "\n" +
+    "    </style>\n" +
+    "    <!----------------->\n" +
+    "</head>";
+let origami_header = "<!DOCTYPE html>\n" +
+    "<html lang=\"en\">\n" +
+    "<head>\n" +
+    "    <meta charset=\"UTF-8\">\n" +
+    "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
+    "    <meta name=\"viewport\" content=\"width=device-width\">\n" +
+    "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css\">\n" +
+    "    <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Montserrat:400,300,700\">\n" +
+    "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css\">\n" +
+    "    <link rel=\"stylesheet\" href=\"../CSS/style.css\">\n" +
+    "    <link rel=\"Stylesheet\" href=\"https://fonts.googleapis.com/css?family=Muli\" type=\"text/css\">\n" +
+    "    <link href=\"https://fonts.googleapis.com/css?family=Titillium+Web:400,300,300italic,400italic,600italic,600\" rel=\"stylesheet\" type=\"text/css\">\n" +
+    "    <link rel=\"Stylesheet\" href=\"css/master.css\" type=\"text/css\">\n" +
+    "    <link rel=\"Stylesheet\" href=\"https://ianlunn.github.io/Hover/css/hover.css\" type=\"text/css\">\n" +
+    "    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js\"></script>\n" +
+    "    <link href=\"../CSS/slide.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
+    "    <title>Decorate</title>\n" +
+    "    <style type=\"text/css\">\n" +
+    "        @import \"compass/css3\";\n" +
+    "        body {\n" +
+    "            background: url(https://3joj3d3qddoejique3e7i6px-wpengine.netdna-ssl.com/wp-content/uploads/2016/07/modular-origami-dragon.jpg) no-repeat;\n" +
+    "            -webkit-background-size: auto;\n" +
+    "            background-size: auto;\n" +
+    "            height: 1000px;\n" +
+    "        }\n" +
+    "        header {\n" +
+    "            font-family: sans-serif;\n" +
+    "            position: fixed;\n" +
+    "            width: 100%;\n" +
+    "            height: 150px;\n" +
+    "            top: 0;\n" +
+    "            left: 0;\n" +
+    "            background-color: rgba(22, 22, 22, 0.4);\n" +
+    "            border-bottom: 3px solid rgba(0, 0, 0, 0.4);\n" +
+    "            -webkit-transition: height 0.3s;\n" +
+    "        }\n" +
+    "        header .container {\n" +
+    "            width: 100%;\n" +
+    "            margin: 0 auto;\n" +
+    "        }\n" +
+    "        header h1 {\n" +
+    "            margin-top: 0;\n" +
+    "            color: #FFFFFF;\n" +
+    "        }\n" +
+    "        header h1, header nav {\n" +
+    "            display: inline-block;\n" +
+    "            position: relative;\n" +
+    "            line-height: 150px;\n" +
+    "            -webkit-transition: all 0.3s;\n" +
+    "        }\n" +
+    "        header a {\n" +
+    "            text-decoration: none;\n" +
+    "            color: #FFFFFF;\n" +
+    "        }\n" +
+    "        header nav {\n" +
+    "            float: right;\n" +
+    "            line-height: 150px;\n" +
+    "            font-size: 1.6em;\n" +
+    "            padding-right: 20px;\n" +
+    "            z-index: 99;\n" +
+    "            height: 100px;\n" +
+    "        }\n" +
+    "        header nav a {\n" +
+    "            margin-top: -10px;\n" +
+    "            margin-left: 10px;\n" +
+    "            color: #333333;\n" +
+    "        }\n" +
+    "        header nav a:hover {\n" +
+    "            border-top: 2px dotted white;\n" +
+    "            border-bottom: 2px dotted white;\n" +
+    "            color: red;\n" +
+    "        }\n" +
+    "        header.minimized {\n" +
+    "            height: 60px;\n" +
+    "        }\n" +
+    "        header.minimized h1, header.minimized nav {\n" +
+    "            line-height: 60px;\n" +
+    "        }\n" +
+    "        header.minimized nav {\n" +
+    "            font-size: 1.2em;\n" +
+    "        }\n" +
+    "        header.minimized h1 {\n" +
+    "            font-size: 1.7em;\n" +
+    "        }\n" +
+    "        .container {\n" +
+    "            height: 700px;\n" +
+    "        }\n" +
+    "        .down_container{\n" +
+    "            margin-top: 910px;\n" +
+    "            background-color: white;\n" +
+    "            min-height: 500px;\n" +
+    "            margin-left: 10px;\n" +
+    "        }\n" +
+    "    </style>\n" +
+    "    <!--For card list-->\n" +
+    "    <style type=\"text/css\">\n" +
+    "\n" +
+    "        .card-list {\n" +
+    "            margin: 0 auto;\n" +
+    "            max-width: 600px;\n" +
+    "            -webkit-perspective: 1200px;\n" +
+    "            perspective: 1200px;\n" +
+    "            z-index: 0;\n" +
+    "        }\n" +
+    "        .card-list .card:last-child {\n" +
+    "            margin-bottom: 0;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card {\n" +
+    "            width: 100%;\n" +
+    "            padding: 10px;\n" +
+    "            background: #fff;\n" +
+    "            border-radius: 3px;\n" +
+    "            height: 47.5vh;\n" +
+    "            margin-top: 5vh;\n" +
+    "            margin-bottom: 5vh;\n" +
+    "            box-shadow: 0 0 6px -1px rgba(0, 0, 0, 0.5);\n" +
+    "            -webkit-transform-origin: bottom center;\n" +
+    "            transform-origin: bottom center;\n" +
+    "            z-index: 0;\n" +
+    "        }\n" +
+    "\n" +
+    "        .image {\n" +
+    "            width: 48%;\n" +
+    "            height: 98%;\n" +
+    "            float: left;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card-content {\n" +
+    "            width: 48%;\n" +
+    "            height: 98%;\n" +
+    "            justify-content: center;\n" +
+    "            float: left;\n" +
+    "           padding-left: 20px;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card-content h1,p {\n" +
+    "            color: #333333;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card-content h1 {\n" +
+    "            " +
+    "        }\n" +
+    "\n" +
+    "        .card-content p {\n" +
+    "            " +
+    "        }\n" +
+    "\n" +
+    "    </style>\n" +
+    "    <!----------------->\n" +
+    "</head>";
+let house_header = "<!DOCTYPE html>\n" +
+    "<html lang=\"en\">\n" +
+    "<head>\n" +
+    "    <meta charset=\"UTF-8\">\n" +
+    "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
+    "    <meta name=\"viewport\" content=\"width=device-width\">\n" +
+    "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css\">\n" +
+    "    <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Montserrat:400,300,700\">\n" +
+    "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css\">\n" +
+    "    <link rel=\"stylesheet\" href=\"../CSS/style.css\">\n" +
+    "    <link rel=\"Stylesheet\" href=\"https://fonts.googleapis.com/css?family=Muli\" type=\"text/css\">\n" +
+    "    <link href=\"https://fonts.googleapis.com/css?family=Titillium+Web:400,300,300italic,400italic,600italic,600\" rel=\"stylesheet\" type=\"text/css\">\n" +
+    "    <link rel=\"Stylesheet\" href=\"css/master.css\" type=\"text/css\">\n" +
+    "    <link rel=\"Stylesheet\" href=\"https://ianlunn.github.io/Hover/css/hover.css\" type=\"text/css\">\n" +
+    "    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js\"></script>\n" +
+    "    <link href=\"../CSS/slide.css\" rel=\"stylesheet\" type=\"text/css\">\n" +
+    "    <title>Decorate</title>\n" +
+    "    <style type=\"text/css\">\n" +
+    "        @import \"compass/css3\";\n" +
+    "        body {\n" +
+    "            background: url(https://file.hstatic.net/1000219392/file/nha_mo_hinh_handmade_cua_thuy_linh__4_.jpg) no-repeat;\n" +
+    "            -webkit-background-size: auto;\n" +
+    "            background-size: auto;\n" +
+    "            height: 1000px;\n" +
+    "        }\n" +
+    "        header {\n" +
+    "            font-family: sans-serif;\n" +
+    "            position: fixed;\n" +
+    "            width: 100%;\n" +
+    "            height: 150px;\n" +
+    "            top: 0;\n" +
+    "            left: 0;\n" +
+    "            background-color: rgba(22, 22, 22, 0.4);\n" +
+    "            border-bottom: 3px solid rgba(0, 0, 0, 0.4);\n" +
+    "            -webkit-transition: height 0.3s;\n" +
+    "        }\n" +
+    "        header .container {\n" +
+    "            width: 100%;\n" +
+    "            margin: 0 auto;\n" +
+    "        }\n" +
+    "        header h1 {\n" +
+    "            margin-top: 0;\n" +
+    "            color: #FFFFFF;\n" +
+    "        }\n" +
+    "        header h1, header nav {\n" +
+    "            display: inline-block;\n" +
+    "            position: relative;\n" +
+    "            line-height: 150px;\n" +
+    "            -webkit-transition: all 0.3s;\n" +
+    "        }\n" +
+    "        header a {\n" +
+    "            text-decoration: none;\n" +
+    "            color: #FFFFFF;\n" +
+    "        }\n" +
+    "        header nav {\n" +
+    "            float: right;\n" +
+    "            line-height: 150px;\n" +
+    "            font-size: 1.6em;\n" +
+    "            padding-right: 20px;\n" +
+    "            z-index: 99;\n" +
+    "            height: 100px;\n" +
+    "        }\n" +
+    "        header nav a {\n" +
+    "            margin-top: -10px;\n" +
+    "            margin-left: 10px;\n" +
+    "            color: #333333;\n" +
+    "        }\n" +
+    "        header nav a:hover {\n" +
+    "            border-top: 2px dotted white;\n" +
+    "            border-bottom: 2px dotted white;\n" +
+    "            color: red;\n" +
+    "        }\n" +
+    "        header.minimized {\n" +
+    "            height: 60px;\n" +
+    "        }\n" +
+    "        header.minimized h1, header.minimized nav {\n" +
+    "            line-height: 60px;\n" +
+    "        }\n" +
+    "        header.minimized nav {\n" +
+    "            font-size: 1.2em;\n" +
+    "        }\n" +
+    "        header.minimized h1 {\n" +
+    "            font-size: 1.7em;\n" +
+    "        }\n" +
+    "        .container {\n" +
+    "            height: 700px;\n" +
+    "        }\n" +
+    "        .down_container{\n" +
+    "            margin-top: 910px;\n" +
+    "            background-color: white;\n" +
+    "            min-height: 500px;\n" +
+    "            margin-left: 10px;\n" +
+    "        }\n" +
+    "    </style>\n" +
+    "    <!--For card list-->\n" +
+    "    <style type=\"text/css\">\n" +
+    "\n" +
+    "        .card-list {\n" +
+    "            margin: 0 auto;\n" +
+    "            max-width: 600px;\n" +
+    "            -webkit-perspective: 1200px;\n" +
+    "            perspective: 1200px;\n" +
+    "            z-index: 0;\n" +
+    "        }\n" +
+    "        .card-list .card:last-child {\n" +
+    "            margin-bottom: 0;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card {\n" +
+    "            width: 100%;\n" +
+    "            padding: 10px;\n" +
+    "            background: #fff;\n" +
+    "            border-radius: 3px;\n" +
+    "            height: 47.5vh;\n" +
+    "            margin-top: 5vh;\n" +
+    "            margin-bottom: 5vh;\n" +
+    "            box-shadow: 0 0 6px -1px rgba(0, 0, 0, 0.5);\n" +
+    "            -webkit-transform-origin: bottom center;\n" +
+    "            transform-origin: bottom center;\n" +
+    "            z-index: 0;\n" +
+    "        }\n" +
+    "\n" +
+    "        .image {\n" +
+    "            width: 48%;\n" +
+    "            height: 98%;\n" +
+    "            float: left;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card-content {\n" +
+    "            width: 48%;\n" +
+    "            height: 98%;\n" +
+    "            justify-content: center;\n" +
+    "            float: left;\n" +
+    "           padding-left: 20px;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card-content h1,p {\n" +
+    "            color: #333333;\n" +
+    "        }\n" +
+    "\n" +
+    "        .card-content h1 {\n" +
+    "            " +
+    "        }\n" +
+    "\n" +
+    "        .card-content p {\n" +
+    "            " +
+    "        }\n" +
+    "\n" +
+    "    </style>\n" +
+    "    <!----------------->\n" +
+    "</head>";
 ///////////////////// xử lý đống socket
-////////////////////////////////////////////////////// for like
-
 exports.IncreaseLike = function (id) {
+
     aws.config.update({
         region: "us-east-1",
         endpoint: "http://dynamodb.us-east-1.amazonaws.com",
@@ -2641,12 +3461,12 @@ exports.DecreaseLike = function (id) {
     });
 }
 function LowLike(id,Like) {
-
     aws.config.update({
         region: "us-east-1",
         endpoint: "https://dynamodb.us-east-1.amazonaws.com",
         "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
     });
+
     let docClient = new aws.DynamoDB.DocumentClient();
     let params = {
         TableName: "handmadevideo01",
@@ -2667,8 +3487,9 @@ function LowLike(id,Like) {
         }
     });
 }
-
 function AddLike (id,Like){
+
+////////////////////////////////////////////////////// for like
     aws.config.update({
         region: "us-east-1",
         endpoint: "https://dynamodb.us-east-1.amazonaws.com",

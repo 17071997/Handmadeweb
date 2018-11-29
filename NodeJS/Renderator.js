@@ -1363,7 +1363,7 @@ module.exports = {
             "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function postedrender() {\n" +
-            "                        window.location.href = \"/postedrender?email=tranthevu.iuh@gmail.com\"\n" +
+            "                        window.location.href = \"/postedrender?email=" + email + "\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -1371,23 +1371,7 @@ module.exports = {
             "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function Commentrender() {\n" +
-            "                        window.location.href = \"/Commentrender?email=tranthevu.iuh@gmail.com\"\n" +
-            "                    }\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Đang theo dõi\" onclick=\"WatchingRender()\">Đang theo dõi</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "                    function WatchingRender() {\n" +
-            "                        window.location.href = \"/WatchingRender\"\n" +
-            "                    }\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Những người theo dõi\" onclick=\"WatchedRender()\">Những người theo dõi</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "                    function WatchedRender() {\n" +
-            "                        window.location.href = \"/WatchedRender\"\n" +
+            "                        window.location.href = \"/Commentrender?email=" + email + "\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
@@ -1395,7 +1379,7 @@ module.exports = {
             "                <a href=\"javascript:void(0);\" data-title=\"Viết bài\" onclick=\"editorrender()\">Viết bài</a>\n" +
             "                <script type=\"text/javascript\">\n" +
             "                    function editorrender() {\n" +
-            "                        window.location.href = \"/editorrender\"\n" +
+            "                        window.location.href = \"/editorrender?email=" + email + "\"\n" +
             "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
