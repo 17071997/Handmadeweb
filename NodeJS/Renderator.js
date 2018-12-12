@@ -3,7 +3,7 @@ let config = require('./config.json');
 let email = "";
 
 module.exports = {
-    EditorPageRender : function (req,res,email) {
+    EditorPageRender : function (email,req,res) {
         let code = "\n" +
             "\n" +
             "<!DOCTYPE html>\n" +
@@ -397,7 +397,7 @@ module.exports = {
             "            position: relative;\n" +
             "        }\n" +
             "        header {\n" +
-            "            width: 200px;\n" +
+            "            width: 270px;\n" +
             "            height: 100%;\n" +
             "            float: left;\n" +
             "            position: relative;\n" +
@@ -529,9 +529,11 @@ module.exports = {
             "            padding-right: 10px;\n" +
             "        }\n" +
             "    </style>\n" +
+            "    <script src=\"http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js\"></script>\n" +
             "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
             "    <script>\n" +
             "        $(document).ready( function() {\n" +
+            "            $(\"#description\").summernote();" +
             "            $('body').on(\"click\", \".larg div h3\", function(){\n" +
             "                if ($(this).children('span').hasClass('close')) {\n" +
             "                    $(this).children('span').removeClass('close');\n" +
@@ -549,12 +551,18 @@ module.exports = {
             "            });\n" +
             "        });\n" +
             "    </script>\n" +
-            "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
+            "    <link rel=\"stylesheet\" href='http://www.tinymce.com/css/codepen.min.css'>" +
+            "    <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css" +
+            "    /bootstrap.min.css\" integrity=\"sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO\" crossorigin=\"anonymous\">\n" +
+            "    <link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.5.0/css/all.css\" integrity=\"sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU\" " +
+            "    crossorigin=\"anonymous\">\n" +
+            "    <link href=\"http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css\" rel=\"stylesheet\">\n" +
+            "" +
             "</head>\n" +
             "<body>\n" +
             "<span class=\"bckg\">\n" +
             "    <header>\n" +
-            "    <a href=\"/writerpage\" id=\"home\">Dashboard</a>\n" +
+            "    <a href=\"/writerpage?email=" + email + "\" id=\"home\">Dashboard</a>\n" +
             "    <nav>\n" +
             "        <ul>\n" +
             "            <li>\n" +
@@ -582,22 +590,22 @@ module.exports = {
             "                </script>\n" +
             "            </li>\n" +
             "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Tìm kiếm\" onclick=\"FindingRender()\">Tìm kiếm</a>\n" +
-            "                <script type=\"text/javascript\"></script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
             "                <span style=\"color: red; margin-left: -5px;\">Dangerous place !</span>\n" +
             "            </li>\n" +
             "            <li>\n" +
             "                <a href=\"javascript:void(0);\" data-title=\"Xóa bài đăng\" onclick=\"RemovePost()\">Xóa bài đăng</a>\n" +
             "                <script type=\"text/javascript\">\n" +
-            "\n" +
+            "                    function RemovePost(){\n" +
+            "                        window.location.href = \"/removeposts?email=" + email + "\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function Signout(){\n" +
+            "                        window.location.href = \"/login\"\n" +
+            "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
             "        </ul>\n" +
@@ -611,44 +619,6 @@ module.exports = {
             "    </div>\n" +
             "    <div class=\"rendered\">\n" +
             "        <!-- views/partials/editor.ejs -->\n" +
-            "        <label>\n" +
-            "        <textarea>\n" +
-            "            <h1 style=\"text-align: center;\">Welcome to this editor demo!</h1>\n" +
-            "            <p>Please try out the features provided in this basic example.<br>\n" +
-            "                Note that any file and image management functionality in this example is part of our commercial offering – the demo is to show the integration.\n" +
-            "            </p>\n" +
-            "            <h2>Got questions or need help?</h2>\n" +
-            "            <ul>\n" +
-            "                <li>Our <a href=\"https://www.tinymce.com/docs/\">documentation</a> is a great resource for learning how to configure TinyMCE.</li>\n" +
-            "                <li>Have a specific question? Visit the <a href=\"https://community.tinymce.com/forum/\">Community Forum</a>.</li>\n" +
-            "                <li>We also offer enterprise grade support as part of <a href=\"www.tinymce.com/pricing\">TinyMCE Enterprise</a>.</li>\n" +
-            "            </ul>\n" +
-            "            <h2>A simple table to play with</h2>\n" +
-            "            <table style=\"text-align: center;\">\n" +
-            "                <thead>\n" +
-            "                    <tr>\n" +
-            "                        <th>Product</th>\n" +
-            "                        <th>Cost</th>\n" +
-            "                        <th>Really?</th>\n" +
-            "                    </tr>\n" +
-            "                </thead>\n" +
-            "                <tbody>\n" +
-            "                    <tr>\n" +
-            "                        <td>TinyMCE</td>\n" +
-            "                        <td>Free</td>\n" +
-            "                        <td>YES!</td>\n" +
-            "                    </tr>\n" +
-            "                    <tr>\n" +
-            "                        <td>Plupload</td>\n" +
-            "                        <td>Free</td>\n" +
-            "                        <td>YES!</td>\n" +
-            "                    </tr>\n" +
-            "                </tbody>\n" +
-            "            </table>\n" +
-            "        </textarea>\n" +
-            "        </label>\n" +
-            "    </div>\n" +
-            "    <h1 style=\"margin-top: 20px;\">Hoặc có thể bạn muốn up video ! :))</h1>\n" +
             "    <!--Upload video field-->\n" +
             "    <div class=\"container\">\n" +
             "        <div class=\"section\">\n" +
@@ -664,36 +634,36 @@ module.exports = {
             "\n" +
             "                <div class=\"row\">\n" +
             "                    <div class=\"input-field col m6 s12\">\n" +
-            "                        <input id=\"video_title\" type=\"text\" class=\"validate\" name=\"video_title\">\n" +
+            "                        <input id=\"video_title\" type=\"text\" class=\"validate\" name=\"video_title\" required>\n" +
             "                        <label for=\"video_title\">Tựa đề video</label>\n" +
             "                    </div>\n" +
             "\n" +
             "                    <div class=\"input-field col m6 s12\">\n" +
-            "                        <input id=\"email\" type=\"email\" class=\"validate\" name=\"email\">\n" +
+            "                        <input id=\"email\" type=\"email\" class=\"validate\" name=\"email\" required>\n" +
             "                        <label for=\"email\">Email của bạn</label>\n" +
             "                    </div>\n" +
             "                    <div class=\"input-field col s12\">\n" +
-            "                        <input id=\"video_description\" type=\"text\" class=\"validate\" name=\"video_description\">\n" +
+            "                        <input id=\"video_description\" type=\"text\" class=\"validate\" name=\"video_description\" required>\n" +
             "                        <label for=\"video_description\">Mô tả video</label>\n" +
             "                    </div>\n" +
             "\n" +
             "                    <div class=\"file-field input-field col s12\">\n" +
             "                        <div class=\"btn\">\n" +
             "                            <span>Video</span>\n" +
-            "                            <input type=\"file\" accept=\"video/*\" id=\"fileupload\" name=\"fileupload\">\n" +
+            "                            <input type=\"file\" accept=\"video/*\" id=\"fileupload\" name=\"fileupload\" required>\n" +
             "                        </div>\n" +
             "                        <div class=\"file-path-wrapper\">\n" +
-            "                            <input class=\"file-path validate\" type=\"text\" placeholder=\"Click để chọn file upload\">\n" +
+            "                            <input class=\"file-path validate\" type=\"text\" placeholder=\"Click để chọn file upload\" required>\n" +
             "                        </div>\n" +
             "                    </div>\n" +
             "\n" +
             "                    <div class=\"input-field col m6 s12\">\n" +
-            "                        <input id=\"video_path\" type=\"text\" class=\"validate\" name=\"video_path\" placeholder=\"Đường dẫn video\" />\n" +
+            "                        <input id=\"video_path\" type=\"text\" class=\"validate\" name=\"video_path\" placeholder=\"Đường dẫn video\" required />\n" +
             "                    </div>\n" +
             "\n" +
             "                    <div class=\"input-field col m6 s12\">\n" +
             "                        <label>\n" +
-            "                            <select class=\"cs-select cs-skin-elastic\" name=\"video_tags\">\n" +
+            "                            <select class=\"cs-select cs-skin-elastic\" name=\"video_tags\" required>\n" +
             "                                <option value=\"\" disabled selected>Chọn loại video</option>\n" +
             "                                <option value=\"Origami\">Origami</option>\n" +
             "                                <option value=\"Cook\">Nấu ăn</option>\n" +
@@ -706,15 +676,15 @@ module.exports = {
             "                    <div class=\"file-field input-field col s12\">\n" +
             "                        <div class=\"btn\">\n" +
             "                            <span>Ảnh đại diện</span>\n" +
-            "                            <input type=\"file\" accept=\"image/*\" id=\"imageupload\" name=\"imageupload\">\n" +
+            "                            <input type=\"file\" accept=\"image/*\" id=\"imageupload\" name=\"imageupload\" required>\n" +
             "                        </div>\n" +
             "                        <div class=\"file-path-wrapper\">\n" +
-            "                            <input class=\"file-path validate\" type=\"text\" placeholder=\"Click để chọn file upload\">\n" +
+            "                            <input class=\"file-path validate\" type=\"text\" placeholder=\"Click để chọn file upload\" required>\n" +
             "                        </div>\n" +
             "                    </div>\n" +
             "\n" +
             "                    <div class=\"input-field col s12\">\n" +
-            "                        <input id=\"image_path\" type=\"text\" class=\"validate\" name=\"image_path\" placeholder=\"Đường dẫn hình ảnh\" />\n" + "                    </div>\n" +
+            "                        <input id=\"image_path\" type=\"text\" class=\"validate\" name=\"image_path\" placeholder=\"Đường dẫn hình ảnh\" required/>\n" + "                    </div>\n" +
             "\n" +
             "                    <div class=\"input-field col m4 s12\">\n" +
             "                        <input type=\"submit\" class=\"waves-effect waves-light btn-large\" value=\"Upload Video\" name=\"submit\"/>\n" +
@@ -2202,7 +2172,7 @@ module.exports = {
             "<body>\n" +
             "<span class=\"bckg\">\n" +
             "    <header>\n" +
-            "    <a href=\"/writerpage\" id=\"home\">Dashboard</a>\n" +
+            "    <a href=\"/writerpage?email=" + email + "\" id=\"home\">Dashboard</a>\n" +
             "    <nav>\n" +
             "        <ul>\n" +
             "            <li>\n" +
@@ -2230,22 +2200,22 @@ module.exports = {
             "                </script>\n" +
             "            </li>\n" +
             "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Tìm kiếm\" onclick=\"FindingRender()\">Tìm kiếm</a>\n" +
-            "                <script type=\"text/javascript\"></script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
-            "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
-            "                <script type=\"text/javascript\">\n" +
-            "\n" +
-            "                </script>\n" +
-            "            </li>\n" +
-            "            <li>\n" +
             "                <span style=\"color: red; margin-left: -5px;\">Dangerous place !</span>\n" +
             "            </li>\n" +
             "            <li>\n" +
             "                <a href=\"javascript:void(0);\" data-title=\"Xóa bài đăng\" onclick=\"RemovePost()\">Xóa bài đăng</a>\n" +
             "                <script type=\"text/javascript\">\n" +
-            "\n" +
+            "                    function RemovePost(){\n" +
+            "                        window.location.href = \"/removeposts?email=" + email + "\"\n" +
+            "                    }\n" +
+            "                </script>\n" +
+            "            </li>\n" +
+            "            <li>\n" +
+            "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
+            "                <script type=\"text/javascript\">\n" +
+            "                    function Signout(){\n" +
+            "                        window.location.href = \"/login\"\n" +
+            "                    }\n" +
             "                </script>\n" +
             "            </li>\n" +
             "        </ul>\n" +

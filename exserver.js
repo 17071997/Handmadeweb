@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+let http = require('http').Server(app);
 let multer = require('multer');
 let bodyParser = require('body-parser');
 let AWS = require('aws-sdk');
@@ -15,7 +16,6 @@ let urlencodedParser = bodyParser.urlencoded({ extended : true });
 let OptionalFunction = require('./NodeJS/OptionalFunctions');
 let session = require('express-session');
 let AWSDynamoPost = require('./NodeJS/PostToAWS');
-let http = require('http').Server(app);
 
 app.use(express.static('public'));
 //app.use(morgan('dev'));
@@ -114,14 +114,18 @@ app.get('/house',function (req,res) {
     AWSDynamoRetrieve.GetHouseBody(req,res);
 });
 
-app.get('/writerpage', (req,res) =>  {
+app.get('/writerpage',urlencodedParser, (req,res) =>  {
     //res.sendFile(__dirname+ "/public/view/" + 'WriterPage.html');
-    Renderator.WriterPageRender(req,res);
+    let query = url.parse(req.url,true).query;
+    let email = query.email;
+    Renderator.WriterPageRender(email,req,res);
 });
 
-app.get('/editorrender', (req,res) => {
+app.get('/editorrender', urlencodedParser, (req,res) => {
     //res.sendFile(__dirname+ "/public/view/partials/" + 'EditorPage.html');
-    Renderator.EditorPageRender(req,res);
+    let query = url.parse(req.url,true).query;
+    let email = query.email;
+    Renderator.EditorPageRender(email,req,res);
 });
 app.post("/Dangbai", urlencodedParser, upload.any(), function (req,res,next) {
     fs.readdir("./api/data/", (err,files) =>{
@@ -192,6 +196,8 @@ app.post("/Dangbai", urlencodedParser, upload.any(), function (req,res,next) {
                                 "email" : email,
                                 "urlVideo" : urlVideo,
                                 "image" : image,
+                                "like_count": like_count,
+                                "dislike_count": dislike_count,
                                 "title" : title,
                                 "summary" : summary,
                                 "tags" : tags
@@ -204,7 +210,7 @@ app.post("/Dangbai", urlencodedParser, upload.any(), function (req,res,next) {
                             else
                                 console.log("Added item:",JSON.stringify(data,null,2));
                         });
-                        res.redirect("/editorrender");
+                        res.redirect("/editorrender?email=" + email);
                     }
                 });
             }
@@ -252,6 +258,12 @@ app.get('/Commentrender', (req,res) => {
     AWSDynamoRetrieve.GetCommentOnVideoByEmail(req,res,email);
 });
 
+app.get('/removeposts', (req,res) => {
+    let query = url.parse(req.url,true).query;
+    let email = query.email;
+    AWSDynamoRetrieve.RemoveFromList(email,res);
+});
+
 app.post('/authenticate',urlencodedParser,function (req,res,next) {
     //parameter 'next' used for jwt, but i'll add it later
     let email = req.body.email.toString();
@@ -283,6 +295,10 @@ io.on('connection', function (socket) {
         console.log("User " + data.guestemail + " commented a video has id is " + data.idvideo);
         io.emit('comment',data);
     });
+    socket.on('remove',function (data) {
+        AWSDynamoPost.RemoveVideo(data.id);
+        io.emit('remove',"Xin lỗi nhé, thằng admin vừa xóa video " + data.name);
+    })
 });
 
 http.listen(8001, function () {

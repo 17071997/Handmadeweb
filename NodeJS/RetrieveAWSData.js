@@ -762,6 +762,9 @@ exports.GetVideoByID = function (urlVideo,id,owner,res){
         "<script>\n" +
         "   let socket = io();" +
         "   $(document).ready(()=>{\n" +
+        "       socket.on('remove',function(data){\n" +
+        "           alert(data);\n" +
+        "       });\n" +
         "       $(document).on(\"click\",\"#button_blue\",function(){\n" +
         "           let email = $(\"#email\").val();\n" +
         "           let content = $(\"#comment\").val();\n" +
@@ -849,23 +852,10 @@ exports.GetVideoByID = function (urlVideo,id,owner,res){
         };
         docClient.scan( params9, (err,data) => {
            if (err) {
-               volting += "               <div class=\"volt\">\n" +
-                   "                   <i class=\"far fa-thumbs-up\" id=\"like\"> Like</i>\n" +
-                   "                   <script>\n" +
-                   "                       $(\"#like\").click((id)=>{\n" +
-                   "                           let value = $(this).attr(\"value\");\n" +
-                   "                           $(\"#like\").text(String.valueOf(value)+\" like\");" +
-                   "                       });\n" +
-                   "                   </script>\n" +
-                   "               </div>\n" +
-                   "               <div class=\"volt\">\n" +
-                   "                   <i class=\"far fa-thumbs-down\" id=\"dislike\"> Dislike</i>\n" +
-                   "               </div>\n" +
-                   "               <input type=\"submit\" value=\"Follow\" class=\"ease\" id=\"button_red\" style=\"margin-top:-10px;\"/>\n" +
-                   "            </div>\n";
                console.log (JSON.stringify(err,null,2));
            } else {
                data.Items.forEach((item) => {
+
                    volting += "               <div class=\"volt\">\n" +
                        "                           <i class=\"far fa-thumbs-up\" id=\"like\">" + item.like_count + " Like</i>\n" +
                        "                      </div>\n" +
@@ -891,6 +881,7 @@ exports.GetVideoByID = function (urlVideo,id,owner,res){
                        "                </div>\n" +
                        "                <div class=\"comment\">\n" +
                        "                    <ul class=\"comment_area\">\n";
+
                });
                let code_tam_thoi = videoViewer_start + volting;
                GetCommentAndVideoList(id,urlVideo,owner,code_tam_thoi,res);
@@ -1002,7 +993,7 @@ exports.GetPostsByEmail = function (email,res) {
         "            position: relative;\n" +
         "        }\n" +
         "        header {\n" +
-        "            width: 200px;\n" +
+        "            width: 270px;\n" +
         "            height: 100%;\n" +
         "            float: left;\n" +
         "            position: relative;\n" +
@@ -1013,6 +1004,9 @@ exports.GetPostsByEmail = function (email,res) {
         "            padding-left: 48px;\n" +
         "            transition: all 0.6s;\n" +
         "            border-top: 1px solid #2E3036;\n" +
+        "        }\n" +
+        "        .DashBoard{\n" +
+        "            line-height: 50px;\n" +
         "        }\n" +
         "        header nav ul li:hover {\n" +
         "            background-color: #454952;\n" +
@@ -1129,143 +1123,131 @@ exports.GetPostsByEmail = function (email,res) {
         "        }\n" +
         "    </style>\n" +
         "    <style type=\"text/css\">\n" +
+        "        @import url(\"https://fonts.googleapis.com/css?family=Open+Sans\");\n" +
+        "        body {\n" +
+        "            margin: 0;\n" +
+        "            width: 100vw;\n" +
+        "            overflow-x: hidden;\n" +
+        "            background-color: #f0f0f0;\n" +
+        "            font-family: 'Open Sans', sans-serif;\n" +
+        "            font-size: 14.5px;\n" +
+        "            line-height: 1.4em;\n" +
+        "            color: #404646;\n" +
+        "       }\n" +
+        "\n" +
+        "       * {\n" +
+        "            box-sizing: border-box;\n" +
+        "        }\n" +
         "        .wrapper {\n" +
         "            width: auto;\n" +
         "            max-width: 1300px;" +
         "            height: auto;\n" +
-        "            margin: -15px auto auto 25px;\n" +
+        "            margin: 550px auto auto 140px;\n" +
         "        }\n" +
-        "        .product-grid {\n" +
-        "            width: 60em;\n" +
-        "            margin: 2% auto;\n" +
+        "        .container {\n" +
+        "            min-height: 100vh;\n" +
+        "            width: 1000px;\n" +
+        "            margin: auto;\n" +
+        "            padding: 1.6em;\n" +
+        "            display: grid;\n" +
+        "            justify-content: center;\n" +
+        "            align-content: start;\n" +
+        "            grid-gap: 1.6em;\n" +
+        "            grid-template: auto/repeat(auto-fill, minmax(27em, 27em));\n" +
         "        }\n" +
-        "        .product-grid.product-grid--flexbox .product-grid__wrapper {\n" +
+        "\n" +
+        "        .card {\n" +
+        "            margin: 0;\n" +
+        "            height: 15em;\n" +
         "            display: flex;\n" +
-        "            flex-wrap: wrap;\n" +
+        "            background-color: white;\n" +
+        "            box-shadow: 1px 3px 3px rgba(0, 10, 20, 0.06);\n" +
         "        }\n" +
-        "        .product-grid.product-grid--flexbox .product-grid__title {\n" +
-        "            height: auto;\n" +
+        "        .card img {\n" +
+        "            height: 100%;\n" +
+        "            width: 50%;\n" +
+        "            max-width: 50%;\n" +
+        "            -o-object-fit: cover;\n" +
+        "            object-fit: cover;\n" +
+        "            flex: 1 1 auto;\n" +
         "        }\n" +
-        "        .product-grid.product-grid--flexbox .product-grid__title:after {\n" +
-        "            display: none;\n" +
-        "        }\n" +
-        "        .product-grid__wrapper {\n" +
-        "            margin-left: -1rem;\n" +
-        "            margin-right: -1rem;\n" +
-        "        }\n" +
-        "        .product-grid__product-wrapper {\n" +
-        "            padding: 1rem;\n" +
-        "            float: left;\n" +
-        "            width: 33.33333%;\n" +
-        "        }\n" +
-        "        .product-grid__product {\n" +
-        "            padding: 1rem;\n" +
-        "            position: relative;\n" +
-        "            cursor: pointer;\n" +
-        "            background: #fff;\n" +
-        "            border-radius: 4px;\n" +
-        "        }\n" +
-        "        .product-grid__product:hover {\n" +
-        "            box-shadow: 0px 0px 0px 1px #eee;\n" +
-        "            z-index: 50;\n" +
-        "        }\n" +
-        "        .product-grid__product:hover .product-grid__extend {\n" +
-        "            display: block;\n" +
-        "        }\n" +
-        "        .product-grid__img-wrapper {\n" +
-        "            width: 100%;\n" +
-        "            text-align: center;\n" +
-        "            padding-top: 1rem;\n" +
-        "            padding-bottom: 1rem;\n" +
-        "            height: 150px;\n" +
-        "        }\n" +
-        "        .product-grid__img {\n" +
-        "            max-width: 100%;\n" +
-        "            height: auto;\n" +
+        "\n" +
+        "        .card-body {\n" +
+        "            width: 12em;\n" +
         "            max-height: 100%;\n" +
+        "            flex: 1 1 auto;\n" +
+        "            display: flex;\n" +
+        "            flex-flow: column nowrap;\n" +
+        "            justify-content: flex-start;\n" +
+        "            padding: 1.6em;\n" +
         "        }\n" +
-        "        .product-grid__title {\n" +
-        "            margin-top: 0.875rem;\n" +
-        "            display: block;\n" +
-        "            font-size: 1.125em;\n" +
-        "            color: #222;\n" +
-        "            height: 3em;\n" +
+        "        button {\n" +
+        "            min-width: 8.3em;\n" +
+        "            flex: none;\n" +
+        "            align-self: flex-start;\n" +
+        "            margin-top: auto;\n" +
+        "            margin-left: 20px;\n" +
+        "            padding: 0.6em 1.2em;\n" +
+        "            font-size: 0.92em;\n" +
+        "            color: #404646;\n" +
+        "            background: none;\n" +
+        "            border: 1px solid #333333;\n" +
+        "            border-radius: 2px;\n" +
+        "        }\n" +
+        "        .card-body button:hover {\n" +
+        "            border-color: #d099a0;\n" +
+        "        }\n" +
+        "\n" +
+        "        .card-text {\n" +
+        "            position: relative;\n" +
+        "            flex: 1;\n" +
         "            overflow: hidden;\n" +
-        "            position: relative;\n" +
+        "            text-overflow: ellipsis;\n" +
+        "            margin: 0 0 0.8em 0;\n" +
+        "            padding-left: 10px;\n" +
         "        }\n" +
-        "        .product-grid__title:after {\n" +
-        "            content: \"\";\n" +
-        "            display: block;\n" +
-        "            position: absolute;\n" +
-        "            bottom: 0;\n" +
-        "            right: 0;\n" +
-        "            width: 2.4em;\n" +
-        "            height: 1.5em;\n" +
-        "            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);\n" +
+        "        .card-text h3, .card-text p {\n" +
+        "            margin-top: 0;\n" +
         "        }\n" +
-        "        .product-grid__price {\n" +
-        "            color: #e91e63;\n" +
-        "            font-weight: bold;\n" +
-        "            letter-spacing: 0.4px;\n" +
+        "        .card-text:hover {\n" +
+        "            background: linear-gradient(rgba(255, 255, 255, 0), #44D5AC);\n" +
         "        }\n" +
-        "        .product-grid__extend-wrapper {\n" +
-        "            position: relative;\n" +
+        "\n" +
+        "        .review{\n" +
+        "            width: 1500px;\n" +
+        "            height: 500px;\n" +
+        "            float: left;\n" +
+        "            background-color: #333333;\n" +
+        "            margin-left: 50px;\n" +
+        "            margin-top: 10px;\n" +
         "        }\n" +
-        "        .product-grid__extend {\n" +
-        "            display: none;\n" +
-        "            position: absolute;\n" +
-        "            padding: 0 1rem 1rem 1rem;\n" +
-        "            margin: 0.4375rem -1rem 0;\n" +
-        "            box-shadow: 0px 0px 0px 1px #eee;\n" +
-        "            background: #fff;\n" +
-        "            border-radius: 0 0 4px 4px;\n" +
-        "        }\n" +
-        "        .product-grid__extend:before {\n" +
-        "            content: \"\";\n" +
-        "            height: 0.875rem;\n" +
-        "            width: 100%;\n" +
-        "            position: absolute;\n" +
-        "            top: -0.4375rem;\n" +
-        "            left: 0;\n" +
-        "            background: #fff;\n" +
-        "        }\n" +
-        "        .product-grid__description {\n" +
-        "            font-size: 0.875em;\n" +
-        "            margin-top: 0.4375rem;\n" +
-        "            margin-bottom: 0;\n" +
-        "        }\n" +
-        "        .product-grid__btn {\n" +
-        "            display: inline-block;\n" +
-        "            font-size: 0.875em;\n" +
-        "            color: #777;\n" +
-        "            background: #eee;\n" +
-        "            padding: 0.5em 0.625em;\n" +
-        "            margin-top: 0.875rem;\n" +
-        "            margin-right: 0.625rem;\n" +
-        "            cursor: pointer;\n" +
-        "            border-radius: 4px;\n" +
-        "        }\n" +
-        "        .product-grid__btn i.fa {\n" +
-        "            margin-right: 0.3125rem;\n" +
-        "        }\n" +
-        "        .product-grid__add-to-cart {\n" +
-        "            color: #fff;\n" +
-        "            background: #e91e63;\n" +
-        "        }\n" +
-        "        .product-grid__add-to-cart:hover {\n" +
-        "            background: #ee4c83;\n" +
-        "        }\n" +
-        "        .product-grid__view {\n" +
-        "            color: #777;\n" +
-        "            background: #eee;\n" +
-        "        }\n" +
-        "        .product-grid__view:hover {\n" +
-        "            background: #fff;\n" +
-        "        }\n" +
+        "\n" +
+        "        @media (max-width: 570px) {\n" +
+        "           .container {\n" +
+        "                grid-template: auto / 1fr;\n" +
+        "                padding: 1.0666666667em;\n" +
+        "           }\n" +
+        "\n" +
+        "           .card {\n" +
+        "                flex: 1 1 auto;\n" +
+        "                display: flex;\n" +
+        "                background-color: white;\n" +
+        "                box-shadow: 1px 3px 3px rgba(0, 10, 20, 0.06);\n" +
+        "                -webkit-border-radius: 25px;-moz-border-radius: 25px;border-radius: 25px;\n" +
+        "           }\n" +
+        "           .card img {\n" +
+        "                max-width: 45%;\n" +
+        "           }\n" +
+        "       }\n" +
         "\n" +
         "    </style>\n" +
         "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
         "    <script>\n" +
+        "        function changeSource(url) {\n" +
+        "            var video = document.getElementById('video');\n" +
+        "            video.src = url;\n" +
+        "            video.play();\n" +
+        "        }" +
         "        $(document).ready( function() {\n" +
         "            $('body').on(\"click\", \".larg div h3\", function(){\n" +
         "                if ($(this).children('span').hasClass('close')) {\n" +
@@ -1289,7 +1271,7 @@ exports.GetPostsByEmail = function (email,res) {
         "<body>\n" +
         "<span class=\"bckg\">\n" +
         "    <header>\n" +
-        "    <a href=\"/writerpage\" id=\"home\">Dashboard</a>\n" +
+        "    <a href=\"/writerpage?email=" + email + "\" id=\"home\" class=\"DashBoard\">Dashboard</a>\n" +
         "    <nav>\n" +
         "        <ul>\n" +
         "            <li>\n" +
@@ -1317,22 +1299,22 @@ exports.GetPostsByEmail = function (email,res) {
         "                </script>\n" +
         "            </li>\n" +
         "            <li>\n" +
-        "                <a href=\"javascript:void(0);\" data-title=\"Tìm kiếm\" onclick=\"FindingRender()\">Tìm kiếm</a>\n" +
-        "                <script type=\"text/javascript\"></script>\n" +
-        "            </li>\n" +
-        "            <li>\n" +
-        "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
-        "                <script type=\"text/javascript\">\n" +
-        "\n" +
-        "                </script>\n" +
-        "            </li>\n" +
-        "            <li>\n" +
         "                <span style=\"color: red; margin-left: -5px;\">Dangerous place !</span>\n" +
         "            </li>\n" +
         "            <li>\n" +
         "                <a href=\"javascript:void(0);\" data-title=\"Xóa bài đăng\" onclick=\"RemovePost()\">Xóa bài đăng</a>\n" +
         "                <script type=\"text/javascript\">\n" +
-        "\n" +
+        "                    function RemovePost(){\n" +
+        "                        window.location.href = \"/removeposts?email=" + email + "\"\n" +
+        "                    }\n" +
+        "                </script>\n" +
+        "            </li>\n" +
+        "            <li>\n" +
+        "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
+        "                <script type=\"text/javascript\">\n" +
+        "                    function Signout(){\n" +
+        "                        window.location.href = \"/login\"\n" +
+        "                    }\n" +
         "                </script>\n" +
         "            </li>\n" +
         "        </ul>\n" +
@@ -1344,6 +1326,13 @@ exports.GetPostsByEmail = function (email,res) {
         "        <h2>Các bài đăng</h2>\n" +
         "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
         "    </div>\n" +
+        "        <div class=\"review\">\n" +
+        "            <video width='1500' height='500' id=\"video\" controls>\n" +
+        "                <source src='movie.mp4' type='video/mp4'>\n" +
+        "                <source src='movie.org' type='video/org'>\n" +
+        "                Hey bro, your browser does not support the video tag." +
+        "            </video>\n" +
+        "        </div>\n" +
         "    <div class=\"rendered\">\n" +
         "        <!-- views/partials/editor.ejs -->\n" +
         "        <div class=\"wrapper\">\n" +
@@ -1357,7 +1346,7 @@ exports.GetPostsByEmail = function (email,res) {
         "                </div>\n" +
         "            </div>\n" +
         "\n" +
-        "            <div class=\"content\">\n";
+        "            <div class=\"container\">\n";
 
     aws.config.update({
         region: 'us-east-1',
@@ -1380,29 +1369,17 @@ exports.GetPostsByEmail = function (email,res) {
         else {
             console.log("User "+email+" queried for Handmade video table ");
             data.Items.forEach(function (item) {
-                PostedHTML_start += "<div class=\"product-grid product-grid--flexbox\">\n" +
-                    "                    <div class=\"product-grid__wrapper\">\n" +
-                    "                        <!-- Product list start here -->\n" +
-                    "\n" +
-                    "                        <!-- Single product -->\n" +
-                    "                        <div class=\"product-grid__product-wrapper\">\n" +
-                    "                            <div class=\"product-grid__product\">\n" +
-                    "                                <div class=\"product-grid__img-wrapper\">\n" +
-                    "                                    <img src=\"" + item.image + "\" alt=\"Img\" class=\"product-grid__img\">\n" +
-                    "                                </div>\n" +
-                    "                                <span class=\"product-grid__title\"> " + item.title + " </span>\n" +
-                    "                                <span class=\"product-grid__price\">...</span>\n" +
-                    "                                <div class=\"product-grid__extend-wrapper\">\n" +
-                    "                                    <div class=\"product-grid__extend\">\n" +
-                    "                                        <p class=\"product-grid__description\"></p>\n" +
-                    "                                        <span class=\"product-grid__btn product-grid__add-to-cart\"><i class=\"fa fa-cart-arrow-down\"></i> Watch it </span>\n" +
-                    "                                    </div>\n" +
-                    "                                </div>\n" +
-                    "                            </div>\n" +
-                    "                        </div>\n" +
-                    "                        <!-- end Single product -->\n" +
-                    "                    </div>\n" +
-                    "                </div>";
+                PostedHTML_start += "<!--Single video here-->\n" +
+                    "                <div class=\"card\">\n" +
+                    "                   <img src=\"" + item.image + "\" alt=\"" + item.summary + "\">\n" +
+                    "                   <div class=\"class-body\">\n" +
+                    "                       <div class=\"card-text\">\n" +
+                    "                           <h3>" + item.title + "</h3>\n" +
+                    "                       </div>\n" +
+                    "                       <button type=\"button\" onclick=\"changeSource('" + item.urlVideo + "')\">Xem</button>" +
+                    "                   </div>\n" +
+                    "                </div>\n" +
+                    "<!--End of single video here-->\n";
             });
             let PostedHTML_end = "</div>\n" +
                 "        </div>\n" +
@@ -1433,7 +1410,517 @@ exports.GetPostsByEmail = function (email,res) {
         }
     })
 };
+exports.RemoveFromList = function(email,res){
+    let PostedHTML_start = "\n" +
+        "<!DOCTYPE html>\n" +
+        "<html lang=\"en\">\n" +
+        "<head>\n" +
+        "    <meta charset=\"UTF-8\">\n" +
+        "    <title>Review</title>\n" +
+        "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
+        "    <style type=\"text/css\">\n" +
+        "        #home\n" +
+        "        {\n" +
+        "            font-size:45px;\n" +
+        "            padding-right: 10px;\n" +
+        "        }\n" +
+        "       .content{" +
+        "           background-color:#333333;\n" +
+        "           border-radius: 30px;\n" +
+        "           padding: 0.5 em;\n" +
+        "           width: 1500px;\n" +
+        "       }\n" +
+        "        @import url(http://weloveiconfonts.com/api/?family=entypo);\n" +
+        "        @import url(https://fonts.googleapis.com/css?family=Muli);\n" +
+        "        body {\n" +
+        "            display: -webkit-box;\n" +
+        "            display: -moz-box;\n" +
+        "            display: -ms-flexbox;\n" +
+        "            display: -webkit-flex;\n" +
+        "            display: flex;\n" +
+        "            margin: 0;\n" +
+        "            padding: 0;\n" +
+        "            font-family: Muli, sans-serif;\n" +
+        "            color: #444;\n" +
+        "            background: url(https://i.pinimg.com/originals/fb/9f/e1/fb9fe19fcc1f34f896862e74c1c99cfa.jpg);\n" +
+        "            background-size: cover;\n" +
+        "            height: auto;\n" +
+        "            min-height:1300px;\n" +
+        "        }\n" +
+        "        ul {\n" +
+        "            list-style: none;\n" +
+        "            margin-top: 0;\n" +
+        "            padding: 0;\n" +
+        "        }\n" +
+        "        a {\n" +
+        "            cursor: pointer;\n" +
+        "            display: block;\n" +
+        "            color: #b3b3b3;\n" +
+        "            text-decoration: none;\n" +
+        "        }\n" +
+        "        .bckg {\n" +
+        "            background-color: #383B42;\n" +
+        "            box-shadow: -4px 0px 10px rgba(14,14,14,0.48) inset;\n" +
+        "            width: 270px;\n" +
+        "            height: 100%;\n" +
+        "            position: fixed;\n" +
+        "            left: 0;\n" +
+        "            top: 0;\n" +
+        "        }\n" +
+        "        h1 {\n" +
+        "            text-align: center;\n" +
+        "            font-weight: normal;\n" +
+        "            color: #F6F6EF;\n" +
+        "            line-height: 60px;\n" +
+        "            margin: 0;\n" +
+        "            font-size: 15px;\n" +
+        "            letter-spacing: 2px;\n" +
+        "            background-color: #34363A;\n" +
+        "            border-bottom: 1px solid rgba(101,116,134,0.57);\n" +
+        "        }\n" +
+        "        h2 {\n" +
+        "            font-size: 20px;\n" +
+        "            text-transform: uppercase;\n" +
+        "            margin: 0;\n" +
+        "            letter-spacing: 3px;\n" +
+        "            color: #919191;\n" +
+        "            font-weight: normal;\n" +
+        "            padding-left: 40px;\n" +
+        "            line-height: 60px;\n" +
+        "            text-shadow: 1px 1px 2px #fff;\n" +
+        "            position: relative;\n" +
+        "            flex: 1;\n" +
+        "            -webkit-flex: 1;\n" +
+        "            -ms-flex: 1;\n" +
+        "        }\n" +
+        "        h2:before {\n" +
+        "            content: '';\n" +
+        "            width: 36px;\n" +
+        "            height: 36px;\n" +
+        "            position: absolute;\n" +
+        "            left: -19px;\n" +
+        "            top: 12px;\n" +
+        "            background-color: #34363A;\n" +
+        "            -webkit-transform: rotate(45deg);\n" +
+        "            -moz-transform: rotate(45deg);\n" +
+        "            transform: rotate(45deg);\n" +
+        "        }\n" +
+        "        h3 {\n" +
+        "            font-size: 17px;\n" +
+        "            margin: 0;\n" +
+        "            line-height: 40px;\n" +
+        "            color: #555;\n" +
+        "            cursor: pointer;\n" +
+        "            position: relative;\n" +
+        "        }\n" +
+        "        header {\n" +
+        "            width: 270px;\n" +
+        "            height: 100%;\n" +
+        "            float: left;\n" +
+        "            position: relative;\n" +
+        "            z-index: 99;\n" +
+        "        }\n" +
+        "        header nav ul li {\n" +
+        "            border-bottom: 1px solid #42454D;\n" +
+        "            padding-left: 48px;\n" +
+        "            transition: all 0.6s;\n" +
+        "            border-top: 1px solid #2E3036;\n" +
+        "        }\n" +
+        "        .DashBoard{\n" +
+        "            line-height: 50px;\n" +
+        "        }\n" +
+        "        header nav ul li:hover {\n" +
+        "            background-color: #454952;\n" +
+        "            transition: all 0.6s;\n" +
+        "            border-bottom: 1px solid #797979;\n" +
+        "        }\n" +
+        "        header nav ul li:hover a {\n" +
+        "            color: #fff;\n" +
+        "            transition: all 0.6s;\n" +
+        "        }\n" +
+        "        header nav ul li a {\n" +
+        "            line-height: 55px;\n" +
+        "            font-size: 18px;\n" +
+        "            position: relative;\n" +
+        "            letter-spacing: 1px;\n" +
+        "            transition: all 0.6s;\n" +
+        "        }\n" +
+        "        header nav ul li a:before {\n" +
+        "            font-family: 'entypo', sans-serif;\n" +
+        "            font-size: 20px;\n" +
+        "            position: absolute;\n" +
+        "            left: -32px;\n" +
+        "        }\n" +
+        "        header nav ul li:first-child a:before {\n" +
+        "            content: \"\\268f\";\n" +
+        "        }\n" +
+        "        header nav ul li:nth-child(2) a:before {\n" +
+        "            content: \"\\e771\";\n" +
+        "        }\n" +
+        "        header nav ul li:nth-child(3) a:before {\n" +
+        "            content: \"\\1f4c5\";\n" +
+        "        }\n" +
+        "        header nav ul li:nth-child(4) a:before {\n" +
+        "            content: \"\\1f465\";\n" +
+        "        }\n" +
+        "        header nav ul li:nth-child(5) a:before {\n" +
+        "            content: \"\\2699\";\n" +
+        "        }\n" +
+        "        header nav ul li:nth-child(6) a:before {\n" +
+        "            content: \"\\1f50d\";\n" +
+        "        }\n" +
+        "        .main {\n" +
+        "            width: 1900px;\n" +
+        "            float: right;\n" +
+        "            margin-left: 221px;" +
+        "        }\n" +
+        "        .title {\n" +
+        "            background-color: #fff;\n" +
+        "            border-bottom: 1px solid #C0C1C0;\n" +
+        "            height: 60px;\n" +
+        "            display: -webkit-box;\n" +
+        "            display: -moz-box;\n" +
+        "            display: -ms-flexbox;\n" +
+        "            display: -webkit-flex;\n" +
+        "            display: flex;\n" +
+        "            margin-left: 30px;\n" +
+        "        }\n" +
+        "        .title a {\n" +
+        "            color: #AAA;\n" +
+        "            width: auto;\n" +
+        "            margin: 0 20px;\n" +
+        "            float: right;\n" +
+        "            line-height: 62px;\n" +
+        "            position: relative;\n" +
+        "            text-decoration: none;\n" +
+        "            transition: all .5s;\n" +
+        "        }\n" +
+        "        .title a:before {\n" +
+        "            content: \"\\1f464\";\n" +
+        "            font-size: 38px;\n" +
+        "            position: absolute;\n" +
+        "            left: -50px;\n" +
+        "            font-family: 'entypo';\n" +
+        "        }\n" +
+        "        a:hover {\n" +
+        "            color: #33526B;\n" +
+        "            transition: all .5s;\n" +
+        "        }\n" +
+        "        .larg {\n" +
+        "            width: auto;\n" +
+        "            margin: 30px auto;\n" +
+        "            padding: 0 30px;\n" +
+        "        }\n" +
+        "        .larg div {\n" +
+        "            background-color: #F7F7F7;\n" +
+        "            border: 1px solid #E2E2E2;\n" +
+        "            padding: 0 20px;\n" +
+        "            margin: 15px 0;\n" +
+        "        }\n" +
+        "        .larg div:hover {\n" +
+        "            background-color: #fafafa;\n" +
+        "        }\n" +
+        "        .larg div h3 span {\n" +
+        "            font-family: 'entypo';\n" +
+        "            font-size: 19px;\n" +
+        "            position: absolute;\n" +
+        "            right: 0;\n" +
+        "            transition: all .6s;\n" +
+        "        }\n" +
+        "        .larg div h3 span.close {\n" +
+        "            -webkit-transform: rotate(180deg);\n" +
+        "            transition: all .5s;\n" +
+        "        }\n" +
+        "        .larg div p {\n" +
+        "            display: none;\n" +
+        "            margin-left: 10px;\n" +
+        "            padding: 0 15px;\n" +
+        "            border-left: 1px solid #ccc;\n" +
+        "        }\n" +
+        "        .rendered{\n" +
+        "            margin-left: 15px;\n" +
+        "            height: auto;\n" +
+        "            margin-top: 100px;\n" +
+        "        }\n" +
+        "    </style>\n" +
+        "    <style type=\"text/css\">\n" +
+        "        @import url(\"https://fonts.googleapis.com/css?family=Open+Sans\");\n" +
+        "        body {\n" +
+        "            margin: 0;\n" +
+        "            width: 100vw;\n" +
+        "            overflow-x: hidden;\n" +
+        "            background-color: #f0f0f0;\n" +
+        "            font-family: 'Open Sans', sans-serif;\n" +
+        "            font-size: 14.5px;\n" +
+        "            line-height: 1.4em;\n" +
+        "            color: #404646;\n" +
+        "       }\n" +
+        "\n" +
+        "       * {\n" +
+        "            box-sizing: border-box;\n" +
+        "        }\n" +
+        "        .wrapper {\n" +
+        "            width: auto;\n" +
+        "            max-width: 1300px;" +
+        "            height: auto;\n" +
+        "            margin: -50px auto auto 140px;\n" +
+        "        }\n" +
+        "        .container {\n" +
+        "            min-height: 100vh;\n" +
+        "            width: 1000px;\n" +
+        "            margin: auto;\n" +
+        "            padding: 1.6em;\n" +
+        "            display: grid;\n" +
+        "            justify-content: center;\n" +
+        "            align-content: start;\n" +
+        "            grid-gap: 1.6em;\n" +
+        "            grid-template: auto/repeat(auto-fill, minmax(27em, 27em));\n" +
+        "        }\n" +
+        "\n" +
+        "        .card {\n" +
+        "            margin: 0;\n" +
+        "            height: 15em;\n" +
+        "            display: flex;\n" +
+        "            background-color: white;\n" +
+        "            box-shadow: 1px 3px 3px rgba(0, 10, 20, 0.06);\n" +
+        "        }\n" +
+        "        .card img {\n" +
+        "            height: 100%;\n" +
+        "            width: 50%;\n" +
+        "            max-width: 50%;\n" +
+        "            -o-object-fit: cover;\n" +
+        "            object-fit: cover;\n" +
+        "            flex: 1 1 auto;\n" +
+        "        }\n" +
+        "\n" +
+        "        .card-body {\n" +
+        "            width: 12em;\n" +
+        "            max-height: 100%;\n" +
+        "            flex: 1 1 auto;\n" +
+        "            display: flex;\n" +
+        "            flex-flow: column nowrap;\n" +
+        "            justify-content: flex-start;\n" +
+        "            padding: 1.6em;\n" +
+        "        }\n" +
+        "        button {\n" +
+        "            min-width: 8.3em;\n" +
+        "            flex: none;\n" +
+        "            align-self: flex-start;\n" +
+        "            margin-top: auto;\n" +
+        "            margin-left: 20px;\n" +
+        "            padding: 0.6em 1.2em;\n" +
+        "            font-size: 0.92em;\n" +
+        "            color: #404646;\n" +
+        "            background: none;\n" +
+        "            border: 1px solid #333333;\n" +
+        "            border-radius: 2px;\n" +
+        "        }\n" +
+        "        .card-body button:hover {\n" +
+        "            border-color: #d099a0;\n" +
+        "        }\n" +
+        "\n" +
+        "        .card-text {\n" +
+        "            position: relative;\n" +
+        "            flex: 1;\n" +
+        "            overflow: hidden;\n" +
+        "            text-overflow: ellipsis;\n" +
+        "            margin: 0 0 0.8em 0;\n" +
+        "            padding-left: 10px;\n" +
+        "        }\n" +
+        "        .card-text h3, .card-text p {\n" +
+        "            margin-top: 0;\n" +
+        "        }\n" +
+        "        .card-text:hover {\n" +
+        "            background: linear-gradient(rgba(255, 255, 255, 0), #44D5AC);\n" +
+        "        }\n" +
+        "\n" +
+        "        @media (max-width: 570px) {\n" +
+        "           .container {\n" +
+        "                grid-template: auto / 1fr;\n" +
+        "                padding: 1.0666666667em;\n" +
+        "           }\n" +
+        "\n" +
+        "           .card {\n" +
+        "                flex: 1 1 auto;\n" +
+        "                display: flex;\n" +
+        "                background-color: white;\n" +
+        "                box-shadow: 1px 3px 3px rgba(0, 10, 20, 0.06);\n" +
+        "                -webkit-border-radius: 25px;-moz-border-radius: 25px;border-radius: 25px;\n" +
+        "           }\n" +
+        "           .card img {\n" +
+        "                max-width: 45%;\n" +
+        "           }\n" +
+        "       }\n" +
+        "\n" +
+        "    </style>\n" +
+        "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
+        "    <script src=\"/socket.io/socket.io.js\"></script>\n" +
+        "    <script>\n" +
+        "        function removePost(idvideo,title){\n" +
+        "            let socket = io();\n" +
+        "            let video = {\n" +
+        "                id: idvideo,\n" +
+        "                name: title\n" +
+        "            };\n" +
+        "            socket.emit(\"remove\",video);\n" +
+        "            alert(\"Đã gỡ thành công, tội cho mấy đứa đang xem !\")\n" +
+        "            location.reload();" +
+        "        }" +
+        "        $(document).ready( function() {\n" +
+        "            $('body').on(\"click\", \".larg div h3\", function(){\n" +
+        "                if ($(this).children('span').hasClass('close')) {\n" +
+        "                    $(this).children('span').removeClass('close');\n" +
+        "                }\n" +
+        "                else {\n" +
+        "                    $(this).children('span').addClass('close');\n" +
+        "                }\n" +
+        "                $(this).parent().children('p').slideToggle(250);\n" +
+        "            });\n" +
+        "\n" +
+        "            $('body').on(\"click\", \"nav ul li a\", function(){\n" +
+        "                let title = $(this).data('title');\n" +
+        "                $('.title').children('h2').html(title);\n" +
+        "\n" +
+        "            });\n" +
+        "        });\n" +
+        "    </script>\n" +
+        "    <link rel='stylesheet' href='http://www.tinymce.com/css/codepen.min.css'>\n" +
+        "</head>\n" +
+        "<body>\n" +
+        "<span class=\"bckg\">\n" +
+        "    <header>\n" +
+        "    <a href=\"/writerpage?email=" + email + "\" id=\"home\">Dashboard</a>\n" +
+        "    <nav>\n" +
+        "        <ul>\n" +
+        "            <li>\n" +
+        "                <a href=\"javascript:void(0);\" data-title=\"Các bài đăng\" onclick=\"postedrender()\">Các bài đăng</a>\n" +
+        "                <script type=\"text/javascript\">\n" +
+        "                    function postedrender() {\n" +
+        "                        window.location.href = \"/postedrender?email=" + email + "\"\n" +
+        "                    }\n" +
+        "                </script>\n" +
+        "            </li>\n" +
+        "            <li>\n" +
+        "                <a href=\"javascript:void(0);\" data-title=\"Các bình luận\" onclick=\"Commentrender()\">Các bình luận</a>\n" +
+        "                <script type=\"text/javascript\">\n" +
+        "                    function Commentrender() {\n" +
+        "                        window.location.href = \"/Commentrender?email=" + email + "\"\n" +
+        "                    }\n" +
+        "                </script>\n" +
+        "            </li>\n" +
+        "            <li>\n" +
+        "                <a href=\"javascript:void(0);\" data-title=\"Viết bài\" onclick=\"editorrender()\">Viết bài</a>\n" +
+        "                <script type=\"text/javascript\">\n" +
+        "                    function editorrender() {\n" +
+        "                        window.location.href = \"/editorrender?email=" + email + "\"\n" +
+        "                    }\n" +
+        "                </script>\n" +
+        "            </li>\n" +
+        "            <li>\n" +
+        "                <span style=\"color: red; margin-left: -5px;\">Dangerous place !</span>\n" +
+        "            </li>\n" +
+        "            <li>\n" +
+        "                <a href=\"javascript:void(0);\" data-title=\"Xóa bài đăng\" onclick=\"RemovePost()\">Xóa bài đăng</a>\n" +
+        "                <script type=\"text/javascript\">\n" +
+        "                    function RemovePost(){\n" +
+        "                        window.location.href = \"/removeposts?email=" + email + "\"\n" +
+        "                    }\n" +
+        "                </script>\n" +
+        "            </li>\n" +
+        "            <li>\n" +
+        "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
+        "                <script type=\"text/javascript\">\n" +
+        "                    function Signout(){\n" +
+        "                        window.location.href = \"/login\"\n" +
+        "                    }\n" +
+        "                </script>\n" +
+        "            </li>\n" +
+        "        </ul>\n" +
+        "    </nav>\n" +
+        "</header>\n" +
+        "</span>\n" +
+        "<div class=\"main\">\n" +
+        "    <div class=\"title\">\n" +
+        "        <h2>Các bài đăng</h2>\n" +
+        "        <a href=\"javascript:void(0);\">Hello nigga !</a>\n" +
+        "    </div>\n" +
+        "    <div class=\"rendered\">\n" +
+        "        <!-- views/partials/editor.ejs -->\n" +
+        "        <div class=\"wrapper\">\n" +
+        "            <div class=\"desc\">\n" +
+        "                <h1>Tất cả những bài đã đăng </h1>\n" +
+        "                <br/>\n" +
+        "                <div class=\"todo\">\n" +
+        "                    <ul>\n" +
+        "                        <li style=\"color: #FFFFFF;font-size: 22px;\"> Let review it .. </li>\n" +
+        "                    </ul>\n" +
+        "                </div>\n" +
+        "            </div>\n" +
+        "\n" +
+        "            <div class=\"container\">\n";
 
+    aws.config.update({
+        region: 'us-east-1',
+        endpoint: "http://dynamodb.us-east-1.amazonaws.com",
+        "accessKeyId": config.accesskeyid, "secretAccessKey": config.secretkey
+    });
+
+    let docClient = new aws.DynamoDB.DocumentClient();
+    let params = {
+        TableName: "handmadevideo01",
+        FilterExpression: 'contains(email, :value)',
+        ExpressionAttributeValues:{
+            ":value" : email
+        }
+    };
+
+    docClient.scan(params, function (err,data) {
+        if (err)
+            console.log("Unable to scan query the table. Error: " + JSON.stringify(err,null,2));
+        else {
+            console.log("User "+email+" queried for Handmade video table ");
+            data.Items.forEach(function (item) {
+                PostedHTML_start += "<!--Single video here-->\n" +
+                    "                <div class=\"card\">\n" +
+                    "                   <img src=\"" + item.image + "\" alt=\"" + item.summary + "\">\n" +
+                    "                   <div class=\"class-body\">\n" +
+                    "                       <div class=\"card-text\">\n" +
+                    "                           <h3>" + item.title + "</h3>\n" +
+                    "                       </div>\n" +
+                    "                       <button type=\"button\" onclick=\"removePost(" + item.id + ",'" + item.title + "')\">Gỡ xuống</button>" +
+                    "                   </div>\n" +
+                    "                </div>\n" +
+                    "<!--End of single video here-->\n";
+            });
+            let PostedHTML_end = "</div>\n" +
+                "        </div>\n" +
+                "    </div>\n" +
+                "    <script src=\"http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js\"></script>\n" +
+                "    <script src=\"http://cdn.tinymce.com/4/tinymce.min.js\"></script>\n" +
+                "    <script>\n" +
+                "        tinymce.init({\n" +
+                "            selector: 'textarea',\n" +
+                "            height: 500,\n" +
+                "            plugins: [\n" +
+                "                'advlist autolink lists link image charmap print preview anchor',\n" +
+                "                'searchreplace visualblocks code fullscreen',\n" +
+                "                'insertdatetime media table contextmenu paste code'\n" +
+                "            ],\n" +
+                "            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',\n" +
+                "            content_css: [\n" +
+                "                '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',\n" +
+                "                '//www.tinymce.com/css/codepen.min.css'\n" +
+                "            ]\n" +
+                "        });\n" +
+                "    </script>\n" +
+                "</main>\n" +
+                "\n" +
+                "</body></html>";
+            let PostedHTML = PostedHTML_start + PostedHTML_end;
+            res.send(PostedHTML);
+        }
+    })
+};
 exports.GetPostsByKeyWord = function(keyword,res){
 
     let MainPageHTML_start = "<!DOCTYPE html>\n" +
@@ -1956,7 +2443,7 @@ exports.GetCommentOnVideoByEmail = function (req,res,email) {
     let body = "<body>\n" +
         "<span class=\"bckg\">\n" +
         "    <header>\n" +
-        "    <a href=\"/writerpage\" id=\"home\">Dashboard</a>\n" +
+        "    <a href=\"/writerpage?email=" + email + "\" id=\"home\">Dashboard</a>\n" +
         "    <nav>\n" +
         "        <ul>\n" +
         "            <li>\n" +
@@ -1984,22 +2471,22 @@ exports.GetCommentOnVideoByEmail = function (req,res,email) {
         "                </script>\n" +
         "            </li>\n" +
         "            <li>\n" +
-        "                <a href=\"javascript:void(0);\" data-title=\"Tìm kiếm\" onclick=\"FindingRender()\">Tìm kiếm</a>\n" +
-        "                <script type=\"text/javascript\"></script>\n" +
-        "            </li>\n" +
-        "            <li>\n" +
-        "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
-        "                <script type=\"text/javascript\">\n" +
-        "\n" +
-        "                </script>\n" +
-        "            </li>\n" +
-        "            <li>\n" +
         "                <span style=\"color: red; margin-left: -5px;\">Dangerous place !</span>\n" +
         "            </li>\n" +
         "            <li>\n" +
         "                <a href=\"javascript:void(0);\" data-title=\"Xóa bài đăng\" onclick=\"RemovePost()\">Xóa bài đăng</a>\n" +
         "                <script type=\"text/javascript\">\n" +
-        "\n" +
+        "                    function RemovePost(){\n" +
+        "                        window.location.href = \"/removeposts?email=" + email + "\"\n" +
+        "                    }\n" +
+        "                </script>\n" +
+        "            </li>\n" +
+        "            <li>\n" +
+        "                <a href=\"javascript:void(0);\" data-title=\"Đăng xuất\" onclick=\"Signout()\">Đăng xuất</a>\n" +
+        "                <script type=\"text/javascript\">\n" +
+        "                    function Signout(){\n" +
+        "                        window.location.href = \"/login\"\n" +
+        "                    }\n" +
         "                </script>\n" +
         "            </li>\n" +
         "        </ul>\n" +
@@ -2021,7 +2508,7 @@ exports.GetCommentOnVideoByEmail = function (req,res,email) {
     let docClient = new aws.DynamoDB.DocumentClient();
     let params0 = {
         TableName: "Comments",
-        FilterExpression: "contains(writer,:letter1)",
+        FilterExpression: "writer = :letter1",
         ExpressionAttributeValues: {
             ":letter1": email
         }
@@ -2063,19 +2550,20 @@ exports.GetCommentOnVideoByEmail = function (req,res,email) {
         }
     });
 };
+
 let CreateContent = async (ArrID,body,end,res) => {
     return new Promise((resolve, reject) => {
-        setTimeout(()=>{
+        setTimeout(async () => {
             if (ArrID.length == 0)
                 return reject(new Error("Mảng rỗng"));
-            ArrID.forEach(async (item) => {
+            await ArrID.forEach(async (item) => {
                 content = await RenderContent(item);
                 body += content;
-                if (ArrID.indexOf(item) === ArrID.length - 1){
-                    resolve(head+body+end);
+                if (ArrID.indexOf(item) === (ArrID.length - 1)){
+                    console.log(head + body + end);
                     res.send(head + body + end);
+                    resolve(body);
                 }
-
             });
         },2000);
     });
@@ -2083,6 +2571,7 @@ let CreateContent = async (ArrID,body,end,res) => {
 
 //thực hiện chức năng lấy bình luận trên bài viết ở phía admin
 let RenderContent = async (idvideo) => {
+    console.log(idvideo);
     return new Promise((resolve, reject) => {
         setTimeout(()=>{
             let result = "";
@@ -2746,7 +3235,7 @@ let head = "<!DOCTYPE html>\n" +
     "            background: #fff;\n" +
     "        }\n" +
     "        .topic{\n" +
-    "            min-width: 1300px;\n" +
+    "            min-width: 1600px;\n" +
     "            width: auto;\n" +
     "            min-height: 300px;\n" +
     "            height: auto;\n" +
@@ -2766,13 +3255,13 @@ let head = "<!DOCTYPE html>\n" +
     "         }\n" +
     "       .right{\n" +
     "            margin: 1em;\n" +
-    "            min-width: 1000px;\n" +
+    "            min-width: 1200px;\n" +
     "            width: auto;\n" +
     "            height: auto;\n" +
     "            font-family: Georgia, sans-serif;\n" +
     "            font-size: 20px;\n" +
     "            padding: 0.5em;\n" +
-    "            float: right;\n" +
+    "            float: left;\n" +
     "        }" +
     "    </style>\n" +
     "    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>\n" +
@@ -3128,7 +3617,7 @@ let origami_header = "<!DOCTYPE html>\n" +
     "    <style type=\"text/css\">\n" +
     "        @import \"compass/css3\";\n" +
     "        body {\n" +
-    "            background: url(https://3joj3d3qddoejique3e7i6px-wpengine.netdna-ssl.com/wp-content/uploads/2016/07/modular-origami-dragon.jpg) no-repeat;\n" +
+    "            background: url(https://best-wallpaper.net/wallpaper/1920x1200/1810/Art-origami-dragon_1920x1200.jpg) no-repeat;\n" +
     "            -webkit-background-size: auto;\n" +
     "            background-size: auto;\n" +
     "            height: 1000px;\n" +
