@@ -1,5 +1,5 @@
 {
-  "accesskeyid" : "AKIAI7ZWQUHWEQOZWYJA",
-  "secretkey" : "BqvzWkEIoky13m5ftVKfFkLLHAzAc/rpFA2zGTkq",
+  "accesskeyid" : YourAWSaccesskeyid,
+  "secretkey" : YourAWSSecretKeyID,
   "jwtsecretkey" : "mikuautobest"
 }
